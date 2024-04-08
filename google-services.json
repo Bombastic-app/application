@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "674749581001",
+    "firebase_url": "https://gobelins-bombastic-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "gobelins-bombastic",
+    "storage_bucket": "gobelins-bombastic.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674749581001:android:f2e3ed3673ca141671af18",
+        "android_client_info": {
+          "package_name": "com.charlottedrb.pocmultiplayer"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEfXxINrdM4_4jTBiYr9xR-cUyeKK95QM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
