@@ -1,10 +1,9 @@
-import { getDatabase, onValue, ref, update } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { Image, StyleSheet, Text, TextInput, View } from "react-native";
 import Constants from "expo-constants";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { db } from "../firebaseConfig";
 import { Stack, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import { RoundedButton } from "../components/RoundedButton";
@@ -15,18 +14,22 @@ export default Page = ({ navigation }) => {
   });
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const [groups, setGroups] = useState([]);
-  const reference = useRef();
-  const [groupName, setGroupName] = useState("");
   const [pseudo, setPseudo] = useState("Crocrotte");
 
   useEffect(() => {
-    reference.current = ref(db, "groups");
-    onValue(reference.current, (snapshot) => {
-      const data = snapshot.val();
-      setGroups(data);
-    });
+    fetchCards();
   }, []);
+
+  fetchCards = async () => {
+    return fetch(`${process.env.API_URL}/cards`, { method: "GET" })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   createGroup = () => {};
   if (fontsLoaded) {

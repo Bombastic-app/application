@@ -1,26 +1,51 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { Text, TextInput, View } from "react-native";
 import { RoundedButton } from "../../components/RoundedButton";
-import { useState } from "react";
-import { onValue, ref, update } from "firebase/database";
-import { db } from "../../firebaseConfig";
+import { useEffect, useRef, useState } from "react";
+import firestore from "@react-native-firebase/firestore";
 
 export default JoinGame = () => {
-  const [gameCode, setGameCode] = useState("123456")
+  const [groupId, setGroupId] = useState("123456");
   const { pseudo } = useLocalSearchParams();
 
+  useEffect(() => {}, []);
+
   joinGame = () => {
-    if (gameCode !== "") {
-      const updates = {};
-      updates[`/groups/${gameCode}/${pseudo}`] = {
-        isMain: false,
-      };
-      update(ref(db), updates)
-      .then(() => {
-        router.push({ pathname: '/lobby/new_game', params: { pseudo }})
-      });
+    if (groupId !== "") {
+      firestore()
+        .collection(`groups/${groupId}/games`)
+        .orderBy("timestamp", "desc")
+        .limit(1)
+        .get()
+        .then((snapshot) => {
+          const gameId = snapshot.docs[0].id;
+          const playersRef = firestore().collection(
+            `groups/${groupId}/games/${gameId}/players`
+          );
+
+          playersRef.get().then((players) => {
+            if (
+              players.docs.findIndex(
+                (player) => player.data().pseudo === pseudo
+              ) < 0
+            ) {
+              playersRef.add({ pseudo }).then((addedPlayer) => {
+                const playerId = addedPlayer.id;
+
+                fetch(`${process.env.API_URL}/players/add`, {
+                  method: "POST",
+                  body: { pseudo, groupId, gameId, playerId },
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    console.log(data);
+                  });
+              });
+            }
+          });
+        });
     }
-  }
+  };
 
   return (
     <View style={{ padding: 20, alignItems: "center" }}>
@@ -48,13 +73,10 @@ export default JoinGame = () => {
               fontSize: 21,
               marginTop: 20,
             }}
-            onChangeText={(text) => setGameCode(text)}
+            onChangeText={(text) => setGroupId(text)}
             defaultValue="123456"
           />
-          <RoundedButton
-            title={"Rejoindre une partie"}
-            onClick={joinGame}
-          />
+          <RoundedButton title={"Rejoindre une partie"} onClick={joinGame} />
         </View>
       </View>
     </View>

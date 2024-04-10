@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from "react-native";
 import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { onValue, push, ref, set, update } from "firebase/database";
-import { db } from "../../firebaseConfig";
+import { RoundedButton } from "../../components/RoundedButton";
 
 export default NewGame = () => {
   const [gameCode, setGameCode] = useState("");
@@ -47,11 +47,34 @@ export default NewGame = () => {
           }}
         />
         <Text style={{ fontSize: 16, fontWeight: "600" }}>Code de partie</Text>
-        <Text style={{ fontSize: 24, fontWeight: "600", textAlign: 'center' }}>{gameCode}</Text>
+        <Text style={{ fontSize: 24, fontWeight: "600", textAlign: "center" }}>
+          {gameCode}
+        </Text>
       </View>
-      <View style={{ rowGap: 8, flexDirection: 'column' }}>{ players && Object.keys(players).map((pseudo, i) => (
-        <Text key={i} style={{ padding: 14, borderWidth: 1, borderColor: 'gray', borderRadius: 16, width: '100%' }}>{ pseudo }</Text>
-      )) }</View>
+      <View style={{ rowGap: 8, flexDirection: "column" }}>
+        {players &&
+          Object.keys(players).map((pseudo, i) => (
+            <Text
+              key={i}
+              style={{
+                padding: 14,
+                borderWidth: 1,
+                borderColor: "gray",
+                borderRadius: 16,
+                width: "100%",
+              }}>
+              {pseudo}
+            </Text>
+          ))}
+      </View>
+      <RoundedButton
+        title={"Lancer la partie"}
+        onClick={() =>
+          router.push({
+            pathname: "/setup/profile_picture"
+          })
+        }
+      />
     </View>
   );
 };

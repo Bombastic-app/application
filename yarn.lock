@@ -2622,18 +2622,18 @@
     prompts "^2.4.2"
     semver "^7.5.2"
 
-"@react-native-firebase/app@^19.1.0":
-  version "19.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.1.0.tgz#46eaff1d7303da9fa305a641d4c8623ba7b80435"
-  integrity sha512-xR4Ui0p6Xe2OXAs/Q4XN79nSqtupKu1ZwlGbYiUrvXsYwtwNlU1Pk8WvIhpXUP5/jXsSNZr8NeGrfCbb9m9NLQ==
+"@react-native-firebase/app@^19.1.2":
+  version "19.1.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/app/-/app-19.1.2.tgz#a4b0b70b698e98ebdbebf76d12b6c8c54821094e"
+  integrity sha512-5PJSbsdl6xvWq+V5/MfmeLWkpf1tcIheP6UYHgIy8p/mfsQRQIzUSDD7MMKdJqSQOrjdu91hWGdDvnRIdk+f1g==
   dependencies:
     opencollective-postinstall "^2.0.3"
     superstruct "^0.6.2"
 
-"@react-native-firebase/database@^19.1.0":
-  version "19.1.0"
-  resolved "https://registry.yarnpkg.com/@react-native-firebase/database/-/database-19.1.0.tgz#7c7e423aa9ac9d7bdac747dfab6e032b7b78125b"
-  integrity sha512-gN7sq4Hh4sdWvtPVY2eL19LGybRQSurhAGkzbYe9+9Aa+eMtFIC3048nDlYGm4ztCd0SjMrDihmWR/XAjnOTYg==
+"@react-native-firebase/firestore@^19.1.2":
+  version "19.1.2"
+  resolved "https://registry.yarnpkg.com/@react-native-firebase/firestore/-/firestore-19.1.2.tgz#085da50f4f551afd3fb94323fb50f29a2091273e"
+  integrity sha512-J/PUtAZY0mlPGYe7NAcdJ4eeWbWQeUCP4dueSHRr9CgQRyo4zq7WQQKVI9N3ZHSOgvX8RGmX8LDZSbUzwbVzfg==
 
 "@react-native/assets-registry@0.73.1", "@react-native/assets-registry@~0.73.1":
   version "0.73.1"
@@ -4565,6 +4565,18 @@ expo-font@~11.10.3:
   integrity sha512-q1Td2zUvmLbCA9GV4OG4nLPw5gJuNY1VrPycsnemN1m8XWTzzs8nyECQQqrcBhgulCgcKZZJJ6U0kC2iuSoQHQ==
   dependencies:
     fontfaceobserver "^2.1.0"
+
+expo-image-loader@~4.6.0:
+  version "4.6.0"
+  resolved "https://registry.yarnpkg.com/expo-image-loader/-/expo-image-loader-4.6.0.tgz#ca7d4fdf53125bff2091d3a2c34a3155f10df147"
+  integrity sha512-RHQTDak7/KyhWUxikn2yNzXL7i2cs16cMp6gEAgkHOjVhoCJQoOJ0Ljrt4cKQ3IowxgCuOrAgSUzGkqs7omj8Q==
+
+expo-image-picker@~14.7.1:
+  version "14.7.1"
+  resolved "https://registry.yarnpkg.com/expo-image-picker/-/expo-image-picker-14.7.1.tgz#c51faff3a3fbffc6ae93d7155370beb1a2d2baea"
+  integrity sha512-ILQVOJgI3aEzrDmCFGDPtpAepYkn8mot8G7vfQ51BfFdQbzL6N3Wm1fS/ofdWlAZJl/qT2DwaIh5xYmf3SyGZA==
+  dependencies:
+    expo-image-loader "~4.6.0"
 
 expo-json-utils@~0.12.0:
   version "0.12.3"
