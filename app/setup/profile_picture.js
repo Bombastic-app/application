@@ -1,5 +1,5 @@
 import { Image, StyleSheet, Text, View } from "react-native"
-import { RoundedButton } from "../../components/RoundedButton"
+import { RoundedButton } from "../../components/base/RoundedButton"
 import { useState } from "react";
 import * as ImagePicker from 'expo-image-picker';
 
