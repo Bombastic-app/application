@@ -1,6 +1,6 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { Text, TextInput, View } from "react-native";
-import { RoundedButton } from "../../components/RoundedButton";
+import { RoundedButton } from "../../components/base/RoundedButton";
 import { useEffect, useRef, useState } from "react";
 import firestore from "@react-native-firebase/firestore";
 

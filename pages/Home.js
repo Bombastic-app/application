@@ -3,9 +3,10 @@ import React from "react";
 import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
 import { Stack, useRouter } from "expo-router";
-import { RoundedButton } from "../components/RoundedButton";
+import { RoundedButton } from "../components/base/RoundedButton";
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
-import BaseScreen from "../components/BaseScreen";
+import BaseScreen from "../components/base/BaseScreen";
+import Heading1 from "../components/typography/Heading1";
 
 export default Home = () => {
   const router = useRouter();
@@ -47,7 +48,9 @@ export default Home = () => {
         <TouchableOpacity onPress={readNdef}>
           <Text>Scan a Tag</Text>
         </TouchableOpacity>
-        <Text style={styles.appTitle}>{Constants.expoConfig?.name}</Text>
+
+        <Heading1>{Constants.expoConfig?.name}</Heading1>
+
         <View style={{ rowGap: 40 }}>
           <View style={styles.container}>
             <Image source={require("../assets/illustration.png")} />
@@ -113,11 +116,6 @@ export default Home = () => {
 };
 
 const styles = StyleSheet.create({
-  appTitle: {
-    textAlign: "center",
-    fontSize: 34,
-    fontWeight: "bold",
-  },
   centeredContainer: {
     flex: 1,
     flexDirection: "column",

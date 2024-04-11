@@ -3,7 +3,7 @@ import Constants from "expo-constants";
 import { useEffect, useRef, useState } from "react";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { onValue, push, ref, set, update } from "firebase/database";
-import { RoundedButton } from "../../components/RoundedButton";
+import { RoundedButton } from "../../components/base/RoundedButton";
 
 export default NewGame = () => {
   const [gameCode, setGameCode] = useState("");
