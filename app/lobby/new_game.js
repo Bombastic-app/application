@@ -13,7 +13,7 @@ export default NewGame = () => {
   const [players, setPlayers] = useState();
 
   useEffect(() => {
-    ref.current = ref(db, "groups");
+    // ref.current = ref(db, "groups");
     setGameCode("123456");
   }, []);
 
@@ -23,13 +23,14 @@ export default NewGame = () => {
       updates[`/groups/${gameCode}/${pseudo}`] = {
         isMain: true,
       };
-      update(ref(db), updates);
 
-      groupRef.current = ref(db, `groups/${gameCode}`);
-      onValue(groupRef.current, (snapshot) => {
-        const data = snapshot.val();
-        setPlayers(data);
-      });
+      // update(ref(db), updates);
+
+      // groupRef.current = ref(db, `groups/${gameCode}`);
+      // onValue(groupRef.current, (snapshot) => {
+      //   const data = snapshot.val();
+      //   setPlayers(data);
+      // });
     }
   }, [gameCode]);
 

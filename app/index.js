@@ -1,9 +1,7 @@
-import { onValue, ref } from "firebase/database";
 import React from "react";
-import Constants from "expo-constants";
 import { useFonts } from "expo-font";
-import NfcManager from 'react-native-nfc-manager';
 import Home from "../pages/Home";
+import NfcManager, { NfcTech } from "react-native-nfc-manager";
 
 NfcManager.start();
 

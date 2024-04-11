@@ -11,13 +11,32 @@ import Heading1 from "../components/typography/Heading1";
 export default Home = () => {
   const router = useRouter();
   const [pseudo, setPseudo] = useState("Crocrotte");
+  const [tagId, setTagId] = useState('')
 
-  useEffect(() => {
-    fetchCards();
-  }, []);
+  async function readNdef() {
+    try {
+      // register for the NFC tag with NDEF in it
+      await NfcManager.requestTechnology(NfcTech.NfcA);
+      // the resolved tag object will contain `ndefMessage` property
+      await NfcManager.getTag().then((tag) => {
+        console.warn("Tag found", tag);
+        setTagId(tag.id)
+      });
+    } catch (ex) {
+      console.log("Oops!", ex);
+    } finally {
+      // stop the nfc scanning
+      NfcManager.cancelTechnologyRequest();
+    }
+  }
 
   fetchCards = async () => {
-    return fetch(`${process.env.API_URL}/cards`, { method: "GET" })
+    return fetch(`${process.env.EXPO_PUBLIC_API_URL}/cards`, {
+      method: "GET",
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -26,21 +45,27 @@ export default Home = () => {
         console.log(error);
       });
   };
+  
 
-  async function readNdef() {
-    try {
-      // register for the NFC tag with NDEF in it
-      await NfcManager.requestTechnology(NfcTech.NfcA);
-      // the resolved tag object will contain `ndefMessage` property
-      const tag = await NfcManager.getTag();
-      console.warn('Tag found', tag);
-    } catch (ex) {
-      console.log('Oops!', ex);
-    } finally {
-      // stop the nfc scanning
-      NfcManager.cancelTechnologyRequest();
+  useEffect(() => {
+    if (tagId !== '') {
+      console.log(tagId);
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
+        method: "GET",
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        }
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
     }
-  }
+  }, [tagId]);
 
   return (
     <BaseScreen>

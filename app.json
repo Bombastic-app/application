@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.bombastic.pocmultiplayer"
+      "bundleIdentifier": "com.bombastic.pocmultiplayer",
     },
     "android": {
       "googleServicesFile": "./google-services.json",
