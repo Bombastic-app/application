@@ -1,12 +1,15 @@
 import { onValue, ref } from "firebase/database";
 import { useEffect, useRef, useState } from "react";
 import React from "react";
-import { Image, StyleSheet, Text, TextInput, View } from "react-native";
+import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Stack, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import { RoundedButton } from "../components/RoundedButton";
+import NfcManager, {NfcTech} from 'react-native-nfc-manager';
+
+NfcManager.start();
 
 export default Page = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
@@ -31,6 +34,21 @@ export default Page = ({ navigation }) => {
       });
   };
 
+  async function readNdef() {
+    try {
+      // register for the NFC tag with NDEF in it
+      await NfcManager.requestTechnology(NfcTech.NfcA);
+      // the resolved tag object will contain `ndefMessage` property
+      const tag = await NfcManager.getTag();
+      console.warn('Tag found', tag);
+    } catch (ex) {
+      console.log('Oops!', ex);
+    } finally {
+      // stop the nfc scanning
+      NfcManager.cancelTechnologyRequest();
+    }
+  }
+
   createGroup = () => {};
   if (fontsLoaded) {
     return (
@@ -51,6 +69,9 @@ export default Page = ({ navigation }) => {
             },
           }}
         />
+        {/* <TouchableOpacity onPress={readNdef}>
+          <Text>Scan a Tag</Text>
+        </TouchableOpacity> */}
         <Text style={styles.appTitle}>{Constants.expoConfig?.name}</Text>
         <View style={{ rowGap: 40 }}>
           <View style={styles.container}>

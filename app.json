@@ -31,6 +31,7 @@
     },
     "plugins": [
       "@react-native-firebase/app",
+      "react-native-nfc-manager",
       "expo-router",
       [
         "expo-build-properties",
