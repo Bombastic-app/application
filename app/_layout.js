@@ -1,12 +1,10 @@
 import { Stack } from "expo-router";
 
-export default function Layout() {
+export default function StackLayout() {
   return (
     <Stack
       screenOptions={{
-        headerStyle: {
-          backgroundColor: "#f4511e",
-        },
+        headerStyle: { backgroundColor: "darkblue" },
         headerTintColor: "#fff",
         headerTitleStyle: {
           fontWeight: "bold",
