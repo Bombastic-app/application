@@ -44,7 +44,7 @@ export default NewGame = () => {
         console.log(group.data())
       })
 
-      firestore().collection(`groups/123456/games/XOnB0bKnYoL8bAoyzG8C/players`).doc('16Ii2yIryno4GAg0K9VN')
+      firestore().collection(`groups/123456/games/XOnB0bKnYoL8bAoyzG8C/players`).doc('Lmy34r3iRMJkUYBORz2Q')
       .onSnapshot((player) => {
         setScreen(player.data().screen)
       })

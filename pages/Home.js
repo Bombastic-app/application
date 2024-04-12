@@ -68,7 +68,7 @@ export default Home = () => {
   }, [tagId]);
 
   return (
-    <BaseScreen debug={true}>
+    <BaseScreen title="Home" debug={true}>
       <View style={{flex: 1, justifyContent: "space-between"}}>
         <TouchableOpacity onPress={readNdef}>
           <Text>Scan a Tag</Text>

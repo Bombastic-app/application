@@ -3,7 +3,7 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Link, Stack, router, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-export default BaseScreen = ({ children, debug }) => {
+export default BaseScreen = ({ children, title, debug }) => {
   const insets = useSafeAreaInsets();
   const [devMode, setDevMode] = useState(false)
 
@@ -18,11 +18,7 @@ export default BaseScreen = ({ children, debug }) => {
   return (
     <View style={[styles.container, {paddingVertical: insets.top}]}>
       { devMode && <Link href='/debug'>Debug</Link>  }
-      <Stack.Screen
-        options={{
-          title: "Lobby",
-        }}
-      />
+      <Stack.Screen options={{ title }} />
       {children}
     </View>
   );
