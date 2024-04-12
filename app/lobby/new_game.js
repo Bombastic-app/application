@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { onValue, push, ref, set, update } from "firebase/database";
 import { RoundedButton } from "../../components/base/RoundedButton";
+import firestore from "@react-native-firebase/firestore";
 
 export default NewGame = () => {
   const [gameCode, setGameCode] = useState("");
@@ -24,6 +25,14 @@ export default NewGame = () => {
         isMain: true,
       };
 
+      // console.log(firestore());
+      
+      firestore().collection('groups').doc(gameCode).get()
+      .then((group) => {
+        console.log(group.data())
+      })
+      
+      
       // update(ref(db), updates);
 
       // groupRef.current = ref(db, `groups/${gameCode}`);

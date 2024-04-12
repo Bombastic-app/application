@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import React from "react";
 import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
-import { Stack, useRouter } from "expo-router";
+import { Slot, Stack, useRouter } from "expo-router";
 import { RoundedButton } from "../components/base/RoundedButton";
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 import BaseScreen from "../components/base/BaseScreen";
@@ -68,7 +68,7 @@ export default Home = () => {
   }, [tagId]);
 
   return (
-    <BaseScreen>
+    <BaseScreen debug={true}>
       <View style={{flex: 1, justifyContent: "space-between"}}>
         <TouchableOpacity onPress={readNdef}>
           <Text>Scan a Tag</Text>

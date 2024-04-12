@@ -1,4 +1,4 @@
-rootProject.name = 'poc-multi-player'
+rootProject.name = 'Bombastic'
 
 dependencyResolutionManagement {
   versionCatalogs {
