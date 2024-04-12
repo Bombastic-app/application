@@ -12,6 +12,18 @@ export default NewGame = () => {
   const groupRef = useRef();
   const { pseudo } = useLocalSearchParams();
   const [players, setPlayers] = useState();
+  const [screen, setScreen] = useState()  
+
+  runGame = async () => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/run_game`, { 
+      method: 'get',
+      'Content-Type': 'application/json'
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+    })
+  }
 
   useEffect(() => {
     // ref.current = ref(db, "groups");
@@ -30,6 +42,11 @@ export default NewGame = () => {
       firestore().collection('groups').doc(gameCode).get()
       .then((group) => {
         console.log(group.data())
+      })
+
+      firestore().collection(`groups/123456/games/XOnB0bKnYoL8bAoyzG8C/players`).doc('16Ii2yIryno4GAg0K9VN')
+      .onSnapshot((player) => {
+        setScreen(player.data().screen)
       })
       
       
@@ -79,12 +96,14 @@ export default NewGame = () => {
       </View>
       <RoundedButton
         title={"Lancer la partie"}
-        onClick={() =>
-          router.push({
-            pathname: "/setup/profile_picture"
-          })
-        }
+        // onClick={() =>
+        //   router.push({
+        //     pathname: "/setup/profile_picture"
+        //   })
+        // }
+        onClick={runGame}
       />
+      { screen && <Text>{ screen }</Text> }
     </View>
   );
 };
