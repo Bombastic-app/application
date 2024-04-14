@@ -1,9 +1,10 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet } from "react-native";
+import Text from "./Text";
 
-export default Heading1 = ({children}) => {
+export default Heading1 = ({className, children}) => {
   return (
-    <Text style={styles.title}>{children}</Text>
+    <Text className={className} style={styles.title}>{children}</Text>
   );
 };
 

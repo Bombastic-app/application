@@ -8,11 +8,9 @@ import firestore from "@react-native-firebase/firestore";
 
 export default NewGame = () => {
   const [gameCode, setGameCode] = useState("");
-  const groupsRef = useRef();
-  const groupRef = useRef();
   const { pseudo } = useLocalSearchParams();
   const [players, setPlayers] = useState();
-  const [screen, setScreen] = useState()  
+  const [screen, setScreen] = useState(false)  
 
   runGame = async () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/run_game`, { 
@@ -36,8 +34,6 @@ export default NewGame = () => {
       updates[`/groups/${gameCode}/${pseudo}`] = {
         isMain: true,
       };
-
-      // console.log(firestore());
       
       firestore().collection('groups').doc(gameCode).get()
       .then((group) => {
@@ -46,9 +42,9 @@ export default NewGame = () => {
 
       firestore().collection(`groups/123456/games/XOnB0bKnYoL8bAoyzG8C/players`).doc('Lmy34r3iRMJkUYBORz2Q')
       .onSnapshot((player) => {
+        console.log(player.data());
         setScreen(player.data().screen)
       })
-      
       
       // update(ref(db), updates);
 
@@ -103,7 +99,7 @@ export default NewGame = () => {
         // }
         onClick={runGame}
       />
-      { screen && <Text>{ screen }</Text> }
+      { screen && <Text>coucou { screen }</Text> }
     </View>
   );
 };

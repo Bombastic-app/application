@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import React from "react";
-import { Image, StyleSheet, Text, TextInput, View, TouchableOpacity } from "react-native";
+import { Image, StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
 import Constants from "expo-constants";
 import { Slot, Stack, useRouter } from "expo-router";
 import { RoundedButton } from "../components/base/RoundedButton";
@@ -8,6 +8,7 @@ import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 import BaseScreen from "../components/base/BaseScreen";
 import Heading1 from "../components/typography/Heading1";
 import { gsap } from 'gsap-rn'
+import Text from "../components/typography/Text";
 
 export default Home = () => {
   const router = useRouter();
@@ -80,7 +81,7 @@ export default Home = () => {
           <Text>Scan a Tag</Text>
         </TouchableOpacity>
 
-        <View ref={appTitle}><Heading1>{Constants.expoConfig?.name}</Heading1></View>
+        <View ref={appTitle}><Heading1 className="text-beige">{Constants.expoConfig?.name}</Heading1></View>
 
         <View style={{ rowGap: 40 }}>
           <View style={styles.container}>
@@ -98,6 +99,7 @@ export default Home = () => {
           <View style={{ flexDirection: "column", rowGap: 15 }}>
             <TextInput
               placeholder="Saisis ton pseudo"
+              className="text-beige"
               style={{
                 borderColor: "gray",
                 borderWidth: 1,
