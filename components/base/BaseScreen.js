@@ -18,7 +18,7 @@ export default BaseScreen = ({ children, title, debug }) => {
   }, [debug])
 
   return (
-    <View style={[styles.container, globalStyles.bgPrimary, {paddingVertical: insets.top}]}>
+    <View className="bg-marine" style={[styles.container, {paddingVertical: insets.top}]}>
       { devMode && <Link className="text-beige" href='/debug'>Debug</Link>  }
       <Stack.Screen options={{ title }} />
       {children}
