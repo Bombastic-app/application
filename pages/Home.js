@@ -7,11 +7,13 @@ import { RoundedButton } from "../components/base/RoundedButton";
 import NfcManager, {NfcTech} from 'react-native-nfc-manager';
 import BaseScreen from "../components/base/BaseScreen";
 import Heading1 from "../components/typography/Heading1";
+import { gsap } from 'gsap-rn'
 
 export default Home = () => {
   const router = useRouter();
   const [pseudo, setPseudo] = useState("Crocrotte");
   const [tagId, setTagId] = useState('')
+  const appTitle = useRef()
 
   async function readNdef() {
     try {
@@ -67,6 +69,10 @@ export default Home = () => {
     }
   }, [tagId]);
 
+  useEffect(() => {
+    gsap.fromTo(appTitle.current, { transform: {y: -30} }, { transform: { y: 0 } })
+  }, [])
+
   return (
     <BaseScreen title="Home" debug={true}>
       <View style={{flex: 1, justifyContent: "space-between"}}>
@@ -74,7 +80,7 @@ export default Home = () => {
           <Text>Scan a Tag</Text>
         </TouchableOpacity>
 
-        <Heading1>{Constants.expoConfig?.name}</Heading1>
+        <View ref={appTitle}><Heading1>{Constants.expoConfig?.name}</Heading1></View>
 
         <View style={{ rowGap: 40 }}>
           <View style={styles.container}>
