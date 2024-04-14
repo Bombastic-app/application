@@ -81,7 +81,7 @@ export default Home = () => {
           <Text>Scan a Tag</Text>
         </TouchableOpacity>
 
-        <View ref={appTitle}><Heading1 className="text-beige">{Constants.expoConfig?.name}</Heading1></View>
+        <View ref={appTitle}><Heading1>{Constants.expoConfig?.name}</Heading1></View>
 
         <View style={{ rowGap: 40 }}>
           <View style={styles.container}>

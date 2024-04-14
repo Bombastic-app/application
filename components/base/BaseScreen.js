@@ -5,7 +5,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import firestore from '@react-native-firebase/firestore'
 import { globalStyles } from "../Style";
 
-export default BaseScreen = ({ children, title, debug }) => {
+export default BaseScreen = ({ children, title, debug, className }) => {
   const insets = useSafeAreaInsets();
   const [devMode, setDevMode] = useState(false)
 
@@ -18,7 +18,7 @@ export default BaseScreen = ({ children, title, debug }) => {
   }, [debug])
 
   return (
-    <View className="bg-marine" style={[styles.container, {paddingVertical: insets.top}]}>
+    <View className={`bg-marine px-50 ${className}`} style={[styles.container, {paddingVertical: insets.top}]}>
       { devMode && <Link className="text-beige" href='/debug'>Debug</Link>  }
       <Stack.Screen options={{ title }} />
       {children}

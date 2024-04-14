@@ -2,17 +2,9 @@ import { Button, Text, TouchableHighlight, View } from "react-native";
 
 export const RoundedButton = ({ title, onClick }) => {
   return (
-    <TouchableHighlight onPress={onClick}>
-      <View
-        style={{ backgroundColor: "darkblue", padding: 14, borderRadius: 100 }}
-        o>
-        <Text
-          style={{
-            fontSize: 21,
-            color: "white",
-            fontWeight: "600",
-            textAlign: "center",
-          }}>
+    <TouchableHighlight className="px-10" onPress={onClick}>
+      <View className="flex items-center w-full py-24 bg-beige rounded-full">
+        <Text className="text-marine uppercase font-balgin-narrow-bold text-16">
           {title}
         </Text>
       </View>
