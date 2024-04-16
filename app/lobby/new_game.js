@@ -135,6 +135,7 @@ export default NewGame = () => {
             headerTitleStyle: {
               fontWeight: "bold",
             },
+            headerShown: false
           }}
         />
         <View className="flex flex-col items-center gap-y-20">
@@ -170,7 +171,7 @@ export default NewGame = () => {
                 <Image className="rounded-full" source={{ uri: picture.url }} style={{width: 80, height: 80}} />
                 <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
               </View>
-              <Text className="text-14 text-beige font-balgin-narrow">@{ players.find((player) => player.id === picture.name).pseudo }</Text>
+              <Text className="text-14 text-beige">@<Text className="text-14 text-beige font-balgin-narrow">{ players.find((player) => player.id === picture.name).pseudo }</Text></Text>
             </View>
           ))}
         </View>
