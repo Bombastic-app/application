@@ -11,6 +11,7 @@
   "dependencies": {
     "@react-native-firebase/app": "^19.2.1",
     "@react-native-firebase/firestore": "19.1.2",
+    "@react-native-firebase/storage": "^19.2.2",
     "@react-navigation/native": "^6.1.17",
     "@react-navigation/native-stack": "^6.9.26",
     "babel-preset-expo": "^10.0.1",
