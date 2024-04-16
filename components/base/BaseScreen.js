@@ -4,6 +4,7 @@ import { Link, Stack, router, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import firestore from '@react-native-firebase/firestore'
 import { globalStyles } from "../Style";
+import { StatusBar } from "expo-status-bar";
 
 export default BaseScreen = ({ children, title, debug, className }) => {
   const insets = useSafeAreaInsets();
@@ -20,6 +21,7 @@ export default BaseScreen = ({ children, title, debug, className }) => {
   return (
     <View className={`bg-marine px-50 ${className}`} style={[styles.container, {paddingVertical: insets.top}]}>
       { devMode && <Link className="text-beige" href='/debug'>Debug</Link>  }
+      <StatusBar style="light" />
       <Stack.Screen options={{ title }} />
       {children}
     </View>

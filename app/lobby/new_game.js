@@ -192,12 +192,7 @@ export default NewGame = () => {
           </View>
         </TouchableHighlight>
         <RoundedButton
-          title={"Lancer la partie"}
-          // onClick={() =>
-          //   router.push({
-          //     pathname: "/setup/profile_picture"
-          //   })
-          // }
+          title={"Démarrer"}
           onClick={runGame}
         />
       </View>
