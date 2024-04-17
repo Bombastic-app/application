@@ -7,7 +7,10 @@ module.exports = {
     colors: {
       marine: 'rgb(var(--color-marine) / <alpha-value>)',
       beige: 'rgb(var(--color-beige) / <alpha-value>)',
-      green: 'rgb(var(--color-green) / <alpha-value>)'
+      green: 'rgb(var(--color-green) / <alpha-value>)',
+      pink: 'rgb(var(--color-pink) / <alpha-value>)',
+      purple: 'rgb(var(--color-purple) / <alpha-value>)',
+      blue: 'rgb(var(--color-blue) / <alpha-value>)'
     },
     fontFamily: {
       'balgin-black': 'Balgin-BlackSmCondensed',

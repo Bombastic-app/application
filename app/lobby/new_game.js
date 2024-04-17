@@ -16,7 +16,7 @@ import { RoundedButton } from "../../components/base/RoundedButton";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import { Utils, generateGameCode } from "../../components/Utils";
-import { Timestamp } from "firebase/firestore";
+import { Timestamp, documentId, query, where } from "firebase/firestore";
 import BaseScreen from "../../components/base/BaseScreen";
 import Cards from "../../components/icons/Cards";
 
@@ -26,7 +26,7 @@ export default NewGame = () => {
   const [players, setPlayers] = useState(false);
   const [profilePictures, setProfilePictures] = useState([]);
   const [screen, setScreen] = useState(false);
-  const debug = useRef(true);
+  const [debug, setDebug] = useState(true);
 
   runGame = async () => {
     // fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
@@ -56,42 +56,28 @@ export default NewGame = () => {
   };
 
   useEffect(() => {
-    if (debug.current) setGameCode("123456");
-    else setGameCode(generateGameCode());
-  }, [debug.current]);
-
-  useEffect(() => {
     if (!gameCode) {
-      firestore()
-        .collection("games")
-        .doc(gameCode)
-        .get()
-        .then((game) => {
-          if (!game.exists) {
-            // Create game with gameCode generated
-            firestore()
-              .collection("games")
-              .doc(gameCode)
-              .set({
-                timestamp: Timestamp.fromMillis(Date.now()),
-              });
-          } else {
-            // Regenerate a new gameCode since the first one already exists
-            if (!debug.current) setGameCode(generateGameCode());
-          }
-        });
+      if (debug) setGameCode("123456");
+      else {
+        firestore()
+          .collection("games")
+          .doc(gameCode)
+          .get()
+          .then((game) => {
+            if (!game.exists) {
+              // Create game with gameCode generated
 
-      // firestore().collection(`groups/123456/games/XOnB0bKnYoL8bAoyzG8C/players`).doc('Lmy34r3iRMJkUYBORz2Q')
-      // .onSnapshot((player) => {
-      //   console.log(player.data());
-      //   setScreen(player.data().screen)
-      // })
+            } else {
+              // Regenerate a new gameCode since the first one already exists
+              setGameCode(generateGameCode());
+            }
+          });
+      }
     } else {
       // Game code set
       firestore()
         .collection(`games/${gameCode}/players`)
-        .get()
-        .then((players) => {
+        .onSnapshot((players) => {
           if (!players.empty)
             setPlayers(
               players.docs.map((player) => {
@@ -100,7 +86,7 @@ export default NewGame = () => {
             );
         });
     }
-  }, [gameCode]);
+  }, [debug, gameCode]);
 
   useEffect(() => {
     if (players) {
@@ -114,16 +100,16 @@ export default NewGame = () => {
           images.items.map((item) => {
             item.getDownloadURL().then((url) => {
               const picture = {
-                name: item.name.replace('.png', ''),
-                url: url
-              }
-              setProfilePictures(oldPictures => [...oldPictures, picture]);
+                name: item.name.replace(".png", ""),
+                url: url,
+              };
+              setProfilePictures((oldPictures) => [...oldPictures, picture]);
             });
           });
         });
     }
   }, [players]);
-  
+
   return (
     <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
       <View>
@@ -135,7 +121,7 @@ export default NewGame = () => {
             headerTitleStyle: {
               fontWeight: "bold",
             },
-            headerShown: false
+            headerShown: false,
           }}
         />
         <View className="flex flex-col items-center gap-y-20">
@@ -147,31 +133,20 @@ export default NewGame = () => {
           </Text>
         </View>
       </View>
-      {/* <View style={{ rowGap: 8, flexDirection: "column" }}>
-        {players &&
-          Object.keys(players).map((pseudo, i) => (
-            <Text
-              key={i}
-              style={{
-                padding: 14,
-                borderWidth: 1,
-                borderColor: "gray",
-                borderRadius: 16,
-                width: "100%",
-              }}>
-              {pseudo}
-            </Text>
-          ))}
-      </View> */}
-      {profilePictures && (
+      {players && (
         <View className="flex flex-row justify-center items-center flex-wrap gap-x-60 gap-y-30 px-10">
-          {profilePictures.map((picture, i) => (
+          {players.map((player, i) => (
             <View className="flex flex-col items-center gap-y-10" key={i}>
               <View className="relative">
-                <Image className="rounded-full" source={{ uri: picture.url }} style={{width: 80, height: 80}} />
+                <Image
+                  className="rounded-full"
+                  defaultSource={{ uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1" }}
+                  source={{ uri: profilePictures && profilePictures.find((picture) => picture.name === player.id)?.url }}
+                  style={{ width: 80, height: 80 }} />
                 <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
               </View>
-              <Text className="text-14 text-beige">@<Text className="text-14 text-beige font-balgin-narrow">{ players.find((player) => player.id === picture.name).pseudo }</Text></Text>
+              <Text className="text-14 text-beige">@<Text className="text-14 text-beige font-balgin-narrow">{player.pseudo}</Text>
+              </Text>
             </View>
           ))}
         </View>
@@ -191,10 +166,7 @@ export default NewGame = () => {
             </Text>
           </View>
         </TouchableHighlight>
-        <RoundedButton
-          title={"Démarrer"}
-          onClick={runGame}
-        />
+        <RoundedButton title={"Démarrer"} onClick={runGame} />
       </View>
     </BaseScreen>
   );

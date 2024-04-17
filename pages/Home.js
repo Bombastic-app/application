@@ -84,16 +84,11 @@ export default Home = () => {
         <View ref={appTitle}><Heading1>{Constants.expoConfig?.name}</Heading1></View>
 
         <View style={{ rowGap: 40 }}>
-          <View style={styles.container}>
+          {/* <View style={styles.container}>
             <Image source={require("../assets/illustration.png")} />
-          </View>
+          </View> */}
           <Text
-            style={{
-              fontSize: 20,
-              textAlign: "center",
-              fontWeight: "bold",
-              fontFamily: "Brice-BoldSemiExpanded",
-            }}>
+            className="text-18 text-center font-balgin-narrow">
             Sois le meilleur (ou le pire) des influenceurs !
           </Text>
           <View style={{ flexDirection: "column", rowGap: 15 }}>
@@ -116,6 +111,8 @@ export default Home = () => {
               onClick={() =>
                 router.push({ pathname: "/lobby/new_game", params: { pseudo } })
               }
+              rotateRight
+              gradient
             />
             <RoundedButton
               title={"Rejoindre une partie"}
@@ -125,6 +122,7 @@ export default Home = () => {
                   params: { pseudo },
                 })
               }
+              rotateLeft
             />
           </View>
         </View>

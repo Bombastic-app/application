@@ -1215,6 +1215,11 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
+"@expo-google-fonts/libre-franklin@^0.2.3":
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/libre-franklin/-/libre-franklin-0.2.3.tgz#b8c1242db4cfae7300c95a786fb80002c1bde814"
+  integrity sha512-CSPBb7R8xy3O+UIcjOz07eaZghnT907Xun9J7gkdnHmygySMWPjSrtUnqQ1Hbpec6MmaZseGTA+ntmjoA7nB2A==
+
 "@expo/apple-utils@1.7.0":
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/@expo/apple-utils/-/apple-utils-1.7.0.tgz#b8ac565f37b077c3a1bb562b8db5c5864bd6aba7"
@@ -4761,6 +4766,11 @@ expo-keep-awake@~12.8.2:
   version "12.8.2"
   resolved "https://registry.yarnpkg.com/expo-keep-awake/-/expo-keep-awake-12.8.2.tgz#6cfdf8ad02b5fa130f99d4a1eb98e459d5b4332e"
   integrity sha512-uiQdGbSX24Pt8nGbnmBtrKq6xL/Tm3+DuDRGBk/3ZE/HlizzNosGRIufIMJ/4B4FRw4dw8KU81h2RLuTjbay6g==
+
+expo-linear-gradient@~12.7.2:
+  version "12.7.2"
+  resolved "https://registry.yarnpkg.com/expo-linear-gradient/-/expo-linear-gradient-12.7.2.tgz#2ff9593eae8448ac5630be1a36ce6133c4a6f074"
+  integrity sha512-Wwb2EF18ywgrlTodcXJ6Yt/UEcKitRMdXPNyP/IokmeKh4emoq9DxZJpZdkXm3HUTLlbRpi6/t32jrFVqXB9AQ==
 
 expo-linking@~6.2.2:
   version "6.2.2"
