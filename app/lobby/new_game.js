@@ -39,6 +39,22 @@ export default NewGame = () => {
     // })
   };
 
+  createGame = async () => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ gameCode, pseudo }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.status === 500) {
+          if (res.action === "regenerate") setGameCode(generateGameCode());
+        }
+      });
+  };
+
   shareLink = async () => {
     Share.share({
       message: "Partage le lien de la partie avec tes amis !",
@@ -56,43 +72,28 @@ export default NewGame = () => {
   };
 
   useEffect(() => {
-    console.log("pseudo");
-  }, [pseudo]);
-
-  useEffect(() => {
-    console.log(joinGameCode);
     if (!gameCode) {
       if (joinGameCode) setGameCode(joinGameCode);
       else {
         if (debug) setGameCode("123456");
         else {
-          firestore()
-            .collection("games")
-            .doc(gameCode)
-            .get()
-            .then((game) => {
-              if (!game.exists) {
-                // Create game with gameCode generated
-              } else {
-                // Regenerate a new gameCode since the first one already exists
-                setGameCode(generateGameCode());
-              }
-            });
+          setGameCode(generateGameCode());
         }
       }
     } else {
-      console.log(gameCode);
+      createGame().then(() => {
+        firestore()
+          .collection(`games/${gameCode}/players`)
+          .onSnapshot((players) => {
+            if (!players.empty)
+              setPlayers(
+                players.docs.map((player) => {
+                  return { ...player.data(), id: player.id };
+                })
+              );
+          });
+      });
       // Game code set
-      firestore()
-        .collection(`games/${gameCode}/players`)
-        .onSnapshot((players) => {
-          if (!players.empty)
-            setPlayers(
-              players.docs.map((player) => {
-                return { ...player.data(), id: player.id };
-              })
-            );
-        });
     }
   }, [debug, gameCode, joinGameCode]);
 

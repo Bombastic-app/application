@@ -17,7 +17,7 @@ export default Page = ({ navigation }) => {
 
   if (fontsLoaded) {
     return (
-      <Join_game />
+      <Home />
     );
   }
 };

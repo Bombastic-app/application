@@ -52,7 +52,6 @@ export default Home = () => {
 
   useEffect(() => {
     if (tagId !== '') {
-      console.log(tagId);
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
         method: "GET",
         headers: {

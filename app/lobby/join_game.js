@@ -16,7 +16,7 @@ export default JoinGame = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ pseudo: "Chachoune", gameCode }),
+        body: JSON.stringify({ pseudo, gameCode }),
       })
         .then((res) => res.json())
         .then((res) => {
