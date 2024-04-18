@@ -49,7 +49,10 @@
             "./assets/fonts/Brice-LightSemiExpanded.ttf",
             "./assets/fonts/Balgin Black Sm Condensed.ttf",
             "./assets/fonts/balgintext-regularnarrow.otf",
-            "./assets/fonts/balgintext-boldnarrow.otf"
+            "./assets/fonts/balgintext-boldnarrow.otf",
+            "nodes_modules/@expo-google-fonts/libre-franklin/LibreFranklin_200ExtraLight.tff",
+            "nodes_modules/@expo-google-fonts/libre-franklin/LibreFranklin_400Regular.tff",
+            "nodes_modules/@expo-google-fonts/libre-franklin/LibreFranklin_700Bold.tff"
           ]
         }
       ],

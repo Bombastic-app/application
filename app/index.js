@@ -3,6 +3,7 @@ import { useFonts } from "expo-font";
 import Home from "../pages/Home";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import New_game from "./lobby/new_game";
+import Join_game from "./lobby/join_game";
 
 NfcManager.start();
 
@@ -16,7 +17,7 @@ export default Page = ({ navigation }) => {
 
   if (fontsLoaded) {
     return (
-      <Home />
+      <Join_game />
     );
   }
 };

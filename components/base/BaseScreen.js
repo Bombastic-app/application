@@ -11,7 +11,7 @@ export default BaseScreen = ({ children, title, debug, className }) => {
   const [devMode, setDevMode] = useState(false)
 
   enableDebug = () => {
-
+    
   }
 
   useEffect(() => {
@@ -19,10 +19,10 @@ export default BaseScreen = ({ children, title, debug, className }) => {
   }, [debug])
 
   return (
-    <View className={`bg-marine px-50 ${className}`} style={[styles.container, {paddingVertical: insets.top}]}>
+    <View className={`bg-marine px-50 ${className}`} style={[styles.container, {paddingVertical: insets.top + 30}]}>
       { devMode && <Link className="text-beige" href='/debug'>Debug</Link>  }
       <StatusBar style="light" />
-      <Stack.Screen options={{ title }} />
+      <Stack.Screen options={{ title, headerShown: false }} />
       {children}
     </View>
   );

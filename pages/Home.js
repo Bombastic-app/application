@@ -71,7 +71,7 @@ export default Home = () => {
   }, [tagId]);
 
   useEffect(() => {
-    gsap.fromTo(appTitle.current, { transform: {y: -30} }, { transform: { y: 0 } })
+    // gsap.fromTo(appTitle.current, { transform: {y: -30} }, { transform: { y: 0 } })
   }, [])
 
   return (
@@ -81,14 +81,14 @@ export default Home = () => {
           <Text>Scan a Tag</Text>
         </TouchableOpacity>
 
-        <View ref={appTitle}><Heading1>{Constants.expoConfig?.name}</Heading1></View>
+        {/* <View ref={appTitle}><Heading1>{Constants.expoConfig?.name}</Heading1></View> */}
 
         <View style={{ rowGap: 40 }}>
-          {/* <View style={styles.container}>
-            <Image source={require("../assets/illustration.png")} />
-          </View> */}
+          <View className="flex items-center justify-center">
+            <Image className="w-[80%]" resizeMode="contain" source={require("../assets/logo-gradient.png")} />
+          </View>
           <Text
-            className="text-18 text-center font-balgin-narrow">
+            className="text-18 text-center font-libre-franklin">
             Sois le meilleur (ou le pire) des influenceurs !
           </Text>
           <View style={{ flexDirection: "column", rowGap: 15 }}>

@@ -1,84 +1,66 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { Text, TextInput, View } from "react-native";
 import { RoundedButton } from "../../components/base/RoundedButton";
-import { useEffect, useRef, useState } from "react";
-import firestore from "@react-native-firebase/firestore";
+import { useState } from "react";
 import BaseScreen from "../../components/base/BaseScreen";
 
 export default JoinGame = () => {
-  const [groupId, setGroupId] = useState("123456");
+  const [gameCode, setGameCode] = useState();
+  const [error, setError] = useState("");
   const { pseudo } = useLocalSearchParams();
 
-  useEffect(() => {}, []);
-
   joinGame = () => {
-    if (groupId !== "") {
-      firestore()
-        .collection(`groups/${groupId}/games`)
-        .orderBy("timestamp", "desc")
-        .limit(1)
-        .get()
-        .then((snapshot) => {
-          const gameId = snapshot.docs[0].id;
-          const playersRef = firestore().collection(
-            `groups/${groupId}/games/${gameId}/players`
-          );
-
-          playersRef.get().then((players) => {
-            if (
-              players.docs.findIndex(
-                (player) => player.data().pseudo === pseudo
-              ) < 0
-            ) {
-              playersRef.add({ pseudo }).then((addedPlayer) => {
-                const playerId = addedPlayer.id;
-
-                fetch(`${process.env.API_URL}/players/add`, {
-                  method: "POST",
-                  body: { pseudo, groupId, gameId, playerId },
-                })
-                  .then((res) => res.json())
-                  .then((data) => {
-                    console.log(data);
-                  });
-              });
-            }
-          });
+    if (gameCode !== "" && gameCode !== undefined) {
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/join`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ pseudo: "Chachoune", gameCode }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.status);
+          if (res.status === 200) router.push({ pathname: "/lobby/new_game", params: { joinGameCode: gameCode } });
+          if (res.status === 404 || res.status === 500) setError(res.message);
+        })
+        .catch((error) => {
+          console.log("error");
+          console.log(error);
         });
     }
   };
 
   return (
-    <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
-      <View style={{ padding: 20, alignItems: "center" }}>
-        <View>
-          <Stack.Screen
-            options={{
-              title: "Rejoindre une partie",
-              headerShown: false,
-            }}
+    <BaseScreen>
+      <Stack.Screen
+        options={{
+          title: "Rejoindre une partie",
+          headerShown: false,
+        }}
+      />
+      <View className="flex flex-col w-full items-center gap-y-20">
+        <Text className="font-balgin-narrow-bold text-beige text-16 uppercase">
+          Code de partie
+        </Text>
+        <TextInput
+          placeholder="123456"
+          className="font-balgin-black text-beige text-56 border-b-2 border-b-beige placeholder:text-beige/30"
+          onChangeText={(text) => setGameCode(text)}
+          // defaultValue="123456"
+        />
+        <View className="w-full mt-20">
+          <RoundedButton
+            title={"Rejoindre une partie"}
+            onClick={joinGame}
+            gradient
           />
-          <Text style={{ fontSize: 16, fontWeight: "600" }}>
-            Code de partie
-          </Text>
-          <View style={{ rowGap: 16 }}>
-            <TextInput
-              placeholder="Saisis ton pseudo"
-              style={{
-                borderColor: "gray",
-                borderWidth: 1,
-                padding: 14,
-                borderRadius: 45,
-                textAlign: "center",
-                fontSize: 21,
-                marginTop: 20,
-              }}
-              onChangeText={(text) => setGroupId(text)}
-              defaultValue="123456"
-            />
-            <RoundedButton title={"Rejoindre une partie"} onClick={joinGame} />
-          </View>
         </View>
+        {error !== "" && (
+          <View className="bg-beige/10 p-24 rounded-12">
+          <Text className="text-beige text-16 font-balgin-narrow-bold uppercase text-center">{ error }</Text>
+          </View>
+        )}
       </View>
     </BaseScreen>
   );

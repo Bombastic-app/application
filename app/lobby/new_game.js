@@ -22,11 +22,11 @@ import Cards from "../../components/icons/Cards";
 
 export default NewGame = () => {
   const [gameCode, setGameCode] = useState(false);
-  const { pseudo } = useLocalSearchParams();
+  const { pseudo, joinGameCode } = useLocalSearchParams();
   const [players, setPlayers] = useState(false);
   const [profilePictures, setProfilePictures] = useState([]);
   const [screen, setScreen] = useState(false);
-  const [debug, setDebug] = useState(true);
+  const [debug, setDebug] = useState(false);
 
   runGame = async () => {
     // fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
@@ -56,24 +56,32 @@ export default NewGame = () => {
   };
 
   useEffect(() => {
-    if (!gameCode) {
-      if (debug) setGameCode("123456");
-      else {
-        firestore()
-          .collection("games")
-          .doc(gameCode)
-          .get()
-          .then((game) => {
-            if (!game.exists) {
-              // Create game with gameCode generated
+    console.log("pseudo");
+  }, [pseudo]);
 
-            } else {
-              // Regenerate a new gameCode since the first one already exists
-              setGameCode(generateGameCode());
-            }
-          });
+  useEffect(() => {
+    console.log(joinGameCode);
+    if (!gameCode) {
+      if (joinGameCode) setGameCode(joinGameCode);
+      else {
+        if (debug) setGameCode("123456");
+        else {
+          firestore()
+            .collection("games")
+            .doc(gameCode)
+            .get()
+            .then((game) => {
+              if (!game.exists) {
+                // Create game with gameCode generated
+              } else {
+                // Regenerate a new gameCode since the first one already exists
+                setGameCode(generateGameCode());
+              }
+            });
+        }
       }
     } else {
+      console.log(gameCode);
       // Game code set
       firestore()
         .collection(`games/${gameCode}/players`)
@@ -86,7 +94,7 @@ export default NewGame = () => {
             );
         });
     }
-  }, [debug, gameCode]);
+  }, [debug, gameCode, joinGameCode]);
 
   useEffect(() => {
     if (players) {
@@ -140,12 +148,25 @@ export default NewGame = () => {
               <View className="relative">
                 <Image
                   className="rounded-full"
-                  defaultSource={{ uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1" }}
-                  source={{ uri: profilePictures && profilePictures.find((picture) => picture.name === player.id)?.url }}
-                  style={{ width: 80, height: 80 }} />
+                  defaultSource={{
+                    uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1",
+                  }}
+                  source={{
+                    uri:
+                      profilePictures &&
+                      profilePictures.find(
+                        (picture) => picture.name === player.id
+                      )?.url,
+                  }}
+                  style={{ width: 80, height: 80 }}
+                />
                 <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
               </View>
-              <Text className="text-14 text-beige">@<Text className="text-14 text-beige font-balgin-narrow">{player.pseudo}</Text>
+              <Text className="text-14 text-beige">
+                @
+                <Text className="text-14 text-beige font-balgin-narrow">
+                  {player.pseudo}
+                </Text>
               </Text>
             </View>
           ))}
