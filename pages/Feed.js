@@ -9,20 +9,19 @@ import { CONSTANTS } from "../constants";
 export default Feed = () => {
   return (
     <BaseScreen headerShown={false}> 
-      <View className="gap-16">
+      <View style={{gap: 16}}>
         <LogoSVG />
 
         <PlayerStatistics />
 
         <ScrollView bounces={false} contentInset={{bottom: 105}}>
-          <View className="feed gap-10">
+          <View className="feed" style={{gap: 10}}>
             <Post type="text" content="Avec @AirDown l’eau : capte l'odeur du pet et revent le avec AirDown ! buzz assuré." />
             <Post type="image" content={CONSTANTS.postImage} />
             <Post type="image" content={CONSTANTS.postImage} />
           </View>
         </ScrollView>
       </View>
-
     </BaseScreen>
   );
 };
