@@ -16,16 +16,19 @@ export default JoinGame = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ pseudo, gameCode }),
+        body: JSON.stringify({ gameCode, pseudo }),
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res.status);
-          if (res.status === 200) router.push({ pathname: "/lobby/new_game", params: { joinGameCode: gameCode } });
+          if (res.status === 200)
+            router.push({
+              pathname: "/setup/profile_picture",
+              params: { pseudo, joinGameCode: gameCode, joinPlayerId: res.playerId },
+            });
           if (res.status === 404 || res.status === 500) setError(res.message);
         })
         .catch((error) => {
-          console.log("error");
+          console.log("error joining game");
           console.log(error);
         });
     }
@@ -47,7 +50,6 @@ export default JoinGame = () => {
           placeholder="123456"
           className="font-balgin-black text-beige text-56 border-b-2 border-b-beige placeholder:text-beige/30"
           onChangeText={(text) => setGameCode(text)}
-          // defaultValue="123456"
         />
         <View className="w-full mt-20">
           <RoundedButton
@@ -58,7 +60,9 @@ export default JoinGame = () => {
         </View>
         {error !== "" && (
           <View className="bg-beige/10 p-24 rounded-12">
-          <Text className="text-beige text-16 font-balgin-narrow-bold uppercase text-center">{ error }</Text>
+            <Text className="text-beige text-16 font-balgin-narrow-bold uppercase text-center">
+              {error}
+            </Text>
           </View>
         )}
       </View>

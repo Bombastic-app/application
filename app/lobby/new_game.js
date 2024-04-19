@@ -8,21 +8,16 @@ import {
   TouchableHighlight,
   View,
 } from "react-native";
-import Constants from "expo-constants";
-import { useEffect, useRef, useState } from "react";
-import { Stack, router, useLocalSearchParams } from "expo-router";
-import { onValue, push, ref, set, update } from "firebase/database";
+import { useEffect, useState } from "react";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
-import { Utils, generateGameCode } from "../../components/Utils";
-import { Timestamp, documentId, query, where } from "firebase/firestore";
 import BaseScreen from "../../components/base/BaseScreen";
 import Cards from "../../components/icons/Cards";
 
 export default NewGame = () => {
-  const [gameCode, setGameCode] = useState(false);
-  const { pseudo, joinGameCode } = useLocalSearchParams();
+  const { pseudo, gameCode, playerId } = useLocalSearchParams();
   const [players, setPlayers] = useState(false);
   const [profilePictures, setProfilePictures] = useState([]);
   const [screen, setScreen] = useState(false);
@@ -37,22 +32,6 @@ export default NewGame = () => {
     // .then((data) => {
     //   console.log(data);
     // })
-  };
-
-  createGame = async () => {
-    fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ gameCode, pseudo }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.status === 500) {
-          if (res.action === "regenerate") setGameCode(generateGameCode());
-        }
-      });
   };
 
   shareLink = async () => {
@@ -72,34 +51,7 @@ export default NewGame = () => {
   };
 
   useEffect(() => {
-    if (!gameCode) {
-      if (joinGameCode) setGameCode(joinGameCode);
-      else {
-        if (debug) setGameCode("123456");
-        else {
-          setGameCode(generateGameCode());
-        }
-      }
-    } else {
-      createGame().then(() => {
-        firestore()
-          .collection(`games/${gameCode}/players`)
-          .onSnapshot((players) => {
-            if (!players.empty)
-              setPlayers(
-                players.docs.map((player) => {
-                  return { ...player.data(), id: player.id };
-                })
-              );
-          });
-      });
-      // Game code set
-    }
-  }, [debug, gameCode, joinGameCode]);
-
-  useEffect(() => {
     if (players) {
-      const pictures = [];
       // Get profile pictures on storage
       storage()
         .ref()
@@ -118,6 +70,25 @@ export default NewGame = () => {
         });
     }
   }, [players]);
+
+
+  useEffect(() => {
+    console.log(gameCode);
+    if (gameCode) {
+      firestore()
+          .collection(`games/${gameCode}/players`)
+          .onSnapshot((players) => {
+            if (!players.empty)
+              setPlayers(
+                players.docs.map((player) => {
+                  return { ...player.data(), id: player.id };
+                })
+              );
+          });
+      // Game code set
+    }
+  }, [debug, gameCode]);
+
 
   return (
     <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">

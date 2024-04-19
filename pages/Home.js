@@ -1,20 +1,26 @@
 import { useEffect, useRef, useState } from "react";
 import React from "react";
-import { Image, StyleSheet, TextInput, View, TouchableOpacity } from "react-native";
+import {
+  Image,
+  StyleSheet,
+  TextInput,
+  View,
+  TouchableOpacity,
+} from "react-native";
 import Constants from "expo-constants";
 import { Slot, Stack, useRouter } from "expo-router";
 import { RoundedButton } from "../components/base/RoundedButton";
-import NfcManager, {NfcTech} from 'react-native-nfc-manager';
+import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import BaseScreen from "../components/base/BaseScreen";
 import Heading1 from "../components/typography/Heading1";
-import { gsap } from 'gsap-rn'
+import { gsap } from "gsap-rn";
 import Text from "../components/typography/Text";
 
 export default Home = () => {
   const router = useRouter();
   const [pseudo, setPseudo] = useState("Crocrotte");
-  const [tagId, setTagId] = useState('')
-  const appTitle = useRef()
+  const [tagId, setTagId] = useState("");
+  const appTitle = useRef();
 
   async function readNdef() {
     try {
@@ -23,7 +29,7 @@ export default Home = () => {
       // the resolved tag object will contain `ndefMessage` property
       await NfcManager.getTag().then((tag) => {
         console.warn("Tag found", tag);
-        setTagId(tag.id)
+        setTagId(tag.id);
       });
     } catch (ex) {
       console.log("Oops!", ex);
@@ -37,8 +43,8 @@ export default Home = () => {
     return fetch(`${process.env.EXPO_PUBLIC_API_URL}/cards`, {
       method: "GET",
       headers: {
-        'Content-Type': 'application/json'
-      }
+        "Content-Type": "application/json",
+      },
     })
       .then((res) => res.json())
       .then((data) => {
@@ -48,16 +54,15 @@ export default Home = () => {
         console.log(error);
       });
   };
-  
 
   useEffect(() => {
-    if (tagId !== '') {
+    if (tagId !== "") {
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
         method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       })
         .then((res) => res.json())
         .then((data) => {
@@ -65,17 +70,17 @@ export default Home = () => {
         })
         .catch((error) => {
           console.log(error);
-        })
+        });
     }
   }, [tagId]);
 
   useEffect(() => {
     // gsap.fromTo(appTitle.current, { transform: {y: -30} }, { transform: { y: 0 } })
-  }, [])
+  }, []);
 
   return (
     <BaseScreen title="Home" debug={true}>
-      <View style={{flex: 1, justifyContent: "space-between"}}>
+      <View style={{ flex: 1, justifyContent: "space-between" }}>
         <TouchableOpacity onPress={readNdef}>
           <Text>Scan a Tag</Text>
         </TouchableOpacity>
@@ -84,10 +89,13 @@ export default Home = () => {
 
         <View style={{ rowGap: 40 }}>
           <View className="flex items-center justify-center">
-            <Image className="w-[80%]" resizeMode="contain" source={require("../assets/logo-gradient.png")} />
+            <Image
+              className="w-[80%]"
+              resizeMode="contain"
+              source={require("../assets/logo-gradient.png")}
+            />
           </View>
-          <Text
-            className="text-18 text-center font-libre-franklin">
+          <Text className="text-18 text-center font-libre-franklin">
             Sois le meilleur (ou le pire) des influenceurs !
           </Text>
           <View style={{ flexDirection: "column", rowGap: 15 }}>
@@ -108,7 +116,10 @@ export default Home = () => {
             <RoundedButton
               title={"Créer une nouvelle partie"}
               onClick={() =>
-                router.push({ pathname: "/lobby/new_game", params: { pseudo } })
+                router.push({
+                  pathname: "/setup/profile_picture",
+                  params: { pseudo, action: 'new_game' },
+                })
               }
               rotateRight
               gradient
