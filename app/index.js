@@ -3,6 +3,9 @@ import { useFonts } from "expo-font";
 import Home from "../pages/Home";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import New_game from "./lobby/new_game";
+import Score from "../pages/Score";
+import store from '../store';
+import { Provider } from 'react-redux';
 
 NfcManager.start();
 
@@ -16,7 +19,9 @@ export default Page = ({ navigation }) => {
 
   if (fontsLoaded) {
     return (
-      <Home />
+      <Provider store={store}>
+        <Score />
+      </Provider>
     );
   }
 };
