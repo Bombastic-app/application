@@ -23,7 +23,7 @@ export default Page = ({ navigation }) => {
     return (
       <Provider store={store}>
         <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
-          <Score />
+          <Home />
         </PersistGate>
       </Provider>
     );
