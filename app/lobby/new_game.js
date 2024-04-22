@@ -8,25 +8,20 @@ import {
   TouchableHighlight,
   View,
 } from "react-native";
-import Constants from "expo-constants";
-import { useEffect, useRef, useState } from "react";
-import { Stack, router, useLocalSearchParams } from "expo-router";
-import { onValue, push, ref, set, update } from "firebase/database";
+import { useEffect, useState } from "react";
+import { Stack, useLocalSearchParams } from "expo-router";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
-import { Utils, generateGameCode } from "../../components/Utils";
-import { Timestamp, documentId, query, where } from "firebase/firestore";
 import BaseScreen from "../../components/base/BaseScreen";
 import Cards from "../../components/icons/Cards";
 
 export default NewGame = () => {
-  const [gameCode, setGameCode] = useState(false);
-  const { pseudo } = useLocalSearchParams();
+  const { pseudo, gameCode, playerId } = useLocalSearchParams();
   const [players, setPlayers] = useState(false);
   const [profilePictures, setProfilePictures] = useState([]);
   const [screen, setScreen] = useState(false);
-  const [debug, setDebug] = useState(true);
+  const [debug, setDebug] = useState(false);
 
   runGame = async () => {
     // fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
@@ -56,41 +51,7 @@ export default NewGame = () => {
   };
 
   useEffect(() => {
-    if (!gameCode) {
-      if (debug) setGameCode("123456");
-      else {
-        firestore()
-          .collection("games")
-          .doc(gameCode)
-          .get()
-          .then((game) => {
-            if (!game.exists) {
-              // Create game with gameCode generated
-
-            } else {
-              // Regenerate a new gameCode since the first one already exists
-              setGameCode(generateGameCode());
-            }
-          });
-      }
-    } else {
-      // Game code set
-      firestore()
-        .collection(`games/${gameCode}/players`)
-        .onSnapshot((players) => {
-          if (!players.empty)
-            setPlayers(
-              players.docs.map((player) => {
-                return { ...player.data(), id: player.id };
-              })
-            );
-        });
-    }
-  }, [debug, gameCode]);
-
-  useEffect(() => {
     if (players) {
-      const pictures = [];
       // Get profile pictures on storage
       storage()
         .ref()
@@ -109,6 +70,25 @@ export default NewGame = () => {
         });
     }
   }, [players]);
+
+
+  useEffect(() => {
+    console.log(gameCode);
+    if (gameCode) {
+      firestore()
+          .collection(`games/${gameCode}/players`)
+          .onSnapshot((players) => {
+            if (!players.empty)
+              setPlayers(
+                players.docs.map((player) => {
+                  return { ...player.data(), id: player.id };
+                })
+              );
+          });
+      // Game code set
+    }
+  }, [debug, gameCode]);
+
 
   return (
     <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
@@ -140,12 +120,25 @@ export default NewGame = () => {
               <View className="relative">
                 <Image
                   className="rounded-full"
-                  defaultSource={{ uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1" }}
-                  source={{ uri: profilePictures && profilePictures.find((picture) => picture.name === player.id)?.url }}
-                  style={{ width: 80, height: 80 }} />
+                  defaultSource={{
+                    uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1",
+                  }}
+                  source={{
+                    uri:
+                      profilePictures &&
+                      profilePictures.find(
+                        (picture) => picture.name === player.id
+                      )?.url,
+                  }}
+                  style={{ width: 80, height: 80 }}
+                />
                 <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
               </View>
-              <Text className="text-14 text-beige">@<Text className="text-14 text-beige font-balgin-narrow">{player.pseudo}</Text>
+              <Text className="text-14 text-beige">
+                @
+                <Text className="text-14 text-beige font-balgin-narrow">
+                  {player.pseudo}
+                </Text>
               </Text>
             </View>
           ))}

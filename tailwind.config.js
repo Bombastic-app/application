@@ -15,7 +15,8 @@ module.exports = {
     fontFamily: {
       'balgin-black': 'Balgin-BlackSmCondensed',
       'balgin-narrow': 'Balgin-Narrow',
-      'balgin-narrow-bold': 'Balgin-NarrowBold'
+      'balgin-narrow-bold': 'Balgin-NarrowBold',
+      'libre-franklin': 'Libre Franklin'
     },
     fontSize: {
       14: 14,
@@ -26,6 +27,8 @@ module.exports = {
       56: 56
     },
     spacing: {
+      0: 0,
+      5: 5,
       7: 7,
       10: 10,
       16: 16,
