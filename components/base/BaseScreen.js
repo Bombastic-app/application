@@ -32,5 +32,6 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 20,
     flex: 1,
+    position: "relative",
   },
 });
