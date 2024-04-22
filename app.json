@@ -16,7 +16,7 @@
     "ios": {
       "supportsTablet": true,
       "googleServicesFile": "./GoogleService-Info.plist",
-      "bundleIdentifier": "com.bombastic.pocmultiplayer",
+      "bundleIdentifier": "com.gobelins.bombastic"
     },
     "android": {
       "googleServicesFile": "./google-services.json",
@@ -24,7 +24,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.bombastic.pocmultiplayer"
+      "package": "com.gobelins.bombastic"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -46,7 +46,10 @@
         {
           "fonts": [
             "./assets/fonts/Brice-BoldSemiExpanded.ttf",
-            "./assets/fonts/Brice-LightSemiExpanded.ttf"
+            "./assets/fonts/Brice-LightSemiExpanded.ttf",
+            "./assets/fonts/Balgin Black Sm Condensed.ttf",
+            "./assets/fonts/balgintext-regularnarrow.otf",
+            "./assets/fonts/balgintext-boldnarrow.otf"
           ]
         }
       ],

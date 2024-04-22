@@ -5,10 +5,44 @@ module.exports = {
   presets: [require("nativewind/preset")],
   theme: {
     colors: {
-      marine: '#0C1A2D',
-      beige: '#FAF6F3'
+      marine: 'rgb(var(--color-marine) / <alpha-value>)',
+      beige: 'rgb(var(--color-beige) / <alpha-value>)',
+      green: 'rgb(var(--color-green) / <alpha-value>)',
+      pink: 'rgb(var(--color-pink) / <alpha-value>)',
+      purple: 'rgb(var(--color-purple) / <alpha-value>)',
+      blue: 'rgb(var(--color-blue) / <alpha-value>)'
     },
-    extend: {},
+    fontFamily: {
+      'balgin-black': 'Balgin-BlackSmCondensed',
+      'balgin-narrow': 'Balgin-Narrow',
+      'balgin-narrow-bold': 'Balgin-NarrowBold'
+    },
+    fontSize: {
+      14: 14,
+      16: 16,
+      18: 18,
+      50: 50,
+      56: 56
+    },
+    spacing: {
+      7: 7,
+      10: 10,
+      16: 16,
+      20: 20,
+      24: 24,
+      30: 30,
+      50: 50,
+      60: 60
+    },
+    borderRadius: {
+      12: 12,
+      full: 99999
+    },
+    extend: {
+      borderWidth: {
+        // 4: 5
+      }
+    },
   },
   plugins: [],
 }
