@@ -15,8 +15,8 @@ import Cards from "../../components/icons/Cards";
 import { useSelector } from "react-redux";
 
 export default NewGame = () => {
-  const { pseudo, playerId } = useLocalSearchParams();
   const gameCode = useSelector(state => state.gameCode)
+  const playerId = useSelector(state => state.playerId)
   const [players, setPlayers] = useState(false);
   const [profilePictures, setProfilePictures] = useState([]);
   const [screen, setScreen] = useState(false);

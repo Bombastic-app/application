@@ -1,6 +1,7 @@
 import React from "react";
 import { useFonts } from "expo-font";
 import Home from "../pages/Home";
+import Feed from "../pages/Feed";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import New_game from "./lobby/new_game";
 import Join_game from "./lobby/join_game";

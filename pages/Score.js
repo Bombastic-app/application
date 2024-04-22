@@ -52,9 +52,7 @@ export default Score = () => {
         <RoundedButton
           title={"Continuer"}
           onClick={() =>
-            router.push({
-              pathname: "/feed",
-            })
+            router.push("/feed")
           }
         />
       </View>

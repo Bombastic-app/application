@@ -16,12 +16,18 @@ import { gsap } from "gsap-rn";
 import Text from "../components/typography/Text";
 import UnderlineInput from "../components/UnderlineInput";
 import IconButton from "../components/base/IconButton";
+import { useDispatch, useSelector } from "react-redux";
+import { updatePseudo } from "../store";
 
 export default Home = () => {
   const router = useRouter();
-  const [pseudo, setPseudo] = useState("Crocrotte");
+  const pseudo = useSelector(state => state.pseudo)
+  const dispatch = useDispatch()
   const [tagId, setTagId] = useState("");
-  const appTitle = useRef();
+
+  handleOnUpdatePseudo = (text) => {
+    dispatch(updatePseudo(text))
+  }
 
   async function readNdef() {
     try {
@@ -96,7 +102,7 @@ export default Home = () => {
         <View className="flex flex-col gap-y-30">
           <UnderlineInput
             placeholder="Ton pseudo"
-            onChange={(text) => setPseudo(text)}
+            onChange={(text) => handleOnUpdatePseudo(text)}
           />
           <View className="flex flex-col gap-y-10">
             <RoundedButton
@@ -104,17 +110,14 @@ export default Home = () => {
               onClick={() =>
                 router.push({
                   pathname: "/setup/profile_picture",
-                  params: { pseudo, action: "new_game" },
+                  params: { action: "new_game" },
                 })
               }
             />
             <RoundedButton
               title={"Rejoindre une partie"}
               onClick={() =>
-                router.push({
-                  pathname: "/lobby/join_game",
-                  params: { pseudo },
-                })
+                router.push("/lobby/join_game")
               }
             />
           </View>

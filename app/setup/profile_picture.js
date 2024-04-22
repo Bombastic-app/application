@@ -6,20 +6,17 @@ import { Stack, router, useLocalSearchParams } from "expo-router";
 import storage from "@react-native-firebase/storage";
 import BaseScreen from "../../components/base/BaseScreen";
 import Heading2 from "../../components/typography/Heading2";
-import firestore from "@react-native-firebase/firestore";
 import { generateGameCode } from "../../components/Utils";
 import { useDispatch, useSelector } from "react-redux";
-import { updateGameCode } from "../../store";
-
-// router.push({ pathname: "/lobby/new_game", params: { pseudo } })
-// router.push({ pathname: "/lobby/join_game", params: { pseudo } })
+import { updateGameCode, updatePlayerId } from "../../store";
 
 export default ProfilePicture = () => {
   const [image, setImage] = useState(false);
-  const { pseudo, joinGameCode, joinPlayerId } = useLocalSearchParams();
-  const gameCode = useSelector(state => state.gameCode)
+  const gameCode = useSelector((state) => state.gameCode);
+  const playerId = useSelector((state) => state.playerId);
+  const pseudo = useSelector((state) => state.pseudo);
   const dispatch = useDispatch();
-  const [playerId, setPlayerId] = useState(false);
+  const { action } = useLocalSearchParams();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [debug, setDebug] = useState(false);
 
@@ -51,8 +48,12 @@ export default ProfilePicture = () => {
   };
 
   handleOnUpdateGameCode = (code) => {
-    dispatch(updateGameCode(code))
-  }
+    dispatch(updateGameCode(code));
+  };
+
+  handleOnUpdatePlayerId = (id) => {
+    dispatch(updatePlayerId(id));
+  };
 
   createGame = async () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
@@ -65,25 +66,20 @@ export default ProfilePicture = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.status === 500) {
-          if (res.action === "regenerate") handleOnUpdateGameCode(generateGameCode());
+          if (res.action === "regenerate")
+            handleOnUpdateGameCode(generateGameCode());
         }
       });
   };
 
   useEffect(() => {
     if (!gameCode) {
-      if (joinGameCode) handleOnUpdateGameCode(joinGameCode);
-      else {
-        if (debug) handleOnUpdateGameCode("123456");
-        else handleOnUpdateGameCode(generateGameCode());
-      }
+      if (debug) handleOnUpdateGameCode("123456");
+      else handleOnUpdateGameCode(generateGameCode());
     } else {
-      if (joinPlayerId) setPlayerId(joinPlayerId);
-      else {
-        if (playerId && !joinPlayerId) createGame();
-      }
+      if (playerId && action === "new_game") createGame();
     }
-  }, [debug, gameCode, playerId, joinGameCode, joinPlayerId]);
+  }, [debug, gameCode, playerId]);
 
   useEffect(() => {
     if (image && gameCode) {
@@ -96,7 +92,7 @@ export default ProfilePicture = () => {
       })
         .then((res) => res.json())
         .then((res) => {
-          setPlayerId(res.playerId);
+          handleOnUpdatePlayerId(res.playerId);
         });
     }
   }, [image, gameCode]);
@@ -140,15 +136,14 @@ export default ProfilePicture = () => {
           </View>
         )}
 
-        {image && <RoundedButton
+        {image && (
+          <RoundedButton
             title="Let's go"
             onClick={() => {
-              router.push({
-                pathname: `/lobby/new_game`,
-                params: { pseudo, playerId },
-              });
+              router.push("/lobby/new_game");
             }}
-          />}
+          />
+        )}
       </View>
     </BaseScreen>
   );

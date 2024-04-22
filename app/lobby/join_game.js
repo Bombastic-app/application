@@ -4,11 +4,24 @@ import { RoundedButton } from "../../components/base/RoundedButton";
 import { useState } from "react";
 import BaseScreen from "../../components/base/BaseScreen";
 import UnderlineInput from "../../components/UnderlineInput";
+import { generateGameCode } from "../../components/Utils";
+import { useDispatch, useSelector } from "react-redux";
+import { updateGameCode, updatePlayerId } from "../../store";
 
 export default JoinGame = () => {
-  const [gameCode, setGameCode] = useState();
+  const gameCode = useSelector(state => state.gameCode)
+  const playerId = useSelector(state => state.playerId)
+  const pseudo = useSelector(state => state.pseudo)
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
-  const { pseudo } = useLocalSearchParams();
+
+  handleOnUpdateGameCode = (code) => {
+    dispatch(updateGameCode(code))
+  }
+
+  handleOnUpdatePlayerId = (id) => {
+    dispatch(updatePlayerId(id))
+  }
 
   joinGame = () => {
     if (gameCode !== "" && gameCode !== undefined) {
@@ -22,14 +35,7 @@ export default JoinGame = () => {
         .then((res) => res.json())
         .then((res) => {
           if (res.status === 200)
-            router.push({
-              pathname: "/setup/profile_picture",
-              params: {
-                pseudo,
-                joinGameCode: gameCode,
-                joinPlayerId: res.playerId,
-              },
-            });
+            router.push("/setup/profile_picture");
           if (res.status === 404 || res.status === 500) setError(res.message);
         })
         .catch((error) => {
@@ -54,7 +60,7 @@ export default JoinGame = () => {
             <Heading5 className="uppercase">Code de partie</Heading5>
             <UnderlineInput
               placeholder="123456"
-              onChange={(text) => setGameCode(text)}
+              onChange={(text) => handleOnUpdateGameCode(text)}
             />
           </View>
           <View className="w-full mt-30">
