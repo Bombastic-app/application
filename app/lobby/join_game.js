@@ -43,12 +43,12 @@ export default JoinGame = () => {
         }}
       />
       <View className="flex flex-col w-full items-center gap-y-20">
-        <Text className="font-balgin-narrow-bold text-beige text-16 uppercase">
+        <Text className="font-balgin-narrow-bold text-white text-16 uppercase">
           Code de partie
         </Text>
         <TextInput
           placeholder="123456"
-          className="font-balgin-black text-beige text-56 border-b-2 border-b-beige placeholder:text-beige/30"
+          className="font-balgin-black text-white text-56 border-b-2 border-b-white placeholder:text-white/30"
           onChangeText={(text) => setGameCode(text)}
         />
         <View className="w-full mt-20">
@@ -59,8 +59,8 @@ export default JoinGame = () => {
           />
         </View>
         {error !== "" && (
-          <View className="bg-beige/10 p-24 rounded-12">
-            <Text className="text-beige text-16 font-balgin-narrow-bold uppercase text-center">
+          <View className="bg-white/10 p-24 rounded-12">
+            <Text className="text-white text-16 font-balgin-narrow-bold uppercase text-center">
               {error}
             </Text>
           </View>

@@ -7,14 +7,15 @@ import {
   View,
   TouchableOpacity,
 } from "react-native";
-import Constants from "expo-constants";
-import { Slot, Stack, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { RoundedButton } from "../components/base/RoundedButton";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import BaseScreen from "../components/base/BaseScreen";
 import Heading1 from "../components/typography/Heading1";
 import { gsap } from "gsap-rn";
 import Text from "../components/typography/Text";
+import UnderlineInput from "../components/UnderlineInput";
+import IconButton from "../components/base/IconButton";
 
 export default Home = () => {
   const router = useRouter();
@@ -79,50 +80,34 @@ export default Home = () => {
   }, []);
 
   return (
-    <BaseScreen title="Home" debug={true}>
-      <View style={{ flex: 1, justifyContent: "space-between" }}>
-        <TouchableOpacity onPress={readNdef}>
+    <BaseScreen title="Home" debug={false}>
+      <View
+        className="flex justify-between pt-110"
+        style={{ flex: 1, justifyContent: "space-between" }}>
+        {/* <TouchableOpacity onPress={readNdef}>
           <Text>Scan a Tag</Text>
-        </TouchableOpacity>
-
-        {/* <View ref={appTitle}><Heading1>{Constants.expoConfig?.name}</Heading1></View> */}
-
-        <View style={{ rowGap: 40 }}>
-          <View className="flex items-center justify-center">
-            <Image
-              className="w-[80%]"
-              resizeMode="contain"
-              source={require("../assets/logo-gradient.png")}
-            />
-          </View>
-          <Text className="text-18 text-center font-libre-franklin">
-            Sois le meilleur (ou le pire) des influenceurs !
-          </Text>
-          <View style={{ flexDirection: "column", rowGap: 15 }}>
-            <TextInput
-              placeholder="Saisis ton pseudo"
-              className="text-beige"
-              style={{
-                borderColor: "gray",
-                borderWidth: 1,
-                padding: 14,
-                borderRadius: 45,
-                textAlign: "center",
-                fontSize: 21,
-              }}
-              onChangeText={(text) => setPseudo(text)}
-              defaultValue="Crocrotte"
-            />
+        </TouchableOpacity> */}
+        <View className="flex items-center justify-center">
+          <Image
+            className="w-[80%]"
+            resizeMode="contain"
+            source={require("../assets/logo-gradient.png")}
+          />
+        </View>
+        <View className="flex flex-col gap-y-30">
+          <UnderlineInput
+            placeholder="Ton pseudo"
+            onChange={(text) => setPseudo(text)}
+          />
+          <View className="flex flex-col gap-y-10">
             <RoundedButton
               title={"Créer une nouvelle partie"}
               onClick={() =>
                 router.push({
                   pathname: "/setup/profile_picture",
-                  params: { pseudo, action: 'new_game' },
+                  params: { pseudo, action: "new_game" },
                 })
               }
-              rotateRight
-              gradient
             />
             <RoundedButton
               title={"Rejoindre une partie"}
@@ -132,25 +117,14 @@ export default Home = () => {
                   params: { pseudo },
                 })
               }
-              rotateLeft
             />
           </View>
         </View>
-        {/* {groups && (
-        <View>
-          {Object.keys(groups).map((key, i) => (
-            <View key={i} style={{ display: "flex", flexDirection: "column" }}>
-              <View style={styles.groupContainer}>
-                <Text>{key}</Text>
-                <Button title="Join group" onPress={() => joinGroup(key)} />
-              </View>
-              {Object.values(groups[key]).map((player, i) => (
-                <Text key={i}>{player.pseudo}</Text>
-              ))}
-            </View>
-          ))}
+        <View className="flex flex-row items-center justify-center gap-x-30">
+          <IconButton type={"reputation"} title={"Règles"} />
+          <IconButton type={"followers"} title={"Paramètres"} />
+          <IconButton type={"money"} title={"Shop"} />
         </View>
-      )} */}
       </View>
     </BaseScreen>
   );
