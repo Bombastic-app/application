@@ -75,6 +75,7 @@ const styles = StyleSheet.create({
   postImage: {
     width: '100%',
     height: 300,
-    resizeMode: 'contain'
+    resizeMode: 'cover',
+    borderRadius: 20
   }
 });
