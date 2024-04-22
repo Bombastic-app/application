@@ -72,7 +72,6 @@ export default NewGame = () => {
   }, [players]);
 
   useEffect(() => {
-    console.log(gameCode);
     if (gameCode) {
       firestore()
           .collection(`games/${gameCode}/players`)

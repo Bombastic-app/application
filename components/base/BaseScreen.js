@@ -5,10 +5,20 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import firestore from '@react-native-firebase/firestore'
 import { globalStyles } from "../Style";
 import { StatusBar } from "expo-status-bar";
+import Alert from "../notifications/Alert";
+import { useDispatch, useSelector } from "react-redux";
+import { updateAlert } from "../../store";
+import Notification from "../notifications/Notification";
 
 export default BaseScreen = ({ children, title, debug, className, headerShown = false }) => {
   const insets = useSafeAreaInsets();
+  const dispatch = useDispatch()
   const [devMode, setDevMode] = useState(false)
+  const alert = useSelector(state => state.alert)
+
+  handleOnUpdateAlert = () => {
+    dispatch(updateAlert("Ton tour dans 5 secondes"));
+  };
 
   enableDebug = () => {
     
@@ -19,7 +29,9 @@ export default BaseScreen = ({ children, title, debug, className, headerShown = 
   }, [debug])
 
   return (
-    <View className={`bg-marine ${className}`} style={[styles.container, {paddingVertical: insets.top }]}>
+    <View className={`relative bg-marine ${className}`} style={[styles.container, {paddingVertical: insets.top }]}>
+      <Alert />
+      <Notification />
       { devMode && <Link className="text-white" href='/debug'>Debug</Link>  }
       <StatusBar style="light" />
       <Stack.Screen options={{ title, headerShown }} />

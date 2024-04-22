@@ -8,6 +8,7 @@ import { CONSTANTS } from "../constants";
 import Heading5 from "../components/typography/Heading5";
 import { useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
+import Alert from "../components/notifications/Alert";
 
 export default Feed = () => {
   const gameCode = useSelector(state => state.gameCode)
@@ -25,8 +26,6 @@ export default Feed = () => {
 
       setPosts(postsToAdd)
     })
-    console.log(gameCode);
-    console.log(playerId);
     // fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
     //   method: 'POST',
     //   headers: {
@@ -40,12 +39,11 @@ export default Feed = () => {
     <BaseScreen headerShown={false}> 
       <View className="gap-16 flex-1">
         <LogoSVG />
-
         <PlayerStatistics />
         <ScrollView bounces={false} contentContainerStyle={{flexGrow: 1}}>
           <View className="feed" style={{gap: 10}}>
             { posts && posts.map((post, i) => {
-              return <Post type={post.type} content={post.content} />
+              return <Post key={i} type={post.type} content={post.content} />
             })}
           </View>
           <View className="items-center justify-center flex-1">
