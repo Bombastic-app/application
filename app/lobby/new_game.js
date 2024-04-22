@@ -64,13 +64,13 @@ export default NewGame = () => {
                 name: item.name.replace(".png", ""),
                 url: url,
               };
+              
               setProfilePictures((oldPictures) => [...oldPictures, picture]);
             });
           });
         });
     }
   }, [players]);
-
 
   useEffect(() => {
     console.log(gameCode);
@@ -93,17 +93,6 @@ export default NewGame = () => {
   return (
     <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
       <View>
-        <Stack.Screen
-          options={{
-            title: "Créer une partie",
-            headerStyle: { backgroundColor: "rgb(var(--color-marine))" },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            headerShown: false,
-          }}
-        />
         <View className="flex flex-col items-center gap-y-20">
           <Text className="font-balgin-narrow-bold text-white text-16 uppercase">
             Code de partie

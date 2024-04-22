@@ -9,6 +9,7 @@ import { store, persistor } from '../store';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import Text from "../components/typography/Text";
+import Profile_picture from "./setup/profile_picture";
 
 NfcManager.start();
 
