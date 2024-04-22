@@ -1,9 +1,8 @@
 import React from "react";
-import { StyleSheet } from "react-native";
 import Text from "./Text";
 
-export default Heading1 = ({children, ...props}) => {
+export default Heading1 = ({children, className, ...props}) => {
   return (
-    <Text className='font-balgin-black text-beige text-50 text-center'>{children}</Text>
+    <Text className={`font-balgin-black text-beige text-50 text-center ${className}`}>{children}</Text>
   );
 };
