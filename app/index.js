@@ -5,29 +5,23 @@ import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import New_game from "./lobby/new_game";
 import Join_game from "./lobby/join_game";
 import Score from "../pages/Score";
-import { store, persistor } from '../store';
-import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import Text from "../components/typography/Text";
 import Profile_picture from "./setup/profile_picture";
+import { useSelector } from "react-redux";
 
 NfcManager.start();
 
 export default Page = ({ navigation }) => {
+  const gameCode = useSelector(state => state.gameCode)
   const [fontsLoaded] = useFonts({
     "Brice-BoldSemiExpanded": require("../assets/fonts/Brice-BoldSemiExpanded.ttf"),
-    "Balgin-BlackSmCondensed":  require("../assets/fonts/Balgin Black Sm Condensed.ttf"),
-    "Balgin-Narrow":  require("../assets/fonts/balgintext-regularnarrow.otf"),
-    "Balgin-NarrowBold":  require("../assets/fonts/balgintext-boldnarrow.otf")
+    "Balgin-BlackSmCondensed": require("../assets/fonts/Balgin Black Sm Condensed.ttf"),
+    "Balgin-Narrow": require("../assets/fonts/balgintext-regularnarrow.otf"),
+    "Balgin-NarrowBold": require("../assets/fonts/balgintext-boldnarrow.otf"),
   });
 
   if (fontsLoaded) {
-    return (
-      <Provider store={store}>
-        <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
-          <Home />
-        </PersistGate>
-      </Provider>
-    );
+    if (gameCode) return <Feed />
+    else return <Home />
   }
 };

@@ -8,6 +8,8 @@ import BaseScreen from "../../components/base/BaseScreen";
 import Heading2 from "../../components/typography/Heading2";
 import firestore from "@react-native-firebase/firestore";
 import { generateGameCode } from "../../components/Utils";
+import { useDispatch, useSelector } from "react-redux";
+import { updateGameCode } from "../../store";
 
 // router.push({ pathname: "/lobby/new_game", params: { pseudo } })
 // router.push({ pathname: "/lobby/join_game", params: { pseudo } })
@@ -15,7 +17,8 @@ import { generateGameCode } from "../../components/Utils";
 export default ProfilePicture = () => {
   const [image, setImage] = useState(false);
   const { pseudo, joinGameCode, joinPlayerId } = useLocalSearchParams();
-  const [gameCode, setGameCode] = useState(false);
+  const gameCode = useSelector(state => state.gameCode)
+  const dispatch = useDispatch();
   const [playerId, setPlayerId] = useState(false);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [debug, setDebug] = useState(false);
@@ -47,6 +50,10 @@ export default ProfilePicture = () => {
     }
   };
 
+  handleOnUpdateGameCode = (code) => {
+    dispatch(updateGameCode(code))
+  }
+
   createGame = async () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
       method: "POST",
@@ -58,17 +65,17 @@ export default ProfilePicture = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.status === 500) {
-          if (res.action === "regenerate") setGameCode(generateGameCode());
+          if (res.action === "regenerate") handleOnUpdateGameCode(generateGameCode());
         }
       });
   };
 
   useEffect(() => {
     if (!gameCode) {
-      if (joinGameCode) setGameCode(joinGameCode);
+      if (joinGameCode) handleOnUpdateGameCode(joinGameCode);
       else {
-        if (debug) setGameCode("123456");
-        else setGameCode(generateGameCode());
+        if (debug) handleOnUpdateGameCode("123456");
+        else handleOnUpdateGameCode(generateGameCode());
       }
     } else {
       if (joinPlayerId) setPlayerId(joinPlayerId);
@@ -138,7 +145,7 @@ export default ProfilePicture = () => {
             onClick={() => {
               router.push({
                 pathname: `/lobby/new_game`,
-                params: { pseudo, playerId, gameCode },
+                params: { pseudo, playerId },
               });
             }}
           />}
