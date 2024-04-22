@@ -8,6 +8,8 @@ import BaseScreen from "../../components/base/BaseScreen";
 import Heading2 from "../../components/typography/Heading2";
 import firestore from "@react-native-firebase/firestore";
 import { generateGameCode } from "../../components/Utils";
+import { useDispatch, useSelector } from "react-redux";
+import { updateGameCode } from "../../store";
 
 // router.push({ pathname: "/lobby/new_game", params: { pseudo } })
 // router.push({ pathname: "/lobby/join_game", params: { pseudo } })
@@ -15,7 +17,8 @@ import { generateGameCode } from "../../components/Utils";
 export default ProfilePicture = () => {
   const [image, setImage] = useState(false);
   const { pseudo, joinGameCode, joinPlayerId } = useLocalSearchParams();
-  const [gameCode, setGameCode] = useState(false);
+  const gameCode = useSelector(state => state.gameCode)
+  const dispatch = useDispatch();
   const [playerId, setPlayerId] = useState(false);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
   const [debug, setDebug] = useState(false);
@@ -47,6 +50,10 @@ export default ProfilePicture = () => {
     }
   };
 
+  handleOnUpdateGameCode = (code) => {
+    dispatch(updateGameCode(code))
+  }
+
   createGame = async () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
       method: "POST",
@@ -58,22 +65,22 @@ export default ProfilePicture = () => {
       .then((res) => res.json())
       .then((res) => {
         if (res.status === 500) {
-          if (res.action === "regenerate") setGameCode(generateGameCode());
+          if (res.action === "regenerate") handleOnUpdateGameCode(generateGameCode());
         }
       });
   };
 
   useEffect(() => {
     if (!gameCode) {
-      if (joinGameCode) setGameCode(joinGameCode)
+      if (joinGameCode) handleOnUpdateGameCode(joinGameCode);
       else {
-        if (debug) setGameCode("123456")
-        else setGameCode(generateGameCode())
+        if (debug) handleOnUpdateGameCode("123456");
+        else handleOnUpdateGameCode(generateGameCode());
       }
     } else {
-      if (joinPlayerId) setPlayerId(joinPlayerId)
+      if (joinPlayerId) setPlayerId(joinPlayerId);
       else {
-        if (playerId && !joinPlayerId) createGame()
+        if (playerId && !joinPlayerId) createGame();
       }
     }
   }, [debug, gameCode, playerId, joinGameCode, joinPlayerId]);
@@ -107,51 +114,42 @@ export default ProfilePicture = () => {
 
   return (
     <BaseScreen>
-      <Stack.Screen
-        options={{
-          title: "Rejoindre une partie",
-          headerShown: false,
-        }}
-      />
-      <View className="flex flex-col w-full items-center gap-y-20">
+      <View className="flex flex-col w-full h-full items-center justify-between gap-y-20">
         <Heading2>Ajoute une photo de profil</Heading2>
+        {!image && (
+          <Image
+            className="w-200 h-200 rounded-full bg-white/20"
+            resizeMode="contain"
+            source={require("../../assets/user.png")}
+          />
+        )}
         {image && (
           <Image
             source={{ uri: image }}
-            style={styles.image}
+            className="w-200 h-200 object-cover rounded-full"
             defaultSource={{
               uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1",
             }}
           />
         )}
-        <RoundedButton
-          title="Prendre une photo"
-          onClick={takePicture}
-          rotateLeft
-        />
-        <RoundedButton
-          title="Sélectionner une photo"
-          onClick={pickImage}
-          rotateRight
-        />
-        <RoundedButton
-          title="Let's go"
-          onClick={() => {
-            router.push({
-              pathname: `/lobby/new_game`,
-              params: { pseudo, playerId, gameCode },
-            });
-          }}
-          gradient
-        />
+
+        {!image && (
+          <View className="w-full">
+            <RoundedButton title="Prendre une photo" onClick={takePicture} />
+            <RoundedButton title="Sélectionner une photo" onClick={pickImage} />
+          </View>
+        )}
+
+        {image && <RoundedButton
+            title="Let's go"
+            onClick={() => {
+              router.push({
+                pathname: `/lobby/new_game`,
+                params: { pseudo, playerId },
+              });
+            }}
+          />}
       </View>
     </BaseScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  image: {
-    width: 200,
-    height: 200,
-  },
-});

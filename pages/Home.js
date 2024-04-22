@@ -82,8 +82,7 @@ export default Home = () => {
   return (
     <BaseScreen title="Home" debug={false}>
       <View
-        className="flex justify-between pt-110"
-        style={{ flex: 1, justifyContent: "space-between" }}>
+        className="flex justify-between pt-110 h-full">
         {/* <TouchableOpacity onPress={readNdef}>
           <Text>Scan a Tag</Text>
         </TouchableOpacity> */}

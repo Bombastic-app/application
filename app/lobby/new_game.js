@@ -1,23 +1,22 @@
 import {
-  Button,
   Image,
   Share,
-  StyleSheet,
   Text,
-  Touchable,
   TouchableHighlight,
   View,
 } from "react-native";
 import { useEffect, useState } from "react";
-import { Stack, useLocalSearchParams } from "expo-router";
+import { Stack, router, useLocalSearchParams } from "expo-router";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import BaseScreen from "../../components/base/BaseScreen";
 import Cards from "../../components/icons/Cards";
+import { useSelector } from "react-redux";
 
 export default NewGame = () => {
-  const { pseudo, gameCode, playerId } = useLocalSearchParams();
+  const { pseudo, playerId } = useLocalSearchParams();
+  const gameCode = useSelector(state => state.gameCode)
   const [players, setPlayers] = useState(false);
   const [profilePictures, setProfilePictures] = useState([]);
   const [screen, setScreen] = useState(false);
@@ -64,13 +63,13 @@ export default NewGame = () => {
                 name: item.name.replace(".png", ""),
                 url: url,
               };
+
               setProfilePictures((oldPictures) => [...oldPictures, picture]);
             });
           });
         });
     }
   }, [players]);
-
 
   useEffect(() => {
     console.log(gameCode);
@@ -93,17 +92,6 @@ export default NewGame = () => {
   return (
     <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
       <View>
-        <Stack.Screen
-          options={{
-            title: "Créer une partie",
-            headerStyle: { backgroundColor: "rgb(var(--color-marine))" },
-            headerTintColor: "#fff",
-            headerTitleStyle: {
-              fontWeight: "bold",
-            },
-            headerShown: false,
-          }}
-        />
         <View className="flex flex-col items-center gap-y-20">
           <Text className="font-balgin-narrow-bold text-white text-16 uppercase">
             Code de partie
@@ -159,7 +147,7 @@ export default NewGame = () => {
             </Text>
           </View>
         </TouchableHighlight>
-        <RoundedButton title={"Démarrer"} onClick={runGame} />
+        <RoundedButton title={"Démarrer"} onClick={() => { router.push('/feed') }} />
       </View>
     </BaseScreen>
   );

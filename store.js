@@ -5,7 +5,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const configSlice = createSlice({
   name: 'config',
   initialState: {
-    score: 1
+    score: 1,
+    gameCode: false
   },
   reducers: {
     upgradeScore: (state, action) => {
@@ -16,6 +17,9 @@ const configSlice = createSlice({
     },
     updateScore: (state, action) => {
       state.score = action.payload
+    },
+    updateGameCode: (state, action) => {
+      state.gameCode = action.payload
     }
   }
 })
@@ -24,6 +28,7 @@ export const {
   upgradeScore,
   downgradeScore,
   updateScore,
+  updateGameCode
 } = configSlice.actions
 
 const persistConfig = {

@@ -1,8 +1,9 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import { Text, TextInput, View } from "react-native";
+import { Image, Text, TextInput, View } from "react-native";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import { useState } from "react";
 import BaseScreen from "../../components/base/BaseScreen";
+import UnderlineInput from "../../components/UnderlineInput";
 
 export default JoinGame = () => {
   const [gameCode, setGameCode] = useState();
@@ -23,7 +24,11 @@ export default JoinGame = () => {
           if (res.status === 200)
             router.push({
               pathname: "/setup/profile_picture",
-              params: { pseudo, joinGameCode: gameCode, joinPlayerId: res.playerId },
+              params: {
+                pseudo,
+                joinGameCode: gameCode,
+                joinPlayerId: res.playerId,
+              },
             });
           if (res.status === 404 || res.status === 500) setError(res.message);
         })
@@ -36,27 +41,25 @@ export default JoinGame = () => {
 
   return (
     <BaseScreen>
-      <Stack.Screen
-        options={{
-          title: "Rejoindre une partie",
-          headerShown: false,
-        }}
-      />
-      <View className="flex flex-col w-full items-center gap-y-20">
-        <Text className="font-balgin-narrow-bold text-white text-16 uppercase">
-          Code de partie
-        </Text>
-        <TextInput
-          placeholder="123456"
-          className="font-balgin-black text-white text-56 border-b-2 border-b-white placeholder:text-white/30"
-          onChangeText={(text) => setGameCode(text)}
-        />
-        <View className="w-full mt-20">
-          <RoundedButton
-            title={"Rejoindre une partie"}
-            onClick={joinGame}
-            gradient
+      <View className="flex pt-110 h-full">
+        <View className="flex items-center justify-center">
+          <Image
+            className="w-[80%]"
+            resizeMode="contain"
+            source={require("../../assets/logo-gradient.png")}
           />
+        </View>
+        <View className="pt-200">
+          <View className="flex flex-col gap-y-20">
+            <Heading5 className="uppercase">Code de partie</Heading5>
+            <UnderlineInput
+              placeholder="123456"
+              onChange={(text) => setGameCode(text)}
+            />
+          </View>
+          <View className="w-full mt-30">
+            <RoundedButton title={"Rejoindre une partie"} onClick={joinGame} />
+          </View>
         </View>
         {error !== "" && (
           <View className="bg-white/10 p-24 rounded-12">
