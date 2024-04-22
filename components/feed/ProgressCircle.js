@@ -37,6 +37,7 @@ export default ProgressCircle = ({ progress }) => {
           strokeDasharray={ circumference + ' ' + circumference }
           style={ { strokeDashoffset } }
           stroke-width={ stroke }
+          strokeLinecap="round"
           r={ normalizedRadius }
           cx={ radius }
           cy={ radius }
