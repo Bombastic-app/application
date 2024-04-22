@@ -1,6 +1,6 @@
 import { Image, StyleSheet, View } from "react-native"
-import Text from "../typography/Text"
 import ProgressCircle from "./ProgressCircle"
+import Heading5 from "../typography/Heading5";
 
 export default Statistic = ({ progress, data, type }) => {
   let picto;
@@ -19,10 +19,10 @@ export default Statistic = ({ progress, data, type }) => {
   }
 
   return (
-    <View className="flex-row items-center gap-7 relative">
+    <View className="flex-row items-center gap-5 relative">
       <ProgressCircle progress={progress} />
       <Image style={styles.picto} source={picto} />
-      <Text>{data}</Text>
+      <Heading5>{data}</Heading5>
     </View>
   )
 }

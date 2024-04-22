@@ -9,7 +9,7 @@ export default Post = ({ type, content }) => {
     <View style={styles.postBackground}>
       <View style={styles.centerMidGap}>
         <Image style={styles.profilePicture} source={require("../../assets/illustration.png")} />
-        <Text className="uppercase">@vincent</Text>
+        <Heading5 className="uppercase">@vincent</Heading5>
       </View>
 
       {type == "text" && <Text>{content}</Text>}
