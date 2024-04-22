@@ -3,6 +3,6 @@ import Text from "./Text";
 
 export default Heading5 = ({children, className, ...props}) => {
   return (
-    <Text className={`font-libre-franklin font-bold text-white text-16 text-center ${className}`}>{children}</Text>
+    <Text className={`font-libre-franklin font-bold text-white text-16 ${className}`}>{children}</Text>
   );
 };
