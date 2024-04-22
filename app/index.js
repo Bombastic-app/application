@@ -4,6 +4,11 @@ import Home from "../pages/Home";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import New_game from "./lobby/new_game";
 import Join_game from "./lobby/join_game";
+import Score from "../pages/Score";
+import { store, persistor } from '../store';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import Text from "../components/typography/Text";
 
 NfcManager.start();
 
@@ -17,7 +22,11 @@ export default Page = ({ navigation }) => {
 
   if (fontsLoaded) {
     return (
-      <Home />
+      <Provider store={store}>
+        <PersistGate loading={<Text>Loading...</Text>} persistor={persistor}>
+          <Home />
+        </PersistGate>
+      </Provider>
     );
   }
 };
