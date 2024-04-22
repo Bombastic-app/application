@@ -6,7 +6,7 @@ module.exports = {
   theme: {
     colors: {
       marine: 'rgb(var(--color-marine) / <alpha-value>)',
-      beige: 'rgb(var(--color-beige) / <alpha-value>)',
+      white: 'rgb(var(--color-white) / <alpha-value>)',
       green: 'rgb(var(--color-green) / <alpha-value>)',
       pink: 'rgb(var(--color-pink) / <alpha-value>)',
       purple: 'rgb(var(--color-purple) / <alpha-value>)',
@@ -19,6 +19,7 @@ module.exports = {
       'libre-franklin': 'Libre Franklin'
     },
     fontSize: {
+      12: 12,
       14: 14,
       16: 16,
       18: 18,
@@ -33,12 +34,17 @@ module.exports = {
       5: 5,
       7: 7,
       10: 10,
+      13: 13,
       16: 16,
       20: 20,
       24: 24,
       30: 30,
       50: 50,
-      60: 60
+      60: 60,
+      110: 110,
+      130: 130,
+      150: 150,
+      160: 160
     },
     borderRadius: {
       12: 12,
@@ -46,6 +52,7 @@ module.exports = {
     },
     extend: {
       borderWidth: {
+        1: 1,
         // 4: 5
       }
     },

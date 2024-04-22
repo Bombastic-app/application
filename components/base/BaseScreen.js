@@ -6,7 +6,7 @@ import firestore from '@react-native-firebase/firestore'
 import { globalStyles } from "../Style";
 import { StatusBar } from "expo-status-bar";
 
-export default BaseScreen = ({ children, title, debug, className, headerShown = true }) => {
+export default BaseScreen = ({ children, title, debug, className, headerShown = false }) => {
   const insets = useSafeAreaInsets();
   const [devMode, setDevMode] = useState(false)
 
@@ -20,7 +20,7 @@ export default BaseScreen = ({ children, title, debug, className, headerShown = 
 
   return (
     <View className={`bg-marine ${className}`} style={[styles.container, {paddingVertical: insets.top }]}>
-      { devMode && <Link className="text-beige" href='/debug'>Debug</Link>  }
+      { devMode && <Link className="text-white" href='/debug'>Debug</Link>  }
       <StatusBar style="light" />
       <Stack.Screen options={{ title, headerShown }} />
       {children}

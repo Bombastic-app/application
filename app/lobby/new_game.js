@@ -105,10 +105,10 @@ export default NewGame = () => {
           }}
         />
         <View className="flex flex-col items-center gap-y-20">
-          <Text className="font-balgin-narrow-bold text-beige text-16 uppercase">
+          <Text className="font-balgin-narrow-bold text-white text-16 uppercase">
             Code de partie
           </Text>
-          <Text className="font-balgin-black text-beige text-56">
+          <Text className="font-balgin-black text-white text-56">
             {gameCode}
           </Text>
         </View>
@@ -134,9 +134,9 @@ export default NewGame = () => {
                 />
                 <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
               </View>
-              <Text className="text-14 text-beige">
+              <Text className="text-14 text-white">
                 @
-                <Text className="text-14 text-beige font-balgin-narrow">
+                <Text className="text-14 text-white font-balgin-narrow">
                   {player.pseudo}
                 </Text>
               </Text>
@@ -146,15 +146,15 @@ export default NewGame = () => {
       )}
 
       <View className="flex flex-col gap-y-30">
-        <View className="flex flex-col items-center gap-y-16 w-full bg-beige/10 p-24 rounded-12">
+        <View className="flex flex-col items-center gap-y-16 w-full bg-white/10 p-24 rounded-12">
           <Cards />
-          <Text className="text-beige text-16 font-balgin-narrow-bold uppercase text-center">
+          <Text className="text-white text-16 font-balgin-narrow-bold uppercase text-center">
             Distribuez 5 cartes action par joueur avant de démarrer.
           </Text>
         </View>
         <TouchableHighlight className="self-center" onPress={shareLink}>
-          <View className="pb-7 border-b-2 border-b-beige">
-            <Text className="text-beige text-18 font-balgin-narrow-bold uppercase">
+          <View className="pb-7 border-b-2 border-b-white">
+            <Text className="text-white text-18 font-balgin-narrow-bold uppercase">
               Partager le lien
             </Text>
           </View>
