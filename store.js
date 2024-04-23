@@ -8,7 +8,8 @@ const configSlice = createSlice({
     score: 1,
     gameCode: false,
     playerId: false,
-    pseudo: false
+    pseudo: false,
+    currentTurn: false
   },
   reducers: {
     upgradeScore: (state, action) => {
@@ -28,6 +29,9 @@ const configSlice = createSlice({
     },
     updatePseudo: (state, action) => {
       state.pseudo = action.payload
+    },
+    updateCurrentTurn: (state, action) => {
+      state.currentTurn = action.payload
     }
   }
 })
@@ -38,7 +42,7 @@ export const {
   updateScore,
   updateGameCode,
   updatePlayerId,
-  updatePseudo
+  updateCurrentTurn
 } = configSlice.actions
 
 const persistConfig = {

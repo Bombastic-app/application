@@ -24,5 +24,6 @@ export default Page = ({ navigation }) => {
   if (fontsLoaded) {
     if (gameCode) return <Feed />
     else return <Home />
+    // return <Home />
   }
 };
