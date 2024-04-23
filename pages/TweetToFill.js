@@ -25,7 +25,7 @@ export default TweetToFill = ({ type, content }) => {
         content: content + ' ' + tweet,
         type: type,
         gameId: gameCode,
-        playerId: 'dTSpRKZsSrZcOjBH5cuZ'
+        playerId: playerId
       })
     })
       .then((res) => res.json())

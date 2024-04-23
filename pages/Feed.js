@@ -27,8 +27,10 @@ export default Feed = () => {
       .doc(playerId)
       .onSnapshot((player) => {
         if (player.data()?.current) {
-          if (!notification && status) dispatch(updateNotification(true));
+          if (!notification) dispatch(updateNotification(true));
           loadedData.current = true;
+        } else {
+          if (notification) dispatch(updateNotification(false))
         }
       });
   };
@@ -54,7 +56,7 @@ export default Feed = () => {
   }, [currentTurn]);
 
   useEffect(() => {
-    if (playerId) dispatch(updatePlayerId('dTSpRKZsSrZcOjBH5cuZ'))
+    // if (playerId) dispatch(updatePlayerId('dTSpRKZsSrZcOjBH5cuZ'))
     if (currentTurn) {
       firestore()
         .collection(`games/${gameCode}/turns/${currentTurn}/posts`)
@@ -85,10 +87,10 @@ export default Feed = () => {
         <PlayerStatistics />
         <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
           <View className="feed" style={{ gap: 10 }}>
-            {posts &&
+            { posts &&
               posts.map((post, i) => {
                 return <Post type={post.type} content={post.content} key={i} />;
-              })}
+              }) }
           </View>
           <View className="items-center justify-center flex-1">
             <Heading5 className="uppercase">
