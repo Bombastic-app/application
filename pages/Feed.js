@@ -9,7 +9,7 @@ import Heading5 from "../components/typography/Heading5";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
 import Alert from "../components/notifications/Alert";
-import { updateCurrentTurn } from "../store";
+import { updateCurrentTurn, updateNotification } from "../store";
 
 export default Feed = () => {
   const gameCode = useSelector((state) => state.gameCode);
@@ -29,7 +29,7 @@ export default Feed = () => {
         body: JSON.stringify({ gameCode })
       }).then((res) => res.json())
       .then((res) => {
-        console.log(res.message);
+        console.log(res.message)
       })
     }
   }, [currentTurn]);

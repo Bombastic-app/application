@@ -11,6 +11,7 @@ const configSlice = createSlice({
     pseudo: false,
     currentTurn: false,
     alert: false,
+    notification: false
   },
   reducers: {
     upgradeScore: (state, action) => {
@@ -36,6 +37,9 @@ const configSlice = createSlice({
     },
     updateAlert: (state, action) => {
       state.alert = action.payload
+    },
+    updateNotification: (state, action) => {
+      state.notification = action.payload
     }
   }
 })
@@ -48,7 +52,8 @@ export const {
   updatePlayerId,
   updateCurrentTurn,
   updatePseudo,
-  updateAlert
+  updateAlert,
+  updateNotification
 } = configSlice.actions
 
 const persistConfig = {
