@@ -6,12 +6,12 @@ import Comment from "../icons/Comment"
 import Heading5 from "../typography/Heading5"
 
 
-export default Post = ({ type, content }) => {
+export default Post = ({ type, content, pseudo }) => {
   return (
     <View style={styles.postBackground}>
       <View style={styles.centerMidGap}>
         <Image style={styles.profilePicture} source={require("../../assets/illustration.png")} />
-        <Heading5 className="uppercase">@vincent</Heading5>
+        <Heading5 className="uppercase">@{pseudo}</Heading5>
       </View>
 
       {type == "text" && <Text>{content}</Text>}

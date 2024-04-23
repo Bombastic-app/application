@@ -9,7 +9,11 @@ import Heading5 from "../components/typography/Heading5";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
 import Alert from "../components/notifications/Alert";
-import { updateCurrentTurn, updateNotification, updatePlayerId } from "../store";
+import {
+  updateCurrentTurn,
+  updateNotification,
+  updatePlayerId,
+} from "../store";
 
 export default Feed = () => {
   const dispatch = useDispatch();
@@ -17,7 +21,7 @@ export default Feed = () => {
   const playerId = useSelector((state) => state.playerId);
   const notification = useSelector((state) => state.notification);
   const currentTurn = useSelector((state) => state.currentTurn);
-  const status = useSelector((state) => state.status)
+  const status = useSelector((state) => state.status);
   const [posts, setPosts] = useState(false);
   const loadedData = useRef(false);
 
@@ -30,7 +34,7 @@ export default Feed = () => {
           if (!notification) dispatch(updateNotification(true));
           loadedData.current = true;
         } else {
-          if (notification) dispatch(updateNotification(false))
+          dispatch(updateNotification(false));
         }
       });
   };
@@ -43,15 +47,16 @@ export default Feed = () => {
     if (!currentTurn) {
       dispatch(updateCurrentTurn(1));
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/start`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json'
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ gameCode })
-      }).then((res) => res.json())
-      .then((res) => {
-        console.log(res.message)
+        body: JSON.stringify({ gameCode }),
       })
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.message);
+        });
     }
   }, [currentTurn]);
 
@@ -87,16 +92,18 @@ export default Feed = () => {
         <PlayerStatistics />
         <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
           <View className="feed" style={{ gap: 10 }}>
-            { posts &&
-              posts.map((post, i) => {
-                return <Post type={post.type} content={post.content} key={i} />;
-              }) }
+            {posts &&
+              posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
+                return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={i} />;
+              })}
           </View>
-          <View className="items-center justify-center flex-1">
-            <Heading5 className="uppercase">
-              Ton feed est actuellement vide
-            </Heading5>
-          </View>
+          {!posts || posts.length === 0 && (
+            <View className="items-center justify-center flex-1">
+              <Heading5 className="uppercase">
+                Ton feed est actuellement vide
+              </Heading5>
+            </View>
+          )}
         </ScrollView>
       </View>
     </BaseScreen>
