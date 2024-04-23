@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 import BaseScreen from "../components/base/BaseScreen";
 import LogoSVG from "../components/icons/Logo";
@@ -9,17 +9,36 @@ import Heading5 from "../components/typography/Heading5";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
 import Alert from "../components/notifications/Alert";
-import { updateCurrentTurn, updateNotification } from "../store";
+import { updateCurrentTurn, updateNotification, updatePlayerId } from "../store";
 
 export default Feed = () => {
+  const dispatch = useDispatch();
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
+  const notification = useSelector((state) => state.notification);
   const currentTurn = useSelector((state) => state.currentTurn);
-  const dispatch = useDispatch();
+  const status = useSelector((state) => state.status)
   const [posts, setPosts] = useState(false);
+  const loadedData = useRef(false);
+
+  loadDataOnce = () => {
+    firestore()
+      .collection(`games/${gameCode}/players`)
+      .doc(playerId)
+      .onSnapshot((player) => {
+        if (player.data()?.current) {
+          if (!notification && status) dispatch(updateNotification(true));
+          loadedData.current = true;
+        }
+      });
+  };
 
   useEffect(() => {
-    if (currentTurn) {
+    if (!loadedData.current) loadDataOnce();
+  }, []);
+
+  useEffect(() => {
+    if (!currentTurn) {
       dispatch(updateCurrentTurn(1));
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/start`, {
         method: 'POST',
@@ -35,6 +54,7 @@ export default Feed = () => {
   }, [currentTurn]);
 
   useEffect(() => {
+    if (playerId) dispatch(updatePlayerId('dTSpRKZsSrZcOjBH5cuZ'))
     if (currentTurn) {
       firestore()
         .collection(`games/${gameCode}/turns/${currentTurn}/posts`)
@@ -67,7 +87,7 @@ export default Feed = () => {
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
               posts.map((post, i) => {
-                return <Post type={post.type} content={post.content} />;
+                return <Post type={post.type} content={post.content} key={i} />;
               })}
           </View>
           <View className="items-center justify-center flex-1">

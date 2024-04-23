@@ -11,7 +11,8 @@ const configSlice = createSlice({
     pseudo: false,
     currentTurn: false,
     alert: false,
-    notification: false
+    notification: false,
+    status: false
   },
   reducers: {
     upgradeScore: (state, action) => {
@@ -40,6 +41,9 @@ const configSlice = createSlice({
     },
     updateNotification: (state, action) => {
       state.notification = action.payload
+    },
+    updateStatus: (state, action) => {
+      state.status = action.payload
     }
   }
 })
@@ -53,17 +57,20 @@ export const {
   updateCurrentTurn,
   updatePseudo,
   updateAlert,
-  updateNotification
+  updateNotification,
+  updateStatus
 } = configSlice.actions
 
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
+  blacklist: ['playerId, gameCode']
 };
 
 const persistedReducer = persistReducer(persistConfig, configSlice.reducer);
 
 export const store = configureStore({
+  // reducer: configSlice.reducer
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

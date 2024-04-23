@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Link, Stack, router, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,22 +7,18 @@ import { globalStyles } from "../Style";
 import { StatusBar } from "expo-status-bar";
 import Alert from "../notifications/Alert";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAlert } from "../../store";
+import { updateAlert, updateNotification } from "../../store";
 import Notification from "../notifications/Notification";
 
 export default BaseScreen = ({ children, title, debug, className, headerShown = false }) => {
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch()
   const [devMode, setDevMode] = useState(false)
-  const alert = useSelector(state => state.alert)
+
 
   handleOnUpdateAlert = () => {
     dispatch(updateAlert("Ton tour dans 5 secondes"));
   };
-
-  enableDebug = () => {
-    
-  }
 
   useEffect(() => {
     setDevMode(debug)
@@ -30,7 +26,6 @@ export default BaseScreen = ({ children, title, debug, className, headerShown = 
 
   return (
     <View className={`relative bg-marine ${className}`} style={[styles.container, {paddingVertical: insets.top }]}>
-      <Alert />
       <Notification />
       { devMode && <Link className="text-white" href='/debug'>Debug</Link>  }
       <StatusBar style="light" />

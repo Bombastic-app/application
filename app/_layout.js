@@ -1,7 +1,7 @@
 import { Stack } from "expo-router";
 import "../styles/global.css";
 import { store, persistor } from "../store";
-import { Provider } from "react-redux";
+import { Provider, useDispatch, useSelector } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
 export default function StackLayout() {

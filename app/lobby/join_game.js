@@ -35,6 +35,7 @@ export default JoinGame = () => {
         .then((res) => res.json())
         .then((res) => {
           if (res.status === 200)
+            handleOnUpdatePlayerId(res.playerId)
             router.push("/setup/profile_picture");
           if (res.status === 404 || res.status === 500) setError(res.message);
         })

@@ -4,12 +4,15 @@ import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import Text from "../components/typography/Text";
 import { Button } from "react-native";
 import { useRouter } from "expo-router";
+import { useDispatch } from "react-redux";
+import { updateNotification } from "../store";
 
 export default YourTurn = () => {
   const router = useRouter();
   const [tagId, setTagId] = useState('');
   const [cardData, setCardData] = useState({});
   const [scanError, setScanError] = useState(false);
+  const dispatch = useDispatch()
 
   async function readNdef() {
     try {
@@ -52,6 +55,7 @@ export default YourTurn = () => {
   useEffect(() => {
     setTimeout(() => {
       readNdef();
+      dispatch(updateNotification(false))
     }, 1000);
   }, []);
 

@@ -82,7 +82,7 @@ export default ProfilePicture = () => {
   }, [debug, gameCode, playerId]);
 
   useEffect(() => {
-    if (image && gameCode) {
+    if (image && gameCode && !playerId) {
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/generateId`, {
         method: "POST",
         headers: {
@@ -95,7 +95,7 @@ export default ProfilePicture = () => {
           handleOnUpdatePlayerId(res.playerId);
         });
     }
-  }, [image, gameCode]);
+  }, [image, gameCode, playerId]);
 
   useEffect(() => {
     if (playerId && image)
