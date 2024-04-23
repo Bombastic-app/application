@@ -8,6 +8,7 @@ import { CONSTANTS } from "../constants";
 import Heading5 from "../components/typography/Heading5";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
+import Alert from "../components/notifications/Alert";
 import { updateCurrentTurn } from "../store";
 
 export default Feed = () => {
@@ -61,7 +62,6 @@ export default Feed = () => {
     <BaseScreen headerShown={false}>
       <View className="gap-16 flex-1">
         <LogoSVG />
-
         <PlayerStatistics />
         <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
           <View className="feed" style={{ gap: 10 }}>

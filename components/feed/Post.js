@@ -3,6 +3,8 @@ import Text from "../typography/Text"
 import ThumbUp from "../icons/ThumbUp"
 import ThumbDown from "../icons/ThumbDown"
 import Comment from "../icons/Comment"
+import Heading5 from "../typography/Heading5"
+
 
 export default Post = ({ type, content }) => {
   return (

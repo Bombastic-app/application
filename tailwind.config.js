@@ -1,7 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   // NOTE: Update this to include the paths to all of your component files.
-  content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}", "./pages/**/*.{js,jsx,ts,tsx}"],
+  content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/**/*.{js,jsx,ts,tsx}", "./pages/**/*.{js,jsx,ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
     colors: {
@@ -35,6 +35,7 @@ module.exports = {
       7: 7,
       10: 10,
       13: 13,
+      15: 15,
       16: 16,
       20: 20,
       24: 24,
@@ -50,6 +51,7 @@ module.exports = {
     },
     borderRadius: {
       12: 12,
+      30: 30,
       full: 99999
     },
     extend: {
