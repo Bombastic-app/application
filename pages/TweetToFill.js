@@ -11,6 +11,7 @@ export default TweetToFill = ({ type, content }) => {
   const [tweet, setTweet] = useState();
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
+  const pseudo = useSelector((state) => state.pseudo)
   // const gameCode = '888888';
   // const playerId = '2pUYxkCWhjXuygSnq7wD';
 
