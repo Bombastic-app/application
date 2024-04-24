@@ -42,7 +42,7 @@ export default Post = ({ type, content, pseudo, author }) => {
         <Heading5 className="uppercase">@{type != 'news' ? pseudo : 'gossipnews'}</Heading5>
       </View>
 
-      {type == "text" && <Text>{content}</Text>}
+      {type == "tweet" && <Text>{content}</Text>}
       {type == "photo" && picture &&
         <>
           <Image style={styles.postImage} source={{uri: picture.url}} />
