@@ -6,12 +6,17 @@ import { Button } from "react-native";
 import { useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
 import { updateNotification } from "../store";
+import { useSelector } from "react-redux";
 
 export default YourTurn = () => {
   const router = useRouter();
   const [tagId, setTagId] = useState('');
   const [cardData, setCardData] = useState({});
   const [scanError, setScanError] = useState(false);
+  const gameCode = useSelector((state) => state.gameCode);
+  const playerId = useSelector((state) => state.playerId);
+  const pseudo = useSelector((state) => state.pseudo);
+  
   const dispatch = useDispatch()
 
   async function readNdef() {
@@ -59,10 +64,44 @@ export default YourTurn = () => {
     }, 1000);
   }, []);
 
+  handleNews = (cardData) => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        content: cardData.content,
+        type: cardData.type,
+        gameCode,
+        playerId,
+        pseudo,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("posted !");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    router.push({
+      pathname: "/feed",
+    });
+  }
+
   handleOnPlay = () => {
     console.log('Playing card', cardData);
+
+    if (cardData.type == 'news') {
+      handleNews(cardData);
+      return;
+    }
+
     router.push({
-      pathname: cardData.type == 'text' ? '/tweet' : '/photo',
+      pathname: '/' + cardData.type,
       params: { type: cardData.type, content: cardData.content, title: cardData.title }
     })
   };
