@@ -4,8 +4,17 @@ import { StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
 import { colors } from "../Style";
 import ThumbDown from "../icons/ThumbDown";
 
-export const RoundedButton = ({ title, onClick, rotateRight, rotateLeft, gradient, className, disabled = false, widthAuto = false }) => {
-  const [rotation, setRotation] = useState('0deg')
+export const RoundedButton = ({
+  title = false,
+  onClick,
+  rotateRight,
+  rotateLeft,
+  gradient,
+  className,
+  disabled = false, widthAuto = false,
+  icon = false
+}) => {
+  const [rotation, setRotation] = useState("0deg");
 
   useEffect(() => {
     if (rotateLeft) setRotation("4deg");

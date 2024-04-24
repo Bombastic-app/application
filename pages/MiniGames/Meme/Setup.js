@@ -72,7 +72,7 @@ export const MiniGameMemeSetup = ({ updateStep }) => {
           <RoundedButton
             className="absolute right-10 bottom-10"
             icon
-            fullWidth={false}
+            widthAuto={true}
             onClick={takeImage}
           />
         )}
