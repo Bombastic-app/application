@@ -78,7 +78,7 @@ export default PhotoToFill = ({ type, content, title }) => {
 
           <View className="relative">
             <Image source={picture ? {uri: picture} : require("../assets/default.png")} style={styles.picture} />
-            {!picture && <RoundedButton className="absolute bottom-10 left-10 right-10" title={"Choisir une photo"} onClick={pickImage} />}
+            {!picture && <RoundedButton widthAuto className="absolute bottom-10 left-10 right-10" title={"Choisir une photo"} onClick={pickImage} />}
           </View>
 
           <View className="flex-row gap-5">

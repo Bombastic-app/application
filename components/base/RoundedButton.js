@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, Touchable, TouchableHighlight, TouchableNativeFeedback, TouchableWithoutFeedback, View } from "react-native";
 import { colors } from "../Style";
 
-export const RoundedButton = ({ title, onClick, rotateRight, rotateLeft, gradient, className, disabled = false }) => {
+export const RoundedButton = ({ title, onClick, rotateRight, rotateLeft, gradient, className, disabled = false, widthAuto = false }) => {
   const [rotation, setRotation] = useState('0deg')
 
   useEffect(() => {
@@ -15,7 +15,7 @@ export const RoundedButton = ({ title, onClick, rotateRight, rotateLeft, gradien
   }, [rotateRight])
 
   return (
-    <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto', width: '100%'}}>
+    <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto', width: widthAuto ? 'auto' : '100%'}}>
       <TouchableNativeFeedback onPress={onClick}>
         <View className="relative flex items-center w-full py-24 my-5 bg-white rounded-full overflow-hidden" style={{ transform: `rotate(${rotation})` }}>
           { gradient && <LinearGradient start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} style={ styles.gradient } colors={[ colors.blue, colors.purple, colors.pink ]} /> }
