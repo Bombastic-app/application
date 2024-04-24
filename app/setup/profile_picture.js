@@ -106,7 +106,7 @@ export default ProfilePicture = () => {
         .then(() => {
           console.log("image uploaded");
         });
-  }, [playerId]);
+  }, [playerId, image]);
 
   return (
     <BaseScreen>

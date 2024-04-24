@@ -23,7 +23,7 @@ export default Page = ({ navigation }) => {
   });
 
   if (fontsLoaded) {
-    if (gameCode) return <Feed />
+    if (gameCode) return <MiniGameMeme />
     else return <Home />
     // return <Home />
   }
