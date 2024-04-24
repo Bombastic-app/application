@@ -17,6 +17,7 @@ export default Page = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     "Brice-BoldSemiExpanded": require("../assets/fonts/Brice-BoldSemiExpanded.ttf"),
     "Balgin-BlackSmCondensed": require("../assets/fonts/Balgin Black Sm Condensed.ttf"),
+    "Balgin-BlackSmCondensedItalic": require("../assets/fonts/Balgin Black Sm Condensed Italic.ttf"),
     "Balgin-BoldSmCondensed": require("../assets/fonts/Balgin Bold Sm Condensed.ttf"),
     "Balgin-Narrow": require("../assets/fonts/balgintext-regularnarrow.otf"),
     "Balgin-NarrowBold": require("../assets/fonts/balgintext-boldnarrow.otf"),
