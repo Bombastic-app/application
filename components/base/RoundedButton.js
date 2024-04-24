@@ -15,7 +15,7 @@ export const RoundedButton = ({ title, onClick, rotateRight, rotateLeft, gradien
   }, [rotateRight])
 
   return (
-    <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto'}}>
+    <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto', width: '100%'}}>
       <TouchableNativeFeedback onPress={onClick}>
         <View className="relative flex items-center w-full py-24 my-5 bg-white rounded-full overflow-hidden" style={{ transform: `rotate(${rotation})` }}>
           { gradient && <LinearGradient start={{ x: 0, y: 1 }} end={{ x: 1, y: 1 }} style={ styles.gradient } colors={[ colors.blue, colors.purple, colors.pink ]} /> }
