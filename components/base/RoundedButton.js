@@ -4,18 +4,8 @@ import { StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
 import { colors } from "../Style";
 import ThumbDown from "../icons/ThumbDown";
 
-export const RoundedButton = ({
-  title = false,
-  onClick,
-  rotateRight,
-  rotateLeft,
-  gradient,
-  className,
-  disabled = false,
-  icon = false,
-  fullWidth = true,
-}) => {
-  const [rotation, setRotation] = useState("0deg");
+export const RoundedButton = ({ title, onClick, rotateRight, rotateLeft, gradient, className, disabled = false, widthAuto = false }) => {
+  const [rotation, setRotation] = useState('0deg')
 
   useEffect(() => {
     if (rotateLeft) setRotation("4deg");
@@ -26,13 +16,7 @@ export const RoundedButton = ({
   }, [rotateRight]);
 
   return (
-    <View
-      className={className}
-      style={{
-        opacity: disabled ? 0.5 : 1,
-        pointerEvents: disabled ? "none" : "auto",
-        width: fullWidth ? "100%" : 'auto',
-      }}>
+    <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto', width: widthAuto ? 'auto' : '100%'}}>
       <TouchableNativeFeedback onPress={onClick}>
         <View
           className={`relative flex items-center w-full my-5 bg-white rounded-full overflow-hidden ${ icon ? 'p-20' : 'py-20' }`}
