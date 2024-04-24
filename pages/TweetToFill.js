@@ -6,13 +6,12 @@ import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useSelector } from "react-redux";
 
-export default TweetToFill = ({ type, content }) => {
+export default TweetToFill = ({ type, content, title }) => {
   const router = useRouter();
   const [tweet, setTweet] = useState();
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
-  // const gameCode = '888888';
-  // const playerId = '2pUYxkCWhjXuygSnq7wD';
+  const pseudo = useSelector((state) => state.pseudo);
 
   const handleOnClickPublish = () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
@@ -58,7 +57,7 @@ export default TweetToFill = ({ type, content }) => {
           />
         </View>
 
-        <RoundedButton title={"Poster"} onClick={handleOnClickPublish} />
+        <RoundedButton disabled={!tweet} title={"Poster"} onClick={handleOnClickPublish} />
       </View>
     </BaseScreen>
   );
