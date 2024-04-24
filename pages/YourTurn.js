@@ -61,7 +61,10 @@ export default YourTurn = () => {
 
   handleOnPlay = () => {
     console.log('Playing card', cardData);
-    router.push({ pathname: "/tweet", params: { type: cardData.type, content: cardData.content } })
+    router.push({
+      pathname: cardData.type == 'text' ? '/tweet' : '/photo',
+      params: { type: cardData.type, content: cardData.content, title: cardData.title }
+    })
   };
 
   return (

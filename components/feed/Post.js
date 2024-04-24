@@ -4,9 +4,33 @@ import ThumbUp from "../icons/ThumbUp"
 import ThumbDown from "../icons/ThumbDown"
 import Comment from "../icons/Comment"
 import Heading5 from "../typography/Heading5"
+import storage from "@react-native-firebase/storage";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react"
 
+export default Post = ({ type, content, pseudo, author }) => {
+  const gameCode = useSelector((state) => state.gameCode);
+  const currentTurn = useSelector((state) => state.currentTurn);
+  const [picture, setPicture] = useState();
 
-export default Post = ({ type, content, pseudo }) => {
+  useEffect(() => {
+    if (type == 'photo') {
+      storage()
+        .ref()
+        .child(`/games/${gameCode}/turns/${currentTurn}/posts`)
+        .listAll()
+        .then((images) => {
+          const image = images.items.find((item) => item.path.includes(author));
+          image.getDownloadURL().then((url) => {
+            setPicture(url);
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, []);
+
   return (
     <View style={styles.postBackground}>
       <View style={styles.centerMidGap}>
@@ -15,7 +39,12 @@ export default Post = ({ type, content, pseudo }) => {
       </View>
 
       {type == "text" && <Text>{content}</Text>}
-      {type == "image" && <Image style={styles.postImage} source={{uri: content}} />}
+      {type == "photo" && picture && 
+        <>
+          <Image style={styles.postImage} source={{uri: picture.url}} />
+          <Text>{content}</Text>
+        </>
+      }
 
       <View style={styles.centerMidGap}>
         <View style={styles.centerLittleGap}>

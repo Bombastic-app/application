@@ -94,7 +94,7 @@ export default Feed = () => {
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
               posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
-                return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={i} />;
+                return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={i} author={fPost.playerId} />;
               })}
           </View>
           {!posts || posts.length === 0 && (
