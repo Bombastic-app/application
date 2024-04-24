@@ -14,6 +14,7 @@ module.exports = {
     },
     fontFamily: {
       'balgin-black': 'Balgin-BlackSmCondensed',
+      'balgin-black-italic': 'Balgin-BlackSmCondensedItalic',
       'balgin-bold': 'Balgin-BoldSmCondensed',
       'balgin-narrow': 'Balgin-Narrow',
       'balgin-narrow-bold': 'Balgin-NarrowBold',
