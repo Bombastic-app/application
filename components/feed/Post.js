@@ -12,6 +12,7 @@ export default Post = ({ type, content, pseudo, author }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [picture, setPicture] = useState();
+  const profilePicture = type == 'news' ? require('../../assets/gossipnews.png') : require('../../assets/illustration.png');
 
   useEffect(() => {
     if (type == 'photo') {
@@ -34,17 +35,21 @@ export default Post = ({ type, content, pseudo, author }) => {
   return (
     <View style={styles.postBackground}>
       <View style={styles.centerMidGap}>
-        <Image style={styles.profilePicture} source={require("../../assets/illustration.png")} />
-        <Heading5 className="uppercase">@{pseudo}</Heading5>
+        <View className="relative">
+          <Image style={styles.profilePicture} source={profilePicture} />
+          {type == "news" && <Image className="translate-y-10 absolute left-0 right-0 bottom-0 h-40 w-40" source={require('../../assets/hands.png')} />}
+        </View>
+        <Heading5 className="uppercase">@{type != 'news' ? pseudo : 'gossipnews'}</Heading5>
       </View>
 
       {type == "text" && <Text>{content}</Text>}
-      {type == "photo" && picture && 
+      {type == "photo" && picture &&
         <>
           <Image style={styles.postImage} source={{uri: picture.url}} />
           <Text>{content}</Text>
         </>
       }
+      {type == "news" && <Text>{content.replace('default', pseudo)}</Text>}
 
       <View style={styles.centerMidGap}>
         <View style={styles.centerLittleGap}>
