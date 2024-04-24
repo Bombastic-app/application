@@ -24,7 +24,7 @@ export default BaseScreen = ({ children, title, debug, className, headerShown = 
   }, [debug])
 
   return (
-    <View className={`relative bg-marine ${className}`} style={[styles.container, {paddingVertical: insets.top }]}>
+    <View className={`relative bg-marine w-full h-full ${className}`} style={[styles.container, {paddingVertical: insets.top }]}>
       <Notification />
       { devMode && <Link className="text-white" href='/debug'>Debug</Link>  }
       <StatusBar style="light" />

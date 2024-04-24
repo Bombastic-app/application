@@ -58,7 +58,7 @@ export default JoinGame = () => {
         </View>
         <View className="pt-160">
           <View className="flex flex-col gap-y-20">
-            <Heading5 className="uppercase">Code de partie</Heading5>
+            <Heading5 className="uppercase text-center">Code de partie</Heading5>
             <UnderlineInput
               placeholder="123456"
               onChange={(text) => handleOnUpdateGameCode(text)}
