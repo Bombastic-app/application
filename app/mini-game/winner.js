@@ -6,8 +6,29 @@ import RoundedImage from "../../components/base/RoundedImage";
 import Heading2 from "../../components/typography/Heading2";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import { router } from "expo-router";
+import storage from "@react-native-firebase/storage";
+import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 export default MiniGameWinner = () => {
+  const gameCode = useSelector((state) => state.gameCode);
+  const currentTurn = useSelector((state) => state.currentTurn);
+  const playerId = useSelector((state) => state.playerId);
+  const [imageUrl, setImageUrl] = useState();
+
+  useEffect(() => {
+    storage()
+      .ref()
+      .child(`games/${gameCode}/turns/${currentTurn}/miniGame`)
+      .listAll()
+      .then((images) => {
+        const image = images.items.find((item) => item.path.includes(playerId));
+        image.getDownloadURL().then((url) => {
+          setImageUrl(url);
+        });
+      });
+  }, []);
+
   return (
     <BaseScreen>
       <View className="flex flex-col items-center pt-50 h-full w-full">
@@ -16,14 +37,15 @@ export default MiniGameWinner = () => {
           <Heading1>Gagné !</Heading1>
         </View>
         <View className="mb-60">
-          <RoundedImage
-            imageUrl={
-              "https://firebasestorage.googleapis.com/v0/b/gobelins-bombastic-manager.appspot.com/o/games%2F123456%2Fturns%2F1%2FminiGame%2FdTSpRKZsSrZcOjBH5cuZ.png?alt=media&token=da11ed76-5ceb-468d-8d02-0db4887c8cbf"
-            }
-          />
+          <RoundedImage imageUrl={imageUrl} />
         </View>
         <Heading2 className="uppercase mb-70">+1 point</Heading2>
-        <RoundedButton title="Continuer" onClick={() => { router.push('/score') }} />
+        <RoundedButton
+          title="Continuer"
+          onClick={() => {
+            router.push("/score");
+          }}
+        />
       </View>
     </BaseScreen>
   );
