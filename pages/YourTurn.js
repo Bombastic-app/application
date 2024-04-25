@@ -2,15 +2,18 @@ import React, { useEffect, useState } from "react";
 import BaseScreen from "../components/base/BaseScreen";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import Text from "../components/typography/Text";
-import { Button } from "react-native";
+import { Button, Image, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
 import { updateNotification } from "../store";
 import { useSelector } from "react-redux";
+import { Video } from "expo-av";
+import { RoundedButton } from "../components/base/RoundedButton";
+import Heading2 from "../components/typography/Heading2";
 
 export default YourTurn = () => {
   const router = useRouter();
-  const [tagId, setTagId] = useState('');
+  const [tagId, setTagId] = useState("");
   const [cardData, setCardData] = useState({});
   const [scanError, setScanError] = useState(false);
   const gameCode = useSelector((state) => state.gameCode);
@@ -38,14 +41,14 @@ export default YourTurn = () => {
   }
 
   useEffect(() => {
-    if (tagId !== '') {
+    if (tagId !== "") {
       console.log(tagId);
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
         method: "GET",
         headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        }
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
       })
         .then((res) => res.json())
         .then((data) => {
@@ -53,14 +56,14 @@ export default YourTurn = () => {
         })
         .catch((error) => {
           console.log(error);
-        })
+        });
     }
   }, [tagId]);
 
   useEffect(() => {
     setTimeout(() => {
       readNdef();
-      dispatch(updateNotification(false))
+      // dispatch(updateNotification(false))
     }, 1000);
   }, []);
 
@@ -108,33 +111,49 @@ export default YourTurn = () => {
 
   return (
     <BaseScreen headerShown={false}>
-      {/* If nothing scanned yet */}
-      {tagId == '' && !scanError && <Text>C'est ton tour ! Scanne la carte de ton choix.</Text>}
+      <View className="flex justify-center h-full">
+        {/* <Image className="absolute top-0 left-0 w-full h-full z-10" source={require('../assets/transition.gif')} /> */}
+        {/* If nothing scanned yet */}
+        {/* {tagId == '' && !scanError && <Text>C'est ton tour ! Scanne la carte de ton choix.</Text>} */}
 
-      {/* If scan failed */}
-      {scanError && tagId == '' &&
-        <>
-          <Text>Le scan n'a pas fonctionné.</Text>
-          <Button title="Réessayer" onPress={readNdef} />
-        </>
-      }
+        {/* If scan failed */}
+        {scanError && tagId == "" && (
+          <View className="flex flex-col gap-y-30 w-full">
+            <Heading2 className="text-center">
+              Le scan n'a pas fonctionné.
+            </Heading2>
+            <RoundedButton title="Réessayer" onClick={readNdef} />
+          </View>
+        )}
 
-      {/* If scanned cart isn't found */}
-      {tagId && !cardData.title &&
-        <>
-          <Text>Cette carte n'est pas reconnue.</Text>
-          <Button title="Réessayer" onPress={readNdef} />
-        </>
-      }
+        {/* If scanned cart isn't found */}
+        {tagId && !cardData.title && (
+          <View className="flex flex-col gap-y-30 w-full">
+            <Heading2 className="text-center">
+              Cette carte n'est pas reconnue.
+            </Heading2>
+            <RoundedButton title="Réessayer" onClick={readNdef} />
+          </View>
+        )}
 
-      {/* If scanned card found */}
-      {tagId && cardData.title && 
-        <>
-          <Text>{cardData.title}</Text>
-          <Button title="Confirmer cette action" onPress={handleOnPlay} />
-          <Button title="Scanner une autre carte" onPress={readNdef} />
-        </>
-      }
+        {/* If scanned card found */}
+        {tagId && cardData.title && (
+          <View className="flex flex-col gap-y-30 w-full">
+            <Heading2 className="text-center">{cardData.title}</Heading2>
+            <View>
+              <RoundedButton
+                title="Confirmer cette action"
+                onClick={handleOnPlay}
+                gradient
+              />
+              <RoundedButton
+                title="Scanner une autre carte"
+                onClick={readNdef}
+              />
+            </View>
+          </View>
+        )}
+      </View>
     </BaseScreen>
   );
 };

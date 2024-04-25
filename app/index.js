@@ -8,6 +8,7 @@ import Join_game from "./lobby/join_game";
 import Score from "../pages/Score";
 import Text from "../components/typography/Text";
 import Profile_picture from "./setup/profile_picture";
+import TurnPage from "./turn/index"
 import { useSelector } from "react-redux";
 import Reset from "./debug/reset";
 import { MiniGameMemeChoice } from "../pages/MiniGames/Meme/Choice";
