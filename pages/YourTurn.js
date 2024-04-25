@@ -83,7 +83,7 @@ export default YourTurn = () => {
   useEffect(() => {
     setTimeout(() => {
       readNdef();
-      // dispatch(updateNotification(false))
+      dispatch(updateNotification(false))
     }, 1000);
   }, []);
 
