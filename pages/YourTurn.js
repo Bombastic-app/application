@@ -112,7 +112,7 @@ export default YourTurn = () => {
   return (
     <BaseScreen headerShown={false}>
       <View className="flex justify-center h-full">
-        <Image className="absolute top-0 left-0 w-full h-full z-10" source={require('../assets/transition.gif')} />
+        {/* <Image className="absolute top-0 left-0 w-full h-full z-10" source={require('../assets/transition.gif')} /> */}
         {/* If nothing scanned yet */}
         {/* {tagId == '' && !scanError && <Text>C'est ton tour ! Scanne la carte de ton choix.</Text>} */}
 
