@@ -9,7 +9,7 @@ export default Notification = () => {
   const notification = useSelector((state) => state.notification);
 
   return (
-    !notification && (
+    notification && (
       <View className="absolute top-60 flex self-center w-full h-full z-10">
         <View className="flex flex-col items-stretch h-full">
           <View className="w-full py-30 px-10 flex flex-col gap-y-15 rounded-30 bg-white">

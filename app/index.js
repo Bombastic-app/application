@@ -9,6 +9,9 @@ import Score from "../pages/Score";
 import Text from "../components/typography/Text";
 import Profile_picture from "./setup/profile_picture";
 import { useSelector } from "react-redux";
+import Reset from "./debug/reset";
+import { MiniGameMemeChoice } from "../pages/MiniGames/Meme/Choice";
+import { MiniGameMemeSetup } from "../pages/MiniGames/Meme/Setup";
 
 NfcManager.start();
 

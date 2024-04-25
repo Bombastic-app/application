@@ -14,6 +14,7 @@ import {
   updateNotification,
   updatePlayerId,
 } from "../store";
+import { router } from "expo-router";
 
 export default Feed = () => {
   const dispatch = useDispatch();
@@ -37,28 +38,21 @@ export default Feed = () => {
           dispatch(updateNotification(false));
         }
       });
+
+    firestore().collection(`games/${gameCode}/turns`).doc(currentTurn.toString()).onSnapshot((doc) => {
+      if (doc.exists) {
+        if (doc.data().miniGameReady) {
+          setTimeout(() => {
+            router.navigate('/mini-game/meme')
+          }, 5000)
+        }
+      }
+    })
   };
 
   useEffect(() => {
     if (!loadedData.current) loadDataOnce();
-  }, []);
-
-  useEffect(() => {
-    if (!currentTurn) {
-      dispatch(updateCurrentTurn(1));
-      fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/start`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ gameCode }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res.message);
-        });
-    }
-  }, [currentTurn]);
+  }, [gameCode, currentTurn]);
 
   useEffect(() => {
     // if (playerId) dispatch(updatePlayerId('dTSpRKZsSrZcOjBH5cuZ'))

@@ -25,7 +25,7 @@ export default YourTurn = () => {
       await NfcManager.requestTechnology(NfcTech.NfcA);
       // the resolved tag object will contain `ndefMessage` property
       await NfcManager.getTag().then((tag) => {
-        console.warn("Tag found", tag);
+        // console.warn("Tag found", tag);
         setTagId(tag.id)
       });
     } catch (ex) {

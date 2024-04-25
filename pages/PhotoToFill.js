@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import Heading2 from "../components/typography/Heading2";
 import * as ImagePicker from "expo-image-picker";
 import storage from "@react-native-firebase/storage";
+import { manipulateAsync } from "expo-image-manipulator";
 
 export default PhotoToFill = ({ type, content, title }) => {
   const router = useRouter();
@@ -39,11 +40,11 @@ export default PhotoToFill = ({ type, content, title }) => {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        content: content + ' ' + desc,
+        content: content + " " + desc,
         type,
         gameCode,
         playerId,
-        pseudo
+        pseudo,
       }),
     })
       .then((res) => res.json())
@@ -53,20 +54,21 @@ export default PhotoToFill = ({ type, content, title }) => {
       .catch((error) => {
         console.log(error);
       });
-    
-    storage()
-      .ref()
-      .child(`/games/${gameCode}/turns/${currentTurn}/posts/${playerId}.png`)
-      .putFile(picture)
-      .then(() => {
-        console.log("image uploaded in storage");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
 
-    router.push({
-      pathname: "/feed",
+    manipulateAsync(picture, [], { compress: 0.5 }).then((imageCompressed) => {
+      storage()
+        .ref()
+        .child(`/games/${gameCode}/turns/${currentTurn}/posts/${playerId}.png`)
+        .putFile(imageCompressed.uri)
+        .then(() => {
+          console.log("image uploaded in storage");
+          router.push({
+            pathname: "/feed",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
   };
 
@@ -77,8 +79,20 @@ export default PhotoToFill = ({ type, content, title }) => {
           <Heading2>{title}</Heading2>
 
           <View className="relative">
-            <Image source={picture ? {uri: picture} : require("../assets/default.png")} style={styles.picture} />
-            {!picture && <RoundedButton widthAuto className="absolute bottom-10 left-10 right-10" title={"Choisir une photo"} onClick={pickImage} />}
+            <Image
+              source={
+                picture ? { uri: picture } : require("../assets/default.png")
+              }
+              style={styles.picture}
+            />
+            {!picture && (
+              <RoundedButton
+                widthAuto
+                className="absolute bottom-10 left-10 right-10"
+                title={"Choisir une photo"}
+                onClick={pickImage}
+              />
+            )}
           </View>
 
           <View className="flex-row gap-5">
@@ -93,7 +107,11 @@ export default PhotoToFill = ({ type, content, title }) => {
           </View>
         </View>
 
-        <RoundedButton disabled={!picture || !desc} title={"Poster"} onClick={handleOnClickPublish} />
+        <RoundedButton
+          disabled={!picture || !desc}
+          title={"Poster"}
+          onClick={handleOnClickPublish}
+        />
       </View>
     </BaseScreen>
   );
@@ -104,6 +122,6 @@ const styles = StyleSheet.create({
     height: 300,
     borderRadius: 30,
     width: 300,
-    objectFit: "cover"
+    objectFit: "cover",
   },
 });

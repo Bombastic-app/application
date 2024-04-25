@@ -26,8 +26,15 @@ export const MiniGameMemeSetup = ({ updateStep }) => {
           )
           .putFile(imageCompressed.uri)
           .then(() => {
-            console.log("image uploaded");
-            updateStep(2);
+            fetch(`${process.env.EXPO_PUBLIC_API_URL}/mini-game/start`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ gameCode, playerId })
+            }).then(() => {
+              updateStep(2);
+            })
           })
           .catch((error) => {
             console.log('error : ' + error);

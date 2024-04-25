@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
@@ -9,12 +9,16 @@ import Heading2 from "../../components/typography/Heading2";
 import { generateGameCode } from "../../components/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGameCode, updatePlayerId } from "../../store";
+import { manipulateAsync } from "expo-image-manipulator";
+import { Image } from "expo-image";
+import RoundedImage from "../../components/base/RoundedImage";
 
 export default ProfilePicture = () => {
   const [image, setImage] = useState(false);
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
   const pseudo = useSelector((state) => state.pseudo);
+  const currentTurn = useSelector((state) => state.currentTurn)
   const dispatch = useDispatch();
   const { action } = useLocalSearchParams();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
@@ -47,15 +51,15 @@ export default ProfilePicture = () => {
     }
   };
 
-  handleOnUpdateGameCode = (code) => {
+  const handleOnUpdateGameCode = (code) => {
     dispatch(updateGameCode(code));
   };
 
-  handleOnUpdatePlayerId = (id) => {
+  const handleOnUpdatePlayerId = (id) => {
     dispatch(updatePlayerId(id));
   };
 
-  createGame = async () => {
+  const createGame = async () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
       method: "POST",
       headers: {
@@ -89,7 +93,7 @@ export default ProfilePicture = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameCode }),
-      })
+      }) 
         .then((res) => res.json())
         .then((res) => {
           handleOnUpdatePlayerId(res.playerId);
@@ -99,13 +103,15 @@ export default ProfilePicture = () => {
 
   useEffect(() => {
     if (playerId && image)
-      storage()
-        .ref()
-        .child(`/profile_pictures/${playerId}.png`)
-        .putFile(image)
-        .then(() => {
-          console.log("image uploaded");
-        });
+      manipulateAsync(image, [], { compress: 0.5 }).then((imageCompressed) => {
+        storage()
+          .ref()
+          .child(`/profile_pictures/${playerId}.png`)
+          .putFile(imageCompressed.uri)
+          .then(() => {
+            console.log("image uploaded");
+          });
+      });
   }, [playerId, image]);
 
   return (
@@ -114,19 +120,13 @@ export default ProfilePicture = () => {
         <Heading2>Ajoute une photo de profil</Heading2>
         {!image && (
           <Image
-            className="w-200 h-200 rounded-full bg-white/20"
-            resizeMode="contain"
+            contentFit="contain"
             source={require("../../assets/user.png")}
+            style={{ width: 200, height: 200, borderRadius: 99999, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
           />
         )}
         {image && (
-          <Image
-            source={{ uri: image }}
-            className="w-200 h-200 object-cover rounded-full"
-            defaultSource={{
-              uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1",
-            }}
-          />
+          <RoundedImage imageUrl={image} />
         )}
 
         {!image && (
@@ -139,8 +139,8 @@ export default ProfilePicture = () => {
         {image && (
           <RoundedButton
             title="Let's go"
-            onClick={() => {
-              router.push("/lobby/new_game");
+            onClick={() => { 
+              router.push('/lobby/new_game')
             }}
           />
         )}

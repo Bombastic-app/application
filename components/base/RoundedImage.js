@@ -3,7 +3,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { StyleSheet, View } from "react-native";
 import { colors } from "../Style";
 
-export default RoundedImage = ({ size = "large", imageUrl }) => {
+export default RoundedImage = ({ imageUrl, size = "large", gradient = false }) => {
   return (
     <View
       className={`relative bg- ${
@@ -17,12 +17,14 @@ export default RoundedImage = ({ size = "large", imageUrl }) => {
           style={{ width: "100%", height: "100%", borderRadius: 30, zIndex: 1 }}
         />
       </View>
-      <LinearGradient
-        start={{ x: 0, y: 1 }}
-        end={{ x: 1, y: 1 }}
-        style={styles.gradient}
-        colors={[colors.blue, colors.purple, colors.pink]}
-      />
+      {gradient && (
+        <LinearGradient
+          start={{ x: 0, y: 1 }}
+          end={{ x: 1, y: 1 }}
+          style={styles.gradient}
+          colors={[colors.blue, colors.purple, colors.pink]}
+        />
+      )}
       {/* <View className="absolute w-full h-full border-2 border-pink rounded-30"></View> */}
     </View>
   );
@@ -35,6 +37,6 @@ const styles = StyleSheet.create({
     left: 0,
     width: "100%",
     height: "100%",
-    borderRadius: 30
+    borderRadius: 30,
   },
 });

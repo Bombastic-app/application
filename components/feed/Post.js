@@ -1,21 +1,25 @@
-import { Image, Pressable, StyleSheet, View } from "react-native"
-import Text from "../typography/Text"
-import ThumbUp from "../icons/ThumbUp"
-import ThumbDown from "../icons/ThumbDown"
-import Comment from "../icons/Comment"
-import Heading5 from "../typography/Heading5"
+import { Pressable, StyleSheet, View } from "react-native";
+import Text from "../typography/Text";
+import ThumbUp from "../icons/ThumbUp";
+import ThumbDown from "../icons/ThumbDown";
+import Comment from "../icons/Comment";
+import Heading5 from "../typography/Heading5";
 import storage from "@react-native-firebase/storage";
 import { useSelector } from "react-redux";
-import { useEffect, useState } from "react"
+import { useEffect, useState } from "react";
+import { Image } from "expo-image";
 
 export default Post = ({ type, content, pseudo, author }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [picture, setPicture] = useState();
-  const profilePicture = type == 'news' ? require('../../assets/gossipnews.png') : require('../../assets/illustration.png');
+  const profilePicture =
+    type == "news"
+      ? require("../../assets/gossipnews.png")
+      : require("../../assets/illustration.png");
 
   useEffect(() => {
-    if (type == 'photo') {
+    if (type == "photo") {
       storage()
         .ref()
         .child(`/games/${gameCode}/turns/${currentTurn}/posts`)
@@ -37,23 +41,37 @@ export default Post = ({ type, content, pseudo, author }) => {
       <View style={styles.centerMidGap}>
         <View className="relative">
           <Image style={styles.profilePicture} source={profilePicture} />
-          {type == "news" && <Image className="translate-y-10 absolute left-0 right-0 bottom-0 h-40 w-40" source={require('../../assets/hands.png')} />}
+          {type == "news" && (
+            <Image
+              className="translate-y-10 absolute left-0 right-0 bottom-0 h-40 w-40"
+              source={require("../../assets/hands.png")}
+            />
+          )}
         </View>
-        <Heading5 className="uppercase">@{type != 'news' ? pseudo : 'gossipnews'}</Heading5>
+        <Heading5 className="uppercase">
+          @{type != "news" ? pseudo : "gossipnews"}
+        </Heading5>
       </View>
 
       {type == "tweet" && <Text>{content}</Text>}
-      {type == "photo" && picture &&
+      {type == "photo" && picture && (
         <>
-          <Image style={styles.postImage} source={{uri: picture.url}} />
+          <Image
+            style={styles.postImage}
+            source={picture}
+            contentFit="cover"
+            cachePolicy={"memory-disk"}
+            key={picture.url}
+            priority={1}
+          />
           <Text>{content}</Text>
         </>
-      }
-      {type == "news" && <Text>{content.replace('default', pseudo)}</Text>}
+      )}
+      {type == "news" && <Text>{content.replace("default", pseudo)}</Text>}
 
       <View style={styles.centerMidGap}>
         <View style={styles.centerLittleGap}>
-          <Pressable onPress={() => console.log('like')}>
+          <Pressable onPress={() => console.log("like")}>
             <ThumbUp />
           </Pressable>
           <Text>3</Text>
@@ -62,7 +80,7 @@ export default Post = ({ type, content, pseudo, author }) => {
         <View style={styles.separator}></View>
 
         <View style={styles.centerLittleGap}>
-          <Pressable onPress={() => console.log('dislike')}>
+          <Pressable onPress={() => console.log("dislike")}>
             <ThumbDown />
           </Pressable>
           <Text>1</Text>
@@ -70,48 +88,49 @@ export default Post = ({ type, content, pseudo, author }) => {
       </View>
 
       <View>
-        <Pressable onPress={() => console.log('comments')} style={styles.centerLittleGap}>
+        <Pressable
+          onPress={() => console.log("comments")}
+          style={styles.centerLittleGap}>
           <Comment />
           <Text>Aucun commentaire</Text>
         </Pressable>
       </View>
     </View>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
   postBackground: {
     padding: 20,
     borderRadius: 30,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    gap: 10
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    gap: 10,
   },
   centerMidGap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 10
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
   },
   centerLittleGap: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
   },
   separator: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     height: 11,
-    width: 1
+    width: 1,
   },
   profilePicture: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     width: 40,
     height: 40,
-    objectFit: 'cover',
-    borderRadius: 100
+    objectFit: "cover",
+    borderRadius: 100,
   },
   postImage: {
-    width: '100%',
+    width: 300,
     height: 300,
-    resizeMode: 'cover',
-    borderRadius: 20
-  }
+    borderRadius: 20,
+  },
 });

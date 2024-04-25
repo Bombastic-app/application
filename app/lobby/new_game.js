@@ -1,10 +1,4 @@
-import {
-  Image,
-  Share,
-  Text,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Share, Text, TouchableHighlight, View } from "react-native";
 import { useEffect, useState } from "react";
 import { Stack, router, useLocalSearchParams } from "expo-router";
 import { RoundedButton } from "../../components/base/RoundedButton";
@@ -12,28 +6,22 @@ import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import BaseScreen from "../../components/base/BaseScreen";
 import Cards from "../../components/icons/Cards";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Image } from "expo-image";
+import { updateCurrentTurn } from "../../store";
 
 export default NewGame = () => {
-  const gameCode = useSelector(state => state.gameCode)
-  const playerId = useSelector(state => state.playerId)
+  const gameCode = useSelector((state) => state.gameCode);
+  const currentTurn = useSelector((state) => state.currentTurn);
+  const dispatch = useDispatch();
+  const playerId = useSelector((state) => state.playerId);
   const [players, setPlayers] = useState(false);
   const [profilePictures, setProfilePictures] = useState([]);
+  const [pictures, setPictures] = useState([]);
   const [screen, setScreen] = useState(false);
   const [debug, setDebug] = useState(false);
 
-  runGame = async () => {
-    // fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/create`, {
-    //   method: 'get',
-    //   'Content-Type': 'application/json'
-    // })
-    // .then((res) => res.json())
-    // .then((data) => {
-    //   console.log(data);
-    // })
-  };
-
-  shareLink = async () => {
+  const shareLink = async () => {
     Share.share({
       message: "Partage le lien de la partie avec tes amis !",
     }).then((result) => {
@@ -47,6 +35,23 @@ export default NewGame = () => {
         // dismissed
       }
     });
+  };
+
+  const onStartGame = () => {
+    if (!currentTurn) {
+      dispatch(updateCurrentTurn(1));
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/start`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ gameCode }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          router.push("/feed");
+        });
+    }
   };
 
   useEffect(() => {
@@ -72,21 +77,33 @@ export default NewGame = () => {
   }, [players]);
 
   useEffect(() => {
+    if (players && profilePictures) {
+      const picturesTmp = [];
+
+      players.forEach((player) => {
+        const picture = profilePictures.find((pp) => player.id === pp.name);
+        if (picture) picturesTmp.push(picture.url);
+      });
+
+      setPictures(picturesTmp);
+    }
+  }, [profilePictures]);
+
+  useEffect(() => {
     if (gameCode) {
       firestore()
-          .collection(`games/${gameCode}/players`)
-          .onSnapshot((players) => {
-            if (!players.empty)
-              setPlayers(
-                players.docs.map((player) => {
-                  return { ...player.data(), id: player.id };
-                })
-              );
-          });
+        .collection(`games/${gameCode}/players`)
+        .onSnapshot((players) => {
+          if (!players.empty)
+            setPlayers(
+              players.docs.map((player) => {
+                return { ...player.data(), id: player.id };
+              })
+            );
+        });
       // Game code set
     }
   }, [debug, gameCode]);
-
 
   return (
     <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
@@ -105,20 +122,14 @@ export default NewGame = () => {
           {players.map((player, i) => (
             <View className="flex flex-col items-center gap-y-10" key={i}>
               <View className="relative">
-                <Image
-                  className="rounded-full"
-                  defaultSource={{
-                    uri: "https://i0.wp.com/www.repol.copl.ulaval.ca/wp-content/uploads/2019/01/default-user-icon.jpg?ssl=1",
-                  }}
-                  source={{
-                    uri:
-                      profilePictures &&
-                      profilePictures.find(
-                        (picture) => picture.name === player.id
-                      )?.url,
-                  }}
-                  style={{ width: 80, height: 80 }}
-                />
+                {pictures && (
+                  <Image
+                    source={pictures[i]}
+                    contentFit="cover"
+                    cachePolicy={"memory-disk"}
+                    style={{ width: 80, height: 80, borderRadius: 9999 }}
+                  />
+                )}
                 <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
               </View>
               <Text className="text-14 text-white">
@@ -146,7 +157,7 @@ export default NewGame = () => {
             </Text>
           </View>
         </TouchableHighlight>
-        <RoundedButton title={"Démarrer"} onClick={() => { router.push('/feed') }} />
+        <RoundedButton title={"Démarrer"} onClick={onStartGame} />
       </View>
     </BaseScreen>
   );
