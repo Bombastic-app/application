@@ -15,7 +15,6 @@ export default BaseScreen = ({ children, title, debug, className, headerShown = 
   const dispatch = useDispatch()
   const [devMode, setDevMode] = useState(false)
 
-
   handleOnUpdateAlert = () => {
     dispatch(updateAlert("Ton tour dans 5 secondes"));
   };
