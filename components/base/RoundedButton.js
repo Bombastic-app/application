@@ -1,6 +1,6 @@
 import { LinearGradient } from "expo-linear-gradient";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
+import { StyleSheet, TouchableNativeFeedback, View } from "react-native";
 import { colors } from "../Style";
 import ThumbDown from "../icons/ThumbDown";
 import Heading3 from "../typography/Heading3";
@@ -12,8 +12,10 @@ export const RoundedButton = ({
   rotateLeft,
   gradient,
   className,
-  disabled = false, widthAuto = false,
-  icon = false
+  disabled = false,
+  widthAuto = false,
+  icon = false,
+  background = "",
 }) => {
   const [rotation, setRotation] = useState("0deg");
 
@@ -29,7 +31,7 @@ export const RoundedButton = ({
     <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto', width: widthAuto ? 'auto' : '100%'}}>
       <TouchableNativeFeedback onPress={onClick}>
         <View
-          className={`relative flex items-center w-full my-5 bg-white rounded-full overflow-hidden ${ icon ? 'p-16' : 'py-16' }`}
+          className={`relative flex items-center w-full my-5 rounded-full overflow-hidden ${ icon ? 'p-16' : 'py-16'} ${background ? background : 'bg-white'}`}
           style={{ transform: `rotate(${rotation})` }}>
           {gradient && (
             <LinearGradient

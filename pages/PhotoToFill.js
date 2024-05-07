@@ -9,6 +9,7 @@ import Heading2 from "../components/typography/Heading2";
 import * as ImagePicker from "expo-image-picker";
 import storage from "@react-native-firebase/storage";
 import { manipulateAsync } from "expo-image-manipulator";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 
 export default PhotoToFill = ({ type, content, title }) => {
   const router = useRouter();
@@ -74,45 +75,51 @@ export default PhotoToFill = ({ type, content, title }) => {
 
   return (
     <BaseScreen headerShown={false}>
-      <View className="flex-1 justify-between mt-28">
-        <View className="items-center gap-30">
-          <Heading2>{title}</Heading2>
+      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} bounces={false} scrollEnabled={false}>
+        <View className="flex-1 justify-between pt-28">
+          <View className="items-center gap-30 flex-1">
+            <Heading2 className="pt-3">{title}</Heading2>
 
-          <View className="relative">
-            <Image
-              source={
-                picture ? { uri: picture } : require("../assets/default.png")
-              }
-              style={styles.picture}
-            />
-            {!picture && (
-              <RoundedButton
-                widthAuto
-                className="absolute bottom-10 left-10 right-10"
-                title={"Choisir une photo"}
-                onClick={pickImage}
+            <View className="relative">
+              <Image
+                source={
+                  picture ? { uri: picture } : require("../assets/default.png")
+                }
+                style={styles.picture}
               />
-            )}
+              {!picture && (
+                <RoundedButton
+                  widthAuto
+                  className="absolute bottom-10 left-10 right-10"
+                  title={"Choisir une photo"}
+                  onClick={pickImage}
+                />
+              )}
+            </View>
+              <View className="flex-1 w-full">
+                <Text className="font-balgin-black-italic font-bold text-28 mb-5 uppercase">
+                  {content}
+                </Text>
+                <TextInput
+                  className="font-balgin-black-italic font-bold text-28 text-pink placeholder:text-white/40"
+                  placeholder="ÉCRIS UNE DESCRIPTION ..."
+                  autoCapitalize="characters"
+                  onChangeText={(text) => setDesc(text)}
+                  scrollEnabled={false}
+                  multiline
+                  maxLength={100}
+                />
+              </View>
           </View>
 
-          <View className="flex-row gap-5">
-            <Text className="font-libre-franklin font-bold text-28 mb-5">
-              {content}
-            </Text>
-            <TextInput
-              className="font-libre-franklin font-bold text-28 text-white placeholder:text-white/40"
-              placeholder="Écris une description ..."
-              onChangeText={(text) => setDesc(text)}
-            />
-          </View>
+          <RoundedButton
+            disabled={!picture || !desc}
+            title={"Poster"}
+            onClick={handleOnClickPublish}
+            background="bg-pink"
+          />
         </View>
-
-        <RoundedButton
-          disabled={!picture || !desc}
-          title={"Poster"}
-          onClick={handleOnClickPublish}
-        />
-      </View>
+      </KeyboardAwareScrollView>
     </BaseScreen>
   );
 };

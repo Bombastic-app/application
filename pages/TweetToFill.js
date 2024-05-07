@@ -5,6 +5,7 @@ import { RoundedButton } from "../components/base/RoundedButton";
 import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useSelector } from "react-redux";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 
 export default TweetToFill = ({ type, content, title }) => {
   const router = useRouter();
@@ -43,22 +44,28 @@ export default TweetToFill = ({ type, content, title }) => {
 
   return (
     <BaseScreen headerShown={false}>
-      <View className="flex-1 justify-between mt-28">
-        <View>
-          <Text className="font-libre-franklin font-bold text-28 mb-5">
-            {content}
-          </Text>
-          <TextInput
-            className="font-libre-franklin font-bold text-28 text-white placeholder:text-white/40"
-            autoCapitalize="none"
-            autoFocus={true}
-            placeholder="écris la suite ..."
-            onChangeText={(text) => setTweet(text)}
-          />
-        </View>
+      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} bounces={false} scrollEnabled={false}>
+        <View className="flex-1 justify-between mt-28">
+          <View>
+            <Text className="font-balgin-black-italic font-bold text-28 mb-5 uppercase">
+              {content}
+            </Text>
+            <TextInput
+              className="font-balgin-black-italic font-bold text-28 text-blue placeholder:text-blue/40"
+              placeholder="ÉCRIS LA SUITE ..."
+              autoCapitalize="characters"
+              autoFocus
+              scrollEnabled={false}
+              multiline
+              maxLength={100}
+              onChangeText={(text) => setTweet(text)}
+              style={{paddingBottom: 1, textAlignVertical: "bottom"}}
+            />
+          </View>
 
-        <RoundedButton disabled={!tweet} title={"Poster"} onClick={handleOnClickPublish} />
-      </View>
+          <RoundedButton background="bg-blue" disabled={!tweet} title={"Poster"} onClick={handleOnClickPublish} />
+        </View>
+      </KeyboardAwareScrollView>
     </BaseScreen>
   );
 };
