@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, TouchableNativeFeedback, View } from "react-native";
 import { colors } from "../Style";
 import ThumbDown from "../icons/ThumbDown";
+import Heading3 from "../typography/Heading3";
 
 export const RoundedButton = ({
   title = false,
@@ -28,7 +29,7 @@ export const RoundedButton = ({
     <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto', width: widthAuto ? 'auto' : '100%'}}>
       <TouchableNativeFeedback onPress={onClick}>
         <View
-          className={`relative flex items-center w-full my-5 bg-white rounded-full overflow-hidden ${ icon ? 'p-20' : 'py-20' }`}
+          className={`relative flex items-center w-full my-5 bg-white rounded-full overflow-hidden ${ icon ? 'p-16' : 'py-16' }`}
           style={{ transform: `rotate(${rotation})` }}>
           {gradient && (
             <LinearGradient
@@ -40,12 +41,12 @@ export const RoundedButton = ({
           )}
           {icon && <ThumbDown />}
           {title && (
-            <Text
+            <Heading3
               className={`${
-                gradient ? "text-white" : "text-marine"
-              } uppercase font-libre-franklin font-bold text-16`}>
+                gradient ? "" : "!text-marine"
+              } uppercase py-4`}>
               {title}
-            </Text>
+            </Heading3>
           )}
         </View>
       </TouchableNativeFeedback>

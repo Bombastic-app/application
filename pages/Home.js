@@ -107,6 +107,7 @@ export default Home = () => {
           <View className="flex flex-col gap-y-10">
             <RoundedButton
               title={"Créer une nouvelle partie"}
+              gradient
               onClick={() =>
                 router.push({
                   pathname: "/setup/profile_picture",
