@@ -21,13 +21,13 @@ export default Score = () => {
     <BaseScreen headerShown={false}>
       <View style={styles.container}>
         <View>
-          <Text className="uppercase font-balgin-narrow-bold text-18 text-center">Bravo, tu as</Text>
+          <Text className="uppercase font-balgin-narrow-bold text-20 text-center">Bravo ma star, tu as</Text>
           <Heading1 className="font-balgin-black text-56 text-center pb-24 pt-16">Gagné !</Heading1>
           <Text className="text-center">Plus que {CONSTANTS.maxPoints - score} paliers avant d’être une star !</Text>
         </View>
 
         <View style={[styles.certifContainer, {transform: [{translateY: -(certifHeight / 2)}],}]}>
-          <Image style={styles.certifImage} source={require("../assets/certif.png")} onLayout={handleOnLayout} />
+          <Image style={styles.certifImage} source={require("../assets/certif/certif-01.png")} onLayout={handleOnLayout} />
 
             <View className="absolute bottom-0 translate-y-60">
               <Text className="text-32 font-balgin-narrow-bold uppercase">{score} point</Text>
