@@ -1,9 +1,9 @@
 :root {
   --color-white: 255 255 255; /* #FFFFFF */ 
   --color-green: 94 222 34; /* #5EDE22 */
-  --color-pink: 255 154 239; /* #FF9AEF */
-  --color-purple: 183 139 255; /* #B78BFF */ 
-  --color-blue: 120 231 255; /* #78E7FF */
+  --color-pink: 247 130 228; /* #F782E4 */
+  --color-purple: 160 126 255; /* #A07EFF */ 
+  --color-blue: 94 215 241; /* #5ED7F1 */
   --color-red: 222 34 34; /* #DE2222 */
   --color-marine: 12 26 45; /* #0C1A2D */ 
 }
