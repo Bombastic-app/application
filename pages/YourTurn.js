@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import BaseScreen from "../components/base/BaseScreen";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
 import Text from "../components/typography/Text";
-import { Button, Image, View } from "react-native";
+import { Image, Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
 import { updateNotification } from "../store";
@@ -10,17 +10,37 @@ import { useSelector } from "react-redux";
 import { Video } from "expo-av";
 import { RoundedButton } from "../components/base/RoundedButton";
 import Heading2 from "../components/typography/Heading2";
+import Heading4 from "../components/typography/Heading4";
+import Statistics from "../components/card/Statistics";
 
 export default YourTurn = () => {
   const router = useRouter();
   const [tagId, setTagId] = useState("");
   const [cardData, setCardData] = useState({});
   const [scanError, setScanError] = useState(false);
+  const [titleSize, setTitleSize] = useState(80);
+
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
   const pseudo = useSelector((state) => state.pseudo);
-  
-  const dispatch = useDispatch()
+
+  const dispatch = useDispatch();
+
+  const backgrounds = {
+    tweet: 'blue',
+    photo: 'pink',
+    news: 'purple',
+  };
+
+  const sizes = {
+    5: 170,
+    6: 142,
+    7: 122,
+    8: 106,
+    9: 92,
+    10: 86,
+    11: 80,
+  };
 
   async function readNdef() {
     try {
@@ -109,12 +129,19 @@ export default YourTurn = () => {
     })
   };
 
+  const handleTextLayout = (event) => {
+    if (event.nativeEvent.lines[0]) {
+      const lineLength = event.nativeEvent.lines[0].text.length;
+      setTitleSize(sizes[lineLength]);
+    }
+  };
+
   return (
-    <BaseScreen headerShown={false}>
+    <BaseScreen headerShown={false} className={backgrounds[`${cardData.type}`] ? `!bg-${backgrounds[`${cardData.type}`]}` : ''}>
       <View className="flex justify-center h-full">
         {/* <Image className="absolute top-0 left-0 w-full h-full z-10" source={require('../assets/transition.gif')} /> */}
         {/* If nothing scanned yet */}
-        {/* {tagId == '' && !scanError && <Text>C'est ton tour ! Scanne la carte de ton choix.</Text>} */}
+        {tagId == '' && !scanError && <Heading2>C'est ton tour ! Scanne la carte de ton choix.</Heading2>}
 
         {/* If scan failed */}
         {scanError && tagId == "" && (
@@ -138,17 +165,18 @@ export default YourTurn = () => {
 
         {/* If scanned card found */}
         {tagId && cardData.title && (
-          <View className="flex flex-col gap-y-30 w-full">
-            <Heading2 className="text-center">{cardData.title}</Heading2>
+          <View className="h-full justify-between">
+            <Statistics data={{reputation: cardData.reputation, money: cardData.money, followers: cardData.followers}} />
+            <Text onTextLayout={handleTextLayout} style={[styles.cardTitle, {fontSize: titleSize }]} className="font-balgin-black-italic uppercase">{cardData.title}</Text>
             <View>
+              <Pressable onPress={readNdef} className="self-center mb-30">
+                <Heading4 className="uppercase">Choisir une autre carte</Heading4>
+                <View className="h-[2px] bg-white mt-7 w-fit"></View>
+              </Pressable>
               <RoundedButton
-                title="Confirmer cette action"
+                title="Jouer cette carte"
                 onClick={handleOnPlay}
-                gradient
-              />
-              <RoundedButton
-                title="Scanner une autre carte"
-                onClick={readNdef}
+                color={backgrounds[`${cardData.type}`] ? `!text-${backgrounds[`${cardData.type}`]}` : '!text-marine'}
               />
             </View>
           </View>
@@ -157,3 +185,13 @@ export default YourTurn = () => {
     </BaseScreen>
   );
 };
+
+const styles = StyleSheet.create({
+  cardTitle: {
+    transform: [{ rotate: '-15deg' }],
+    marginLeft: -40,
+    marginRight: -40,
+    width: '130%',
+    textAlign: 'center',
+  },
+});
