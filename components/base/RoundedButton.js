@@ -16,6 +16,7 @@ export const RoundedButton = ({
   widthAuto = false,
   icon = false,
   background = "",
+  color = "!text-marine",
 }) => {
   const [rotation, setRotation] = useState("0deg");
 
@@ -45,7 +46,7 @@ export const RoundedButton = ({
           {title && (
             <Heading3
               className={`${
-                gradient ? "" : "!text-marine"
+                gradient ? "" : color
               } uppercase py-4`}>
               {title}
             </Heading3>
