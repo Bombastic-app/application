@@ -8,6 +8,7 @@ import storage from "@react-native-firebase/storage";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 
 export default Post = ({ type, content, pseudo, author }) => {
   const gameCode = useSelector((state) => state.gameCode);
@@ -36,22 +37,28 @@ export default Post = ({ type, content, pseudo, author }) => {
     }
   }, []);
 
+  const handleOnClickProfilePicture = () => {
+    router.push({ pathname: "/profile", params: { playerId: author, hidden: true, pseudo } });
+  };
+
   return (
     <View style={styles.postBackground}>
-      <View style={styles.centerMidGap}>
-        <View className="relative">
-          <Image style={styles.profilePicture} source={profilePicture} />
-          {type == "news" && (
-            <Image
-              className="translate-y-10 absolute left-0 right-0 bottom-0 h-40 w-40"
-              source={require("../../assets/hands.png")}
-            />
-          )}
+      <Pressable className="self-start" onPress={handleOnClickProfilePicture}>
+        <View style={styles.centerMidGap}>
+          <View className="relative">
+            <Image style={styles.profilePicture} source={profilePicture} />
+            {type == "news" && (
+              <Image
+                className="translate-y-10 absolute left-0 right-0 bottom-0 h-40 w-40"
+                source={require("../../assets/hands.png")}
+              />
+            )}
+          </View>
+          <Heading5 className="uppercase">
+            @{type != "news" ? pseudo : "gossipnews"}
+          </Heading5>
         </View>
-        <Heading5 className="uppercase">
-          @{type != "news" ? pseudo : "gossipnews"}
-        </Heading5>
-      </View>
+      </Pressable>
 
       {type == "tweet" && <Text>{content}</Text>}
       {type == "photo" && picture && (
