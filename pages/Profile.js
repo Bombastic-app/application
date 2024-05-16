@@ -10,10 +10,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGameCode, updatePlayerId } from "../store";
 import firestore from "@react-native-firebase/firestore";
+import storage from "@react-native-firebase/storage";
 import Post from "../components/feed/Post";
 
 export default Profile = ({ hidden = false, playerId, pseudo }) => {
   const [posts, setPosts] = useState([]);
+  const [imageUrl, setImageUrl] = useState();
   const gameCode = useSelector((state) => state.gameCode);
   const postsToAdd = [];
 
@@ -33,7 +35,18 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
           })
         });
       })
-  }, [gameCode]);
+
+    storage()
+      .ref()
+      .child(`games/${gameCode}/profile_pictures`)
+      .listAll()
+      .then((images) => {
+        const image = images.items.find((item) => item.path.includes(playerId));
+        image.getDownloadURL().then((url) => {
+          setImageUrl(url);
+        });
+      });
+  }, []);
 
   return (
     <BaseScreen headerShown={false}>
@@ -42,7 +55,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
       <View className="gap-20 mt-28 flex-1">
         <View className="items-start">
           <Image
-            source={require("../assets/meme.png")}
+            source={imageUrl}
             contentFit="cover"
             cachePolicy={"memory-disk"}
             style={{ width: 100, height: 100, borderRadius: 9999 }}
