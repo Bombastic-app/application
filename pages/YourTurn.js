@@ -12,6 +12,7 @@ import { RoundedButton } from "../components/base/RoundedButton";
 import Heading2 from "../components/typography/Heading2";
 import Heading4 from "../components/typography/Heading4";
 import Statistics from "../components/card/Statistics";
+import { colors } from "../components/Style";
 
 export default YourTurn = () => {
   const router = useRouter();
@@ -19,6 +20,7 @@ export default YourTurn = () => {
   const [cardData, setCardData] = useState({});
   const [scanError, setScanError] = useState(false);
   const [titleSize, setTitleSize] = useState(80);
+  const [cardColor, setCardColor] = useState(colors.marine)
 
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
@@ -26,10 +28,10 @@ export default YourTurn = () => {
 
   const dispatch = useDispatch();
 
-  const backgrounds = {
-    tweet: 'blue',
-    photo: 'pink',
-    news: 'purple',
+  const cardColors = {
+    tweet: colors.blue,
+    photo: colors.pink,
+    news: colors.blue,
   };
 
   const sizes = {
@@ -62,7 +64,6 @@ export default YourTurn = () => {
 
   useEffect(() => {
     if (tagId !== "") {
-      console.log(tagId);
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
         method: "GET",
         headers: {
@@ -73,6 +74,7 @@ export default YourTurn = () => {
         .then((res) => res.json())
         .then((data) => {
           setCardData(data);
+          if (data.type) setCardColor(cardColors[`${data.type}`])
         })
         .catch((error) => {
           console.log(error);
@@ -137,7 +139,7 @@ export default YourTurn = () => {
   };
 
   return (
-    <BaseScreen headerShown={false} className={backgrounds[`${cardData.type}`] ? `!bg-${backgrounds[`${cardData.type}`]}` : ''}>
+    <BaseScreen headerShown={false} style={{ backgroundColor: cardColor }}>
       <View className="flex justify-center h-full">
         {/* <Image className="absolute top-0 left-0 w-full h-full z-10" source={require('../assets/transition.gif')} /> */}
         {/* If nothing scanned yet */}
@@ -170,13 +172,13 @@ export default YourTurn = () => {
             <Text onTextLayout={handleTextLayout} style={[styles.cardTitle, {fontSize: titleSize }]} className="font-balgin-black-italic uppercase">{cardData.title}</Text>
             <View>
               <Pressable onPress={readNdef} className="self-center mb-30">
-                <Heading4 className="uppercase">Choisir une autre carte</Heading4>
+                <Heading4 className="uppercase">{ cardData.type }</Heading4>
                 <View className="h-[2px] bg-white mt-7 w-fit"></View>
               </Pressable>
               <RoundedButton
                 title="Jouer cette carte"
                 onClick={handleOnPlay}
-                color={backgrounds[`${cardData.type}`] ? `!text-${backgrounds[`${cardData.type}`]}` : '!text-marine'}
+                color={cardColor}
               />
             </View>
           </View>
