@@ -3,14 +3,14 @@ import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
 import { Link, Stack, router, useRouter } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import firestore from '@react-native-firebase/firestore'
-import { globalStyles } from "../Style";
+import { colors, globalStyles } from "../Style";
 import { StatusBar } from "expo-status-bar";
 import Alert from "../notifications/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAlert, updateNotification } from "../../store";
 import Notification from "../notifications/Notification";
 
-export default BaseScreen = ({ children, title, debug, className, headerShown = false }) => {
+export default BaseScreen = ({ children, title, debug, className, headerShown = false, style }) => {
   const insets = useSafeAreaInsets();
   const dispatch = useDispatch()
   const [devMode, setDevMode] = useState(false)
@@ -24,7 +24,7 @@ export default BaseScreen = ({ children, title, debug, className, headerShown = 
   }, [debug])
 
   return (
-    <View className={`relative bg-marine w-full h-full ${className}`} style={[styles.container, {paddingVertical: insets.top }]}>
+    <View className={`relative bg-marine w-full h-full ${className}`} style={[styles.container, {paddingVertical: insets.top }, style]}>
       <Notification />
       { devMode && <Link className="text-white" href='/debug'>Debug</Link>  }
       <StatusBar style="light" />
@@ -39,5 +39,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     flex: 1,
     position: "relative",
+    backgroundColor: colors.marine
   },
 });

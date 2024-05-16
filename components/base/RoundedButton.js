@@ -16,7 +16,7 @@ export const RoundedButton = ({
   widthAuto = false,
   icon = false,
   background = "",
-  color = "!text-marine",
+  color = colors.marine,
 }) => {
   const [rotation, setRotation] = useState("0deg");
 
@@ -29,25 +29,35 @@ export const RoundedButton = ({
   }, [rotateRight]);
 
   return (
-    <View className={className} style={{opacity: disabled ? 0.5 : 1, pointerEvents: disabled ? 'none' : 'auto', width: widthAuto ? 'auto' : '100%'}}>
+    <View
+      className={className}
+      style={{
+        opacity: disabled ? 0.5 : 1,
+        pointerEvents: disabled ? "none" : "auto",
+        width: widthAuto ? "auto" : "100%",
+      }}>
       <TouchableNativeFeedback onPress={onClick}>
         <View
-          className={`relative flex items-center w-full my-5 rounded-full overflow-hidden ${ icon ? 'p-16' : 'py-16'} ${background ? background : 'bg-white'}`}
+          className={`relative flex items-center w-full my-5 rounded-full overflow-hidden ${
+            icon ? "p-16" : "py-16"
+          } ${background ? background : "bg-white"}`}
           style={{ transform: `rotate(${rotation})` }}>
           {gradient && (
-            <LinearGradient
-              start={{ x: 0, y: 1 }}
-              end={{ x: 1, y: 1 }}
-              style={styles.gradient}
-              colors={[colors.blue, colors.purple, colors.pink]}
-            />
+            <View style={styles.gradientContainer}>
+              <View style={styles.gradientOverlay}></View>
+              <LinearGradient
+                start={{ x: 0, y: 1 }}
+                end={{ x: 1, y: 1 }}
+                style={styles.gradient}
+                colors={[colors.blue, colors.purple, colors.pink]}
+              />
+            </View>
           )}
           {icon && <ThumbDown />}
           {title && (
             <Heading3
-              className={`${
-                gradient ? "" : color
-              } uppercase py-4`}>
+              className="uppercase py-4"
+              style={{ color: gradient ? colors.white : color }}>
               {title}
             </Heading3>
           )}
@@ -63,6 +73,23 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     width: "100%",
-    height: 100
+    height: 100,
   },
+  gradientContainer: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: 100,
+  },
+  gradientOverlay: {
+    position: "absolute",
+    backgroundColor: '#000',
+    opacity: 0.06,
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: 100,
+    zIndex: 1
+  }
 });
