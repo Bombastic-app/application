@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 import BaseScreen from "../components/base/BaseScreen";
 import NfcManager, { NfcTech } from "react-native-nfc-manager";
-import Text from "../components/typography/Text";
 import { Image, Pressable, StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
 import { useDispatch } from "react-redux";
 import { updateNotification } from "../store";
 import { useSelector } from "react-redux";
-import { Video } from "expo-av";
 import { RoundedButton } from "../components/base/RoundedButton";
 import Heading2 from "../components/typography/Heading2";
 import Heading4 from "../components/typography/Heading4";
 import Statistics from "../components/card/Statistics";
 import { colors } from "../components/Style";
+import CardTitle from "../components/turn/CardTitle";
 
 export default YourTurn = () => {
   const router = useRouter();
   const [tagId, setTagId] = useState("");
   const [cardData, setCardData] = useState({});
   const [scanError, setScanError] = useState(false);
-  const [titleSize, setTitleSize] = useState(80);
   const [cardColor, setCardColor] = useState(colors.marine)
 
   const gameCode = useSelector((state) => state.gameCode);
@@ -32,16 +30,6 @@ export default YourTurn = () => {
     tweet: colors.blue,
     photo: colors.pink,
     news: colors.blue,
-  };
-
-  const sizes = {
-    5: 170,
-    6: 142,
-    7: 122,
-    8: 106,
-    9: 92,
-    10: 86,
-    11: 80,
   };
 
   async function readNdef() {
@@ -131,13 +119,6 @@ export default YourTurn = () => {
     })
   };
 
-  const handleTextLayout = (event) => {
-    if (event.nativeEvent.lines[0]) {
-      const lineLength = event.nativeEvent.lines[0].text.length;
-      setTitleSize(sizes[lineLength]);
-    }
-  };
-
   return (
     <BaseScreen headerShown={false} style={{ backgroundColor: cardColor }}>
       <View className="flex justify-center h-full">
@@ -169,7 +150,7 @@ export default YourTurn = () => {
         {tagId && cardData.title && (
           <View className="h-full justify-between">
             <Statistics data={{reputation: cardData.reputation, money: cardData.money, followers: cardData.followers}} />
-            <Text onTextLayout={handleTextLayout} style={[styles.cardTitle, {fontSize: titleSize }]} className="font-balgin-black-italic uppercase">{cardData.title}</Text>
+            <CardTitle title={cardData.title} />
             <View>
               <Pressable onPress={readNdef} className="self-center mb-30">
                 <Heading4 className="uppercase">{ cardData.type }</Heading4>
@@ -187,13 +168,3 @@ export default YourTurn = () => {
     </BaseScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  cardTitle: {
-    transform: [{ rotate: '-15deg' }],
-    marginLeft: -40,
-    marginRight: -40,
-    width: '130%',
-    textAlign: 'center',
-  },
-});
