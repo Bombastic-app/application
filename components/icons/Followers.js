@@ -1,7 +1,7 @@
 import React from "react";
 import Svg, { Path } from "react-native-svg"
 import { colors } from "../Style";
-export default Followers = ({ active, fill = colors.beige, ...props }) => {
+export default Followers = ({ active, fill = colors.white, ...props }) => {
   return (
     <Svg
       xmlns="http://www.w3.org/2000/svg"
