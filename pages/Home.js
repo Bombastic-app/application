@@ -62,6 +62,12 @@ export default Home = () => {
       });
   };
 
+  handleOnPressRules = () => {
+    router.push({
+      pathname: "/rules",
+    })
+  };
+
   useEffect(() => {
     if (tagId !== "") {
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
@@ -89,9 +95,6 @@ export default Home = () => {
     <BaseScreen title="Home" debug={false}>
       <View
         className="flex justify-between pt-110 h-full">
-        {/* <TouchableOpacity onPress={readNdef}>
-          <Text>Scan a Tag</Text>
-        </TouchableOpacity> */}
         <View className="flex items-center justify-center">
           <Image
             className="w-[80%]"
@@ -124,7 +127,7 @@ export default Home = () => {
           </View>
         </View>
         <View className="flex flex-row items-center justify-center gap-x-30">
-          <IconButton type={"reputation"} title={"Règles"} />
+          <IconButton type={"reputation"} title={"Règles"} onPress={handleOnPressRules} />
           <IconButton type={"followers"} title={"Paramètres"} />
           <IconButton type={"money"} title={"Shop"} />
         </View>

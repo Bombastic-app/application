@@ -1,6 +1,6 @@
-import { Image, Text, View } from "react-native";
+import { Image, Pressable, Text, View } from "react-native";
 
-export default IconButton = ({ type, title }) => {
+export default IconButton = ({ type, title, onPress = () => {} }) => {
   let picto;
   switch (type) {
     case "reputation":
@@ -18,9 +18,9 @@ export default IconButton = ({ type, title }) => {
 
   return (
     <View className="flex flex-col gap-y-10 items-center">
-      <View className="bg-white/10 rounded-12 p-13">
+      <Pressable onPress={onPress} className="bg-white/10 rounded-12 p-13">
         <Image className="w-24 h-24" source={picto} />
-      </View>
+      </Pressable>
       <Text className=" text-white font-libre-franklin font-bold text-12">{ title }</Text>
     </View>
   );
