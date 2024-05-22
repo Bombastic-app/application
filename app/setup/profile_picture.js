@@ -87,7 +87,7 @@ export default ProfilePicture = () => {
 
   useEffect(() => {
     if (image && gameCode && !playerId) {
-      fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/generateId`, {
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/players/generateId`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

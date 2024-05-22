@@ -155,21 +155,25 @@ export default YourTurn = () => {
   handleOnPlay = () => {
     console.log("Playing card", cardData);
 
-    const path = firestore().collection(`games/${gameCode}/players`).doc(playerId);
-    firestore()
-      .runTransaction((transaction) => {
-        return transaction.get(path).then((doc) => {
-          const newReputation = doc.data().reputation + cardData.reputation;
-          const newFollowers = doc.data().followers + cardData.followers;
-          const newMoney = doc.data().money + cardData.money;
-          transaction.update(path, { reputation: newReputation, followers: newFollowers, money: newMoney });
-        });
-      })
-      .then(() => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/players/stats`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gameCode,
+        playerId,
+        reputation: cardData.reputation,
+        followers: cardData.followers,
+        money: cardData.money,
+      }),
+    }) 
+      .then((res) => res.json())
+      .then((res) => {
         console.log("Player statistics updated !");
       })
       .catch((error) => {
-        console.log("Transaction failed: ", error);
+        console.log(error);
       });
 
     if (cardData.type == "news") {
