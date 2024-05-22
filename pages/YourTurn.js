@@ -14,6 +14,7 @@ import { colors } from "../components/Style";
 import CardTitle from "../components/turn/CardTitle";
 import LottieView from "lottie-react-native";
 import { gsap } from "gsap-rn";
+import firestore from '@react-native-firebase/firestore'
 
 export default YourTurn = () => {
   const router = useRouter();
@@ -153,6 +154,23 @@ export default YourTurn = () => {
 
   handleOnPlay = () => {
     console.log("Playing card", cardData);
+
+    const path = firestore().collection(`games/${gameCode}/players`).doc(playerId);
+    firestore()
+      .runTransaction((transaction) => {
+        return transaction.get(path).then((doc) => {
+          const newReputation = doc.data().reputation + cardData.reputation;
+          const newFollowers = doc.data().followers + cardData.followers;
+          const newMoney = doc.data().money + cardData.money;
+          transaction.update(path, { reputation: newReputation, followers: newFollowers, money: newMoney });
+        });
+      })
+      .then(() => {
+        console.log("Player statistics updated !");
+      })
+      .catch((error) => {
+        console.log("Transaction failed: ", error);
+      });
 
     if (cardData.type == "news") {
       handleNews(cardData);
