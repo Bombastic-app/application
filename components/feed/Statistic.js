@@ -22,7 +22,10 @@ export default Statistic = ({ data, type }) => {
     <View className="flex-row items-center gap-5 relative">
       <ProgressCircle progress={data} />
       <Image style={styles.picto} source={picto} />
-      <Heading5>{data}{type == 'reputation' ? '%' : 'M'}</Heading5>
+      <Text>
+        <Heading5 style={styles.number}>{data}</Heading5>
+        <Heading5>{type == 'reputation' ? '%' : 'M'}</Heading5>
+      </Text>
     </View>
   )
 }
@@ -38,5 +41,9 @@ const styles = StyleSheet.create({
       {translateX: 24},
       {translateY: 24}
     ]
-  }
+  },
+  number: {
+    fontVariant: ['tabular-nums'],
+    fontFamily: 'Libre Franklin',
+  },
 });
