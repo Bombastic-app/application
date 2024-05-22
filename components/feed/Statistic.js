@@ -2,7 +2,7 @@ import { Image, StyleSheet, View } from "react-native"
 import ProgressCircle from "./ProgressCircle"
 import Heading5 from "../typography/Heading5";
 
-export default Statistic = ({ progress, data, type }) => {
+export default Statistic = ({ data, type }) => {
   let picto;
   switch (type) {
     case 'reputation':
@@ -20,9 +20,9 @@ export default Statistic = ({ progress, data, type }) => {
 
   return (
     <View className="flex-row items-center gap-5 relative">
-      <ProgressCircle progress={progress} />
+      <ProgressCircle progress={data} />
       <Image style={styles.picto} source={picto} />
-      <Heading5>{data}</Heading5>
+      <Heading5>{data}{type == 'reputation' ? '%' : 'M'}</Heading5>
     </View>
   )
 }

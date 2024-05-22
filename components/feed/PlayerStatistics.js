@@ -1,12 +1,17 @@
 import { View } from "react-native"
 import Statistic from "./Statistic"
+import { useSelector } from "react-redux";
 
-export default PlayerStatistics = ({ data }) => {
+export default PlayerStatistics = () => {
+  const reputation = useSelector((state) => state.reputation);
+  const followers = useSelector((state) => state.followers);
+  const money = useSelector((state) => state.money);
+
   return (
     <View className="flex-row justify-between">
-      <Statistic type="reputation" progress={20} data="20%" />
-      <Statistic type="followers" progress={45} data="3M" />
-      <Statistic type="money" progress={66} data="6M" />
+      <Statistic type="reputation" data={reputation} />
+      <Statistic type="followers" data={followers} />
+      <Statistic type="money" data={money} />
     </View>
   )
 }

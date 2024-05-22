@@ -12,7 +12,10 @@ const configSlice = createSlice({
     currentTurn: false,
     alert: false,
     notification: false,
-    status: false
+    status: false,
+    reputation: 10,
+    followers: 10,
+    money: 10,
   },
   reducers: {
     upgradeScore: (state, action) => {
@@ -44,7 +47,16 @@ const configSlice = createSlice({
     },
     updateStatus: (state, action) => {
       state.status = action.payload
-    }
+    },
+    updateReputation: (state, action) => {
+      state.reputation = action.payload
+    },
+    updateFollowers: (state, action) => {
+      state.followers = action.payload
+    },
+    updateMoney: (state, action) => {
+      state.money = action.payload
+    },
   }
 })
 
@@ -58,7 +70,10 @@ export const {
   updatePseudo,
   updateAlert,
   updateNotification,
-  updateStatus
+  updateStatus,
+  updateReputation,
+  updateFollowers,
+  updateMoney
 } = configSlice.actions
 
 const persistConfig = {

@@ -11,8 +11,11 @@ import firestore from "@react-native-firebase/firestore";
 import Alert from "../components/notifications/Alert";
 import {
   updateCurrentTurn,
+  updateFollowers,
+  updateMoney,
   updateNotification,
   updatePlayerId,
+  updateReputation,
 } from "../store";
 import { router } from "expo-router";
 
@@ -36,6 +39,18 @@ export default Feed = () => {
           loadedData.current = true;
         } else {
           dispatch(updateNotification(false));
+        }
+
+        if (player.data()?.money) {
+          dispatch(updateMoney(player.data().money));
+        }
+
+        if (player.data()?.reputation) {
+          dispatch(updateReputation(player.data().reputation));
+        }
+
+        if (player.data()?.followers) {
+          dispatch(updateFollowers(player.data().followers));
         }
       });
 

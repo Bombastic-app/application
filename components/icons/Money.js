@@ -9,7 +9,7 @@ export default Money = ({ active, fill = colors.white, ...props }) => {
       height="30"
       fill="none"
       viewBox="0 0 30 30"
-      opacity={active ? 1 : 0.2}
+      opacity={active ? 1 : 0.4}
     >
       <Path
         fill={ fill }

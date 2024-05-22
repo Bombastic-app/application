@@ -9,7 +9,7 @@ export default Followers = ({ active, fill = colors.white, ...props }) => {
       height="29"
       fill="none"
       viewBox="0 0 29 29"
-      opacity={active ? 1 : 0.2}
+      opacity={active ? 1 : 0.4}
     >
       <Path
         fill={ fill }
