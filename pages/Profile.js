@@ -16,6 +16,7 @@ import Post from "../components/feed/Post";
 export default Profile = ({ hidden = false, playerId, pseudo }) => {
   const [posts, setPosts] = useState([]);
   const [imageUrl, setImageUrl] = useState();
+  const [bio, setBio] = useState('');
   const gameCode = useSelector((state) => state.gameCode);
   const postsToAdd = [];
 
@@ -46,6 +47,20 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
           setImageUrl(url);
         });
       });
+
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/${gameCode}/bio/${playerId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }) 
+      .then((res) => res.json())
+      .then((data) => {
+        setBio(data.bio);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -74,7 +89,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
             }
           </View>
 
-          <Text>Ceci est une biographie.</Text>
+          <Text>{bio}</Text>
         </View>
 
         <View className={hidden ? "border-t border-white/15" : "border-t border-b border-white/15 py-15"}>
