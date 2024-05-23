@@ -26,7 +26,7 @@ export default Biography = () => {
     }) 
       .then((res) => res.json())
       .then((res) => {
-        console.log("Biography added !");
+        console.log(res.message);
       })
       .catch((error) => {
         console.log(error);

@@ -170,7 +170,7 @@ export default YourTurn = () => {
     }) 
       .then((res) => res.json())
       .then((res) => {
-        console.log("Player statistics updated !");
+        console.log(res.message);
       })
       .catch((error) => {
         console.log(error);
