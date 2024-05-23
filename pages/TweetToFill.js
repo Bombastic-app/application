@@ -57,7 +57,7 @@ export default TweetToFill = ({ type, content, title }) => {
               autoFocus
               scrollEnabled={false}
               multiline
-              maxLength={100}
+              maxLength={CONSTANTS.textInputMaxLength}
               onChangeText={(text) => setTweet(text)}
               style={{paddingBottom: 1, textAlignVertical: "bottom"}}
             />

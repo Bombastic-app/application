@@ -107,7 +107,7 @@ export default PhotoToFill = ({ type, content, title }) => {
                   onChangeText={(text) => setDesc(text)}
                   scrollEnabled={false}
                   multiline
-                  maxLength={100}
+                  maxLength={CONSTANTS.textInputMaxLength}
                 />
               </View>
           </View>

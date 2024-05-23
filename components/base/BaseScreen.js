@@ -9,6 +9,7 @@ import Alert from "../notifications/Alert";
 import { useDispatch, useSelector } from "react-redux";
 import { updateAlert, updateNotification } from "../../store";
 import Notification from "../notifications/Notification";
+import { CONSTANTS } from "../../constants";
 
 export default BaseScreen = ({ children, title, debug, className, headerShown = false, style }) => {
   const insets = useSafeAreaInsets();
@@ -36,7 +37,7 @@ export default BaseScreen = ({ children, title, debug, className, headerShown = 
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 20,
+    paddingHorizontal: CONSTANTS.paddingHorizontal,
     flex: 1,
     position: "relative",
     backgroundColor: colors.marine

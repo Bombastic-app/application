@@ -8,6 +8,7 @@ import RulesDots from "../components/icons/RulesDots";
 import Carousel from "react-native-reanimated-carousel";
 import { useState } from "react";
 import { Image } from "expo-image";
+import { CONSTANTS } from "../constants";
 
 export default Rules = ({ }) => {
   const width = Dimensions.get('window').width;
@@ -56,7 +57,7 @@ export default Rules = ({ }) => {
       <View className="relative flex-1">
         <View style={styles.fixBackgroundPicture}></View>
         <Carousel
-          width={width - 40}
+          width={width - (CONSTANTS.paddingHorizontal * 2)}
           data={rulesData}
           loop={false}
           onSnapToItem={index => setCurrentIndex(index)}

@@ -6,6 +6,7 @@ import { router, useRouter } from "expo-router";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scrollview";
 import Heading2 from "../components/typography/Heading2";
 import { useSelector } from "react-redux";
+import { CONSTANTS } from "../constants";
 
 export default Biography = () => {
   const [bio, setBio] = useState();
@@ -51,7 +52,7 @@ export default Biography = () => {
               autoFocus
               scrollEnabled={false}
               multiline
-              maxLength={100}
+              maxLength={CONSTANTS.textInputMaxLength}
               onChangeText={(text) => setBio(text)}
               style={{paddingBottom: 1, textAlignVertical: "bottom"}}
             />
@@ -63,12 +64,3 @@ export default Biography = () => {
     </BaseScreen>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-between",
-    alignItems: 'center',
-    paddingTop: 48
-  },
-});
