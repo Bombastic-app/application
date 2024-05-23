@@ -22,7 +22,7 @@ export default TweetToFill = ({ type, content, title }) => {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        content: content + " " + tweet,
+        content: content + " " + tweet.toLowerCase(),
         type,
         gameCode,
         playerId,
