@@ -155,7 +155,7 @@ export default YourTurn = () => {
   handleOnPlay = () => {
     console.log("Playing card", cardData);
 
-    fetch(`${process.env.EXPO_PUBLIC_API_URL}/players/stats`, {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

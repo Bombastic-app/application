@@ -116,7 +116,7 @@ export default ProfilePicture = () => {
 
   return (
     <BaseScreen>
-      <View className="flex flex-col w-full h-full items-center justify-between gap-y-20">
+      <View className="flex flex-col w-full h-full items-center justify-between gap-y-20 mt-20">
         <Heading2>Ajoute une photo de profil</Heading2>
         {!image && (
           <Image
@@ -138,9 +138,9 @@ export default ProfilePicture = () => {
 
         {image && (
           <RoundedButton
-            title="Let's go"
+            title="Suivant"
             onClick={() => { 
-              router.push('/lobby/new_game')
+              router.push('/setup/biography')
             }}
           />
         )}
