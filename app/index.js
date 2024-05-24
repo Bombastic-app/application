@@ -7,7 +7,7 @@ import New_game from "./lobby/new_game";
 import Join_game from "./lobby/join_game";
 import Score from "../pages/Score";
 import Text from "../components/typography/Text";
-import Profile_picture from "./setup/profile_picture";
+import Profile_picture from "./lobby/profile_picture";
 import TurnPage from "./turn/index"
 import { useSelector } from "react-redux";
 import Reset from "./debug/reset";
@@ -30,8 +30,8 @@ export default Page = ({ navigation }) => {
   if (fontsLoaded) {
     // if (gameCode) return <Reset />
     // if (gameCode) return <New_game />
-    // if (gameCode) return <Feed />
-    if (gameCode) return <TurnPage />
+    if (gameCode) return <Feed />
+    // if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
     else return <Home />
     // return <Home />

@@ -113,7 +113,7 @@ export default Home = () => {
               gradient
               onClick={() =>
                 router.push({
-                  pathname: "/setup/profile_picture",
+                  pathname: "/lobby/profile_picture",
                   params: { action: "new_game" },
                 })
               }
