@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
     marginLeft: -40,
     marginRight: -40,
     width: "130%",
-    textAlign: "center",
+    textAlign: "center"
   },
   starSvg: {
     position: "absolute",
