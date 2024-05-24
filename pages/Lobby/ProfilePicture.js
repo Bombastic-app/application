@@ -1,8 +1,8 @@
-import { StyleSheet, Text, View } from "react-native";
+import { View } from "react-native";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import { useEffect, useState } from "react";
 import * as ImagePicker from "expo-image-picker";
-import { Stack, router, useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import storage from "@react-native-firebase/storage";
 import BaseScreen from "../../components/base/BaseScreen";
 import Heading2 from "../../components/typography/Heading2";
@@ -10,15 +10,14 @@ import { generateGameCode } from "../../components/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGameCode, updatePlayerId } from "../../store";
 import { manipulateAsync } from "expo-image-manipulator";
-import { Image } from "expo-image";
-import RoundedImage from "../../components/base/RoundedImage";
+import ShapedImage from "../../components/ShapedImage";
 
 export default ProfilePicture = () => {
   const [image, setImage] = useState(false);
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
   const pseudo = useSelector((state) => state.pseudo);
-  const currentTurn = useSelector((state) => state.currentTurn)
+  const currentTurn = useSelector((state) => state.currentTurn);
   const dispatch = useDispatch();
   const { action } = useLocalSearchParams();
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
@@ -93,7 +92,7 @@ export default ProfilePicture = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ gameCode }),
-      }) 
+      })
         .then((res) => res.json())
         .then((res) => {
           handleOnUpdatePlayerId(res.playerId);
@@ -118,16 +117,8 @@ export default ProfilePicture = () => {
     <BaseScreen>
       <View className="flex flex-col w-full h-full items-center justify-between gap-y-20 mt-20">
         <Heading2>Ajoute une photo de profil</Heading2>
-        {!image && (
-          <Image
-            contentFit="contain"
-            source={require("../../assets/user.png")}
-            style={{ width: 200, height: 200, borderRadius: 99999, backgroundColor: 'rgba(255, 255, 255, 0.2)' }}
-          />
-        )}
-        {image && (
-          <RoundedImage imageUrl={image} />
-        )}
+        {!image && <ShapedImage source={require("../../assets/coucou.png")} />}
+        {image && <ShapedImage source={image} />}
 
         {!image && (
           <View className="w-full">
@@ -139,8 +130,8 @@ export default ProfilePicture = () => {
         {image && (
           <RoundedButton
             title="Suivant"
-            onClick={() => { 
-              router.push('/setup/biography')
+            onClick={() => {
+              router.push("/setup/biography");
             }}
           />
         )}

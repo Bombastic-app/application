@@ -3,9 +3,10 @@ import * as ImagePicker from "expo-image-picker";
 import storage from "@react-native-firebase/storage";
 import Heading2 from "../../../components/typography/Heading2";
 import { RoundedButton } from "../../../components/base/RoundedButton";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { useSelector } from "react-redux";
 import { manipulateAsync } from "expo-image-manipulator";
+import ShapedImage from "../../../components/ShapedImage";
 
 export const MiniGameMemeSetup = ({ updateStep }) => {
   const [title, setTitle] = useState();
@@ -65,7 +66,7 @@ export const MiniGameMemeSetup = ({ updateStep }) => {
     <View className="flex flex-col items-center gap-30 h-full justify-between">
       <Heading2 className="pt-50 text-center">{title}</Heading2>
       <View className="relative">
-        <Image
+        <ShapedImage
           source={
             !image
               ? meme
@@ -73,11 +74,11 @@ export const MiniGameMemeSetup = ({ updateStep }) => {
                 : require("../../../assets/meme.png")
               : { uri: image }
           }
-          className="h-300 w-300 rounded-30 bg-pink object-cover"
+          // className="h-300 w-300 rounded-30 bg-pink object-cover"
         />
         {image && (
           <RoundedButton
-            className="absolute right-10 bottom-10"
+            className="absolute right-40 bottom-10"
             icon
             widthAuto={true}
             onClick={takeImage}
