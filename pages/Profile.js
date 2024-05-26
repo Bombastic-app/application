@@ -1,4 +1,4 @@
-import { ScrollView, View } from "react-native";
+import { ScrollView, View, Pressable } from "react-native";
 import BaseScreen from "../components/base/BaseScreen"
 import Heading5 from "../components/typography/Heading5"
 import LogoSVG from "../components/icons/Logo"
@@ -12,6 +12,8 @@ import { updateGameCode, updatePlayerId } from "../store";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
 import Post from "../components/feed/Post";
+import { router } from "expo-router";
+import BackArrow from "../components/icons/BackArrow";
 
 export default Profile = ({ hidden = false, playerId, pseudo }) => {
   const [posts, setPosts] = useState([]);
@@ -65,7 +67,13 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
 
   return (
     <BaseScreen headerShown={false}>
-      <LogoSVG />
+      { hidden ?
+        <Pressable onPress={router.back} className="mt-10">
+          <BackArrow />
+        </Pressable>
+        :
+        <LogoSVG />
+      }
 
       <View className="gap-20 mt-28 flex-1">
         <View className="items-start">
