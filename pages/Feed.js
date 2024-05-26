@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { ScrollView, View } from "react-native";
+import { Pressable, ScrollView, View } from "react-native";
 import BaseScreen from "../components/base/BaseScreen";
 import LogoSVG from "../components/icons/Logo";
 import PlayerStatistics from "../components/feed/PlayerStatistics";
@@ -65,6 +65,10 @@ export default Feed = () => {
     })
   };
 
+  const handleOnClickPost = (author, pseudo, type, content) => {
+    router.push({ pathname: "/post", params: { author, pseudo, type, content, currentTurn } });
+  };
+
   useEffect(() => {
     if (!loadedData.current) loadDataOnce();
   }, [gameCode, currentTurn]);
@@ -103,7 +107,11 @@ export default Feed = () => {
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
               posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
-                return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={i} author={fPost.playerId} />;
+                return (
+                  <Pressable onPress={() => handleOnClickPost(fPost.playerId, fPost.pseudo, fPost.type, fPost.content)} key={`feed-post-${i}`}>
+                    <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} author={fPost.playerId} />
+                  </Pressable>
+                )
               })}
           </View>
           {!posts || posts.length === 0 && (

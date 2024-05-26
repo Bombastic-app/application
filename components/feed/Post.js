@@ -9,15 +9,12 @@ import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import { router } from "expo-router";
+import ClickableProfilePicture from "../common/ClickableProfilePicture";
 
-export default Post = ({ type, content, pseudo, author }) => {
+export default Post = ({ type, content, pseudo, author, displayComments = true }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [picture, setPicture] = useState();
-  const profilePicture =
-    type == "news"
-      ? require("../../assets/gossipnews.png")
-      : require("../../assets/illustration.png");
 
   useEffect(() => {
     if (type == "photo") {
@@ -43,22 +40,7 @@ export default Post = ({ type, content, pseudo, author }) => {
 
   return (
     <View style={styles.postBackground}>
-      <Pressable className="self-start" onPress={handleOnClickProfilePicture}>
-        <View style={styles.centerMidGap}>
-          <View className="relative">
-            <Image style={styles.profilePicture} source={profilePicture} />
-            {type == "news" && (
-              <Image
-                className="translate-y-10 absolute left-0 right-0 bottom-0 h-40 w-40"
-                source={require("../../assets/hands.png")}
-              />
-            )}
-          </View>
-          <Heading5 className="uppercase">
-            @{type != "news" ? pseudo : "gossipnews"}
-          </Heading5>
-        </View>
-      </Pressable>
+      <ClickableProfilePicture pseudo={pseudo} type={type} onClick={handleOnClickProfilePicture} />
 
       {type == "tweet" && <Text>{content}</Text>}
       {type == "photo" && picture && (
@@ -94,14 +76,16 @@ export default Post = ({ type, content, pseudo, author }) => {
         </View>
       </View>
 
-      <View>
-        <Pressable
-          onPress={() => console.log("comments")}
-          style={styles.centerLittleGap}>
-          <Comment />
-          <Text>Aucun commentaire</Text>
-        </Pressable>
-      </View>
+      {displayComments &&
+        <View>
+          <Pressable
+            onPress={() => console.log("comments")}
+            style={styles.centerLittleGap}>
+            <Comment />
+            <Text>Aucun commentaire</Text>
+          </Pressable>
+        </View>
+      }
     </View>
   );
 };
