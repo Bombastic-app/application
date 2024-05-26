@@ -10,11 +10,13 @@ import { useEffect, useState } from "react";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import ClickableProfilePicture from "../common/ClickableProfilePicture";
+import firestore from "@react-native-firebase/firestore";
 
 export default Post = ({ type, content, pseudo, author, displayComments = true }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [picture, setPicture] = useState();
+  const [commentsLength, setCommentsLength] = useState(0);
 
   useEffect(() => {
     if (type == "photo") {
@@ -32,6 +34,12 @@ export default Post = ({ type, content, pseudo, author, displayComments = true }
           console.log(error);
         });
     }
+
+    firestore()
+      .collection(`games/${gameCode}/turns/${currentTurn}/posts/${author}/comments`)
+      .onSnapshot((docs) => {
+        setCommentsLength(docs.size);
+      });
   }, []);
 
   const handleOnClickProfilePicture = () => {
@@ -82,7 +90,7 @@ export default Post = ({ type, content, pseudo, author, displayComments = true }
             onPress={() => console.log("comments")}
             style={styles.centerLittleGap}>
             <Comment />
-            <Text>Aucun commentaire</Text>
+            <Text>{commentsLength > 0 ? `${commentsLength} commentaires` : 'Aucun commentaire'}</Text>
           </Pressable>
         </View>
       }
