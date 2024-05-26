@@ -41,17 +41,24 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn }) => 
   }, []);
 
   const handleOnPostComment = () => {
-    firestore()
-      .collection(`games/${gameCode}/turns/${currentTurn}/posts/${author}/comments`)
-      .add({
-        content: comment,
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/comment/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gameCode,
         playerId,
+        author,
+        currentTurn,
+        content: comment,
         pseudo: currentPseudo,
-        timestamp: Date.now(),
-      })
-      .then(() => {
+      }),
+    }) 
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message);
         setComment('');
-        console.log("comment posted !");
       })
       .catch((error) => {
         console.log(error);

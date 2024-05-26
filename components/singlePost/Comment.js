@@ -3,7 +3,6 @@ import Text from "../typography/Text";
 import ClickableProfilePicture from "../common/ClickableProfilePicture";
 import { useSelector } from "react-redux";
 import Trash from "../icons/Trash";
-import firestore from "@react-native-firebase/firestore";
 
 export default Comment = ({ id, content, pseudo, onClickProfile, author, postAuthor }) => {
   const playerId = useSelector((state) => state.playerId);
@@ -11,12 +10,21 @@ export default Comment = ({ id, content, pseudo, onClickProfile, author, postAut
   const currentTurn = useSelector((state) => state.currentTurn);
 
   const handleOnDelete = () => {
-    firestore()
-      .collection(`games/${gameCode}/turns/${currentTurn}/posts/${postAuthor}/comments`)
-      .doc(id)
-      .delete()
-      .then(() => {
-        console.log('Comment deleted');
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/comment/delete`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gameCode,
+        currentTurn,
+        author: postAuthor,
+        id,
+      }),
+    }) 
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message);
       })
       .catch((error) => {
         console.log(error);
