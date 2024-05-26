@@ -32,7 +32,8 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn }) => 
         const commentsToDisplay = [];
 
         docs.forEach((doc) => {
-          commentsToDisplay.push(doc.data());
+          const id = doc.id;
+          commentsToDisplay.push({id, ...doc.data()});
         });
 
         setComments(commentsToDisplay);
@@ -75,7 +76,7 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn }) => 
             {comments &&
               comments.sort((a, b) => b.timestamp - a.timestamp).map((fCom, i) => {
                 return (
-                  <Comment pseudo={fCom.pseudo} content={fCom.content} onClick={() => handleOnClickProfilePicture(fCom.playerId, fCom.pseudo)} />
+                  <Comment key={`comment-${i}`} id={fCom.id} pseudo={fCom.pseudo} author={fCom.playerId} postAuthor={author} content={fCom.content} onClickProfile={() => handleOnClickProfilePicture(fCom.playerId, fCom.pseudo)} />
                 )
               })}
           </View>
