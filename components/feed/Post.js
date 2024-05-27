@@ -85,13 +85,9 @@ export default Post = ({ type, content, pseudo, author, displayComments = true }
       </View>
 
       {displayComments &&
-        <View>
-          <Pressable
-            onPress={() => console.log("comments")}
-            style={styles.centerLittleGap}>
-            <Comment />
-            <Text>{commentsLength > 0 ? `${commentsLength} commentaires` : 'Aucun commentaire'}</Text>
-          </Pressable>
+        <View style={styles.centerLittleGap}>
+          <Comment />
+          <Text>{commentsLength > 0 ? `${commentsLength} commentaires` : 'Aucun commentaire'}</Text>
         </View>
       }
     </View>

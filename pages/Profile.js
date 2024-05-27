@@ -67,13 +67,15 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
 
   return (
     <BaseScreen headerShown={false}>
-      { hidden ?
+      { hidden === true ?
         <Pressable onPress={router.back} className="mt-10">
           <BackArrow />
         </Pressable>
         :
         <LogoSVG />
       }
+
+      <Tabs active={'profile'} />
 
       <View className="gap-20 mt-28 flex-1">
         <View className="items-start">

@@ -18,6 +18,7 @@ import {
   updateReputation,
 } from "../store";
 import { router } from "expo-router";
+import Tabs from "../components/common/Tabs";
 
 export default Feed = () => {
   const dispatch = useDispatch();
@@ -26,6 +27,7 @@ export default Feed = () => {
   const notification = useSelector((state) => state.notification);
   const currentTurn = useSelector((state) => state.currentTurn);
   const status = useSelector((state) => state.status);
+
   const [posts, setPosts] = useState(false);
   const loadedData = useRef(false);
 
@@ -69,6 +71,7 @@ export default Feed = () => {
     router.push({ pathname: "/post", params: { author, pseudo, type, content, currentTurn } });
   };
 
+
   useEffect(() => {
     if (!loadedData.current) loadDataOnce();
   }, [gameCode, currentTurn]);
@@ -100,10 +103,14 @@ export default Feed = () => {
 
   return (
     <BaseScreen headerShown={false}>
+      <Tabs active={'feed'} />
+
       <View className="gap-16 flex-1">
         <LogoSVG />
+
         <PlayerStatistics />
-        <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
+
+        <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1, paddingBottom: 40 }}>
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
               posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
@@ -116,9 +123,7 @@ export default Feed = () => {
           </View>
           {!posts || posts.length === 0 && (
             <View className="items-center justify-center flex-1">
-              <Heading5 className="uppercase">
-                Ton feed est actuellement vide
-              </Heading5>
+              <Heading5 className="uppercase">Ton feed est actuellement vide</Heading5>
             </View>
           )}
         </ScrollView>
