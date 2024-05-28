@@ -100,24 +100,27 @@ export default ProfilePicture = () => {
     }
   }, [image, gameCode, playerId]);
 
-  useEffect(() => {
-    if (playerId && image)
-      manipulateAsync(image, [], { compress: 0.5 }).then((imageCompressed) => {
-        storage()
-          .ref()
-          .child(`/profile_pictures/${playerId}.png`)
-          .putFile(imageCompressed.uri)
-          .then(() => {
-            console.log("image uploaded");
-          });
-      });
-  }, [playerId, image]);
+  handleOnValidate = () => {
+    manipulateAsync(image, [], { compress: 0.5 }).then((imageCompressed) => {
+      storage()
+        .ref()
+        .child(`/games/${gameCode}/profile_pictures/${playerId}.png`)
+        .putFile(imageCompressed.uri)
+        .then(() => {
+          console.log("image uploaded");
+          router.push("/lobby/biography");
+        })
+        .catch((error) => {
+          console.log("error uploading image", error);
+        });
+    });
+  };
 
   return (
     <BaseScreen>
       <View className="flex flex-col w-full h-full items-center justify-between gap-y-20 mt-20">
         <Heading2>Ajoute une photo de profil</Heading2>
-        {!image && <ShapedImage source={require("../../assets/coucou.png")} />}
+        {!image && <ShapedImage source={require("../../assets/default.png")} />}
         {image && <ShapedImage source={image} />}
 
         {!image && (
@@ -127,12 +130,10 @@ export default ProfilePicture = () => {
           </View>
         )}
 
-        {image && (
+        {image && playerId && (
           <RoundedButton
             title="Suivant"
-            onClick={() => {
-              router.push("/setup/biography");
-            }}
+            onClick={handleOnValidate}
           />
         )}
       </View>

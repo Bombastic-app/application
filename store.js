@@ -16,6 +16,7 @@ const configSlice = createSlice({
     reputation: 10,
     followers: 10,
     money: 10,
+    profilePictures: [],
   },
   reducers: {
     upgradeScore: (state, action) => {
@@ -57,6 +58,9 @@ const configSlice = createSlice({
     updateMoney: (state, action) => {
       state.money = action.payload
     },
+    updateProfilePictures: (state, action) => {
+      state.profilePictures = action.payload
+    },
   }
 })
 
@@ -73,7 +77,8 @@ export const {
   updateStatus,
   updateReputation,
   updateFollowers,
-  updateMoney
+  updateMoney,
+  updateProfilePictures
 } = configSlice.actions
 
 const persistConfig = {

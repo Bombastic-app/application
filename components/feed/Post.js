@@ -48,7 +48,7 @@ export default Post = ({ type, content, pseudo, author, displayComments = true }
 
   return (
     <View style={styles.postBackground}>
-      <ClickableProfilePicture pseudo={pseudo} type={type} onClick={handleOnClickProfilePicture} />
+      <ClickableProfilePicture playerId={author} pseudo={pseudo} type={type} onClick={handleOnClickProfilePicture} />
 
       {type == "tweet" && <Text>{content}</Text>}
       {type == "photo" && picture && (

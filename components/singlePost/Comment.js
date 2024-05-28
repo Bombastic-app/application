@@ -34,7 +34,7 @@ export default Comment = ({ id, content, pseudo, onClickProfile, author, postAut
   return (
     <View style={styles.comment}>
       <View className="flex-row items-center justify-between">
-        <ClickableProfilePicture pseudo={pseudo} type="comment" onClick={onClickProfile} />
+        <ClickableProfilePicture playerId={author} pseudo={pseudo} type="comment" onClick={onClickProfile} />
         {playerId == author &&
           <Pressable onPress={handleOnDelete}>
             <Trash />

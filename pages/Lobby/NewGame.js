@@ -8,7 +8,7 @@ import BaseScreen from "../../components/base/BaseScreen";
 import Cards from "../../components/icons/Cards";
 import { useDispatch, useSelector } from "react-redux";
 import { Image } from "expo-image";
-import { updateCurrentTurn } from "../../store";
+import { updateCurrentTurn, updateProfilePictures } from "../../store";
 
 export default NewGame = () => {
   const gameCode = useSelector((state) => state.gameCode);
@@ -16,10 +16,7 @@ export default NewGame = () => {
   const dispatch = useDispatch();
   const playerId = useSelector((state) => state.playerId);
   const [players, setPlayers] = useState(false);
-  const [profilePictures, setProfilePictures] = useState([]);
   const [pictures, setPictures] = useState([]);
-  const [screen, setScreen] = useState(false);
-  const [debug, setDebug] = useState(false);
 
   const shareLink = async () => {
     Share.share({
@@ -40,6 +37,7 @@ export default NewGame = () => {
   const onStartGame = () => {
     if (!currentTurn) {
       dispatch(updateCurrentTurn(1));
+      dispatch(updateProfilePictures(pictures));
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/start`, {
         method: "POST",
         headers: {
@@ -56,38 +54,24 @@ export default NewGame = () => {
 
   useEffect(() => {
     if (players) {
-      // Get profile pictures on storage
+      players.forEach((player) => {
+        if (!players.some(e => e.name === player.id)) {
       storage()
         .ref()
-        .child("profile_pictures")
-        .listAll()
-        .then((images) => {
-          images.items.map((item) => {
-            item.getDownloadURL().then((url) => {
+            .child(`/games/${gameCode}/profile_pictures/${player.id}.png`)
+            .getDownloadURL()
+            .then((url) => {
               const picture = {
-                name: item.name.replace(".png", ""),
+                name: player.id,
                 url: url,
               };
 
-              setProfilePictures((oldPictures) => [...oldPictures, picture]);
+              setPictures((oldPictures) => [...oldPictures, picture]);
             });
-          });
+        }
         });
     }
   }, [players]);
-
-  useEffect(() => {
-    if (players && profilePictures) {
-      const picturesTmp = [];
-
-      players.forEach((player) => {
-        const picture = profilePictures.find((pp) => player.id === pp.name);
-        if (picture) picturesTmp.push(picture.url);
-      });
-
-      setPictures(picturesTmp);
-    }
-  }, [profilePictures]);
 
   useEffect(() => {
     if (gameCode) {
@@ -101,9 +85,8 @@ export default NewGame = () => {
               })
             );
         });
-      // Game code set
     }
-  }, [debug, gameCode]);
+  }, [gameCode]);
 
   return (
     <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
@@ -120,11 +103,11 @@ export default NewGame = () => {
       {players && (
         <View className="flex flex-row justify-center items-center flex-wrap gap-x-60 gap-y-30 px-10">
           {players.map((player, i) => (
-            <View className="flex flex-col items-center gap-y-10" key={i}>
+            <View className="flex flex-col items-center gap-y-10" key={`player-${i}`}>
               <View className="relative">
                 {pictures && (
                   <Image
-                    source={pictures[i]}
+                    source={pictures.find((np) => np.name === player.id)?.url}
                     contentFit="cover"
                     cachePolicy={"memory-disk"}
                     style={{ width: 80, height: 80, borderRadius: 9999 }}

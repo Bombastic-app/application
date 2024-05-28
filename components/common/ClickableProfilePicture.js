@@ -1,12 +1,15 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { Image } from "expo-image";
 import Heading5 from "../typography/Heading5";
+import { useSelector } from "react-redux";
 
-export default ClickableProfilePicture = ({ pseudo, type, onClick }) => {
+export default ClickableProfilePicture = ({ playerId, pseudo, type, onClick }) => {
+  const profilePictures = useSelector((state) => state.profilePictures);
+
   const profilePicture =
     type == "news"
       ? require("../../assets/gossipnews.png")
-      : require("../../assets/illustration.png");
+      : profilePictures.find((np) => np.name === playerId)?.url;
 
   return (
     <Pressable className="self-start" onPress={onClick}>
