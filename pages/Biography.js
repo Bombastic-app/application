@@ -22,7 +22,7 @@ export default Biography = () => {
       body: JSON.stringify({
         gameCode,
         playerId,
-        bio: bio.toLowerCase(),
+        biography: bio.toLowerCase(),
       }),
     }) 
       .then((res) => res.json())

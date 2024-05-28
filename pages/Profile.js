@@ -47,7 +47,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
     }) 
       .then((res) => res.json())
       .then((data) => {
-        setBio(data.bio);
+        setBio(data.biography);
       })
       .catch((error) => {
         console.log(error);
