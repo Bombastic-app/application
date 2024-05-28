@@ -98,12 +98,29 @@ export const MiniGameMemeChoice = () => {
       </View>
       <Text>Maintiens pour agrandir</Text>
       {zoomInId !== false && (
-        <View className="absolute w-full h-full flex justify-center items-center bg-marine/50">
-          <Pressable onPress={() => setZoomInId(false)}>
-            <Image
-              source={images[zoomInId]}
-              style={{ width: 300, height: 300, borderRadius: 30 }}
-            />
+        <View className="absolute w-full h-full bg-marine/50">
+          <Pressable
+            onPress={() => setZoomInId(false)}
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              width: "100%",
+              height: "100%",
+            }}>
+            <View
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: [
+                  { translateX: -(zoomInImageSizes.width / 2) },
+                  { translateY: -(zoomInImageSizes.height / 2) },
+                ],
+              }}
+              onLayout={handleOnLayout}>
+              <ShapedImage source={images.find((_, index) => zoomInId === index)} />
+            </View>
           </Pressable>
         </View>
       )}

@@ -10,6 +10,8 @@ import * as ImagePicker from "expo-image-picker";
 import storage from "@react-native-firebase/storage";
 import { manipulateAsync } from "expo-image-manipulator";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
+import { CONSTANTS } from "../constants";
+import { colors } from "../components/Style";
 
 export default PhotoToFill = ({ type, content, title }) => {
   const router = useRouter();
@@ -74,7 +76,7 @@ export default PhotoToFill = ({ type, content, title }) => {
   };
 
   return (
-    <BaseScreen headerShown={false}>
+    <BaseScreen headerShown={false} style={{ backgroundColor: colors.marine }}>
       <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} bounces={false} scrollEnabled={false}>
         <View className="flex-1 justify-between pt-28">
           <View className="items-center gap-30 flex-1">

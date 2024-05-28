@@ -6,6 +6,8 @@ import { useState } from "react";
 import { useRouter } from "expo-router";
 import { useSelector } from "react-redux";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
+import { CONSTANTS } from "../constants";
+import { colors } from "../components/Style";
 
 export default TweetToFill = ({ type, content, title }) => {
   const router = useRouter();
@@ -43,7 +45,7 @@ export default TweetToFill = ({ type, content, title }) => {
   };
 
   return (
-    <BaseScreen headerShown={false}>
+    <BaseScreen headerShown={false} style={{ backgroundColor: colors.marine }}>
       <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} bounces={false} scrollEnabled={false}>
         <View className="flex-1 justify-between mt-28">
           <View>

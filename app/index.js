@@ -30,8 +30,8 @@ export default Page = ({ navigation }) => {
   if (fontsLoaded) {
     // if (gameCode) return <Reset />
     // if (gameCode) return <New_game />
-    if (gameCode) return <Feed />
-    // if (gameCode) return <TurnPage />
+    // if (gameCode) return <Feed />
+    if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
     else return <Home />
     // return <Home />
