@@ -101,7 +101,7 @@ export default YourTurn = ({
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("posted !")
+        console.log(data.message)
       })
       .catch((error) => {
         console.log(error)
