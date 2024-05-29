@@ -4,11 +4,9 @@ import BaseScreen from "../components/base/BaseScreen";
 import LogoSVG from "../components/icons/Logo";
 import PlayerStatistics from "../components/feed/PlayerStatistics";
 import Post from "../components/feed/Post";
-import { CONSTANTS } from "../constants";
 import Heading5 from "../components/typography/Heading5";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
-import Alert from "../components/notifications/Alert";
 import {
   updateCurrentTurn,
   updateFollowers,
@@ -26,7 +24,6 @@ export default Feed = () => {
   const playerId = useSelector((state) => state.playerId);
   const notification = useSelector((state) => state.notification);
   const currentTurn = useSelector((state) => state.currentTurn);
-  const status = useSelector((state) => state.status);
 
   const [posts, setPosts] = useState(false);
   const loadedData = useRef(false);
@@ -77,7 +74,6 @@ export default Feed = () => {
   }, [gameCode, currentTurn]);
 
   useEffect(() => {
-    // if (playerId) dispatch(updatePlayerId('dTSpRKZsSrZcOjBH5cuZ'))
     if (currentTurn) {
       firestore()
         .collection(`games/${gameCode}/turns/${currentTurn}/posts`)
@@ -90,14 +86,6 @@ export default Feed = () => {
 
           setPosts(postsToAdd);
         });
-
-      // fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
-      //   method: 'POST',
-      //   headers: {
-      //     'Content-Type': 'application/json'
-      //   },
-      //   // body: JSON.stringify({  })
-      // })
     }
   }, [gameCode, playerId, currentTurn]);
 
