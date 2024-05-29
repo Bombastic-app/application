@@ -106,6 +106,7 @@ export default YourTurn = ({
         })
         .catch((error) => {
           console.log(error)
+          setScanning(false);
         })
     }
   }, [tagId])
