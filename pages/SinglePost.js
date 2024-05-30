@@ -13,7 +13,7 @@ import OkButton from "../components/icons/OkButton";
 import Comment from "../components/singlePost/Comment";
 import firestore from "@react-native-firebase/firestore";
 
-export default SinglePost = ({ type, content, pseudo, author, currentTurn }) => {
+export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes, dislikes }) => {
   const [comment, setComment] = useState('');
   const [comments, setComments] = useState(false);
   const gameCode = useSelector((state) => state.gameCode);
@@ -72,7 +72,7 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn }) => 
       </Pressable>
 
       <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} bounces={false} scrollEnabled={false}>
-        <Post type={type} content={content} pseudo={pseudo} author={author} displayComments={false} />
+        <Post type={type} content={content} pseudo={pseudo} author={author} soloView={true} likes={likes} dislikes={dislikes} />
 
         <View style={styles.divider}></View>
 
@@ -91,6 +91,7 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn }) => 
 
         <View className="flex-row gap-7 pt-15 items-center">
           <Image style={styles.profilePicture} source={profilePicture} />
+
           <TextInput
             className="font-libre-franklin text-white border border-white/10 placeholder:text-white/40"
             placeholder="Commenter la publication"
@@ -101,6 +102,7 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn }) => 
             style={styles.commentInput}
             value={comment}
           />
+
           <Pressable onPress={handleOnPostComment}>
             <OkButton />
           </Pressable>

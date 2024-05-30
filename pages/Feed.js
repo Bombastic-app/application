@@ -64,8 +64,8 @@ export default Feed = () => {
     })
   };
 
-  const handleOnClickPost = (author, pseudo, type, content) => {
-    router.push({ pathname: "/post", params: { author, pseudo, type, content, currentTurn } });
+  const handleOnClickPost = (author, pseudo, type, content, likes, dislikes) => {
+    router.push({ pathname: "/post", params: { author, pseudo, type, content, currentTurn, likes, dislikes }});
   };
 
 
@@ -103,8 +103,8 @@ export default Feed = () => {
             {posts &&
               posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
                 return (
-                  <Pressable onPress={() => handleOnClickPost(fPost.playerId, fPost.pseudo, fPost.type, fPost.content)} key={`feed-post-${i}`}>
-                    <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} author={fPost.playerId} />
+                  <Pressable onPress={() => handleOnClickPost(fPost.playerId, fPost.pseudo, fPost.type, fPost.content, fPost.likes, fPost.dislikes)} key={`feed-post-${i}`}>
+                    <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} author={fPost.playerId} likes={fPost.likes} dislikes={fPost.dislikes} />
                   </Pressable>
                 )
               })}
