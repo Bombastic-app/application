@@ -13,6 +13,7 @@ import Statistics from "../components/card/Statistics"
 import { colors } from "../components/Style"
 import CardTitle from "../components/turn/CardTitle"
 import { gsap } from "gsap-rn"
+import ScanErrorMessage from "../components/turn/ScanErrorMessage"
 
 export default YourTurn = ({
   handleStatus,
@@ -208,18 +209,12 @@ export default YourTurn = ({
 
           {/* If scan failed */}
           {scanError && tagId == "" && (
-            <View className="flex flex-col gap-y-30 w-full">
-              <Heading2 className="text-center">Le scan n'a pas fonctionné.</Heading2>
-              <RoundedButton title="Réessayer" onClick={handleOnRetry} />
-            </View>
+            <ScanErrorMessage title="Le scan n'a pas fonctionné." handleOnRetry={handleOnRetry} />
           )}
 
           {/* If scanned cart isn't found */}
           {!scanning && tagId && !cardData.title && (
-            <View className="flex flex-col gap-y-30 w-full">
-              <Heading2 className="text-center">Cette carte n'est pas reconnue.</Heading2>
-              <RoundedButton title="Réessayer" onClick={handleOnRetry} />
-            </View>
+            <ScanErrorMessage title="Cette carte n'est pas reconnue." handleOnRetry={handleOnRetry} />
           )}
 
           {/* If scanned card found */}
