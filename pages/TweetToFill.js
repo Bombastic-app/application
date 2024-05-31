@@ -9,7 +9,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
 import { CONSTANTS } from "../constants";
 import { colors } from "../components/Style";
 
-export default TweetToFill = ({ type, content, title }) => {
+export default TweetToFill = ({ type, content }) => {
   const router = useRouter();
   const [tweet, setTweet] = useState();
   const gameCode = useSelector((state) => state.gameCode);
@@ -33,10 +33,10 @@ export default TweetToFill = ({ type, content, title }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("posted !");
+        console.log(data.message);
       })
       .catch((error) => {
-        console.log(error);
+        console.log('Failed to publish tweet', error);
       });
 
     router.push({
@@ -52,6 +52,7 @@ export default TweetToFill = ({ type, content, title }) => {
             <Text className="font-balgin-black-italic font-bold text-28 mb-5 uppercase">
               {content}
             </Text>
+
             <TextInput
               className="font-balgin-black-italic font-bold text-28 text-blue placeholder:text-blue/40"
               placeholder="ÉCRIS LA SUITE ..."

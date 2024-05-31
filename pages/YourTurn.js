@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from "react"
+import React, { useEffect, useState } from "react"
 import BaseScreen from "../components/base/BaseScreen"
 import NfcManager, { NfcTech } from "react-native-nfc-manager"
-import { Pressable, StyleSheet, View } from "react-native"
+import { Pressable, View } from "react-native"
 import { useRouter } from "expo-router"
 import { useDispatch } from "react-redux"
 import { updateNotification } from "../store"
@@ -12,8 +12,8 @@ import Heading4 from "../components/typography/Heading4"
 import Statistics from "../components/card/Statistics"
 import { colors } from "../components/Style"
 import CardTitle from "../components/turn/CardTitle"
-import LottieView from "lottie-react-native"
 import { gsap } from "gsap-rn"
+import ScanErrorMessage from "../components/turn/ScanErrorMessage"
 
 export default YourTurn = ({
   handleStatus,
@@ -48,20 +48,122 @@ export default YourTurn = ({
       setCardColor(colors.marine)
       setScanning(true)
       setResetTitle(true)
-      // register for the NFC tag with NDEF in it
+
       await NfcManager.requestTechnology(NfcTech.NfcA)
-      // the resolved tag object will contain `ndefMessage` property
       await NfcManager.getTag().then((tag) => {
         setTagId(tag.id)
+        getCardData(tag.id)
       })
-    } catch (ex) {
-      console.log("Oops!", ex)
+    } catch (err) {
+      console.log("Error during scan", err)
       setScanError(true)
     } finally {
-      // stop the nfc scanning
       NfcManager.cancelTechnologyRequest()
     }
   }
+
+  const getCardData = (tagId) => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setCardData(data)
+        handleCardData(data)
+
+        if (data.type) {
+          handleStartTransition(data.type)
+        }
+      })
+      .catch((error) => {
+        console.log('Error during fetch card data', error)
+        setScanning(false);
+      })
+  };
+
+  const handleNews = (cardData) => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        content: cardData.content,
+        type: cardData.type,
+        gameCode,
+        playerId,
+        pseudo,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    router.push({
+      pathname: "/feed",
+    })
+  }
+
+  const handleOnPlay = () => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gameCode,
+        playerId,
+        reputation: cardData.reputation,
+        followers: cardData.followers,
+        money: cardData.money,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    handleEndTransition(cardData.type)
+    
+    setTimeout(() => {
+      endTransitionPlay()
+    }, 100);
+
+    setTimeout(() => {
+      switch (cardData.type) {
+        case "tweet":
+          handleStatus(1)
+          break
+
+        case "photo":
+          handleStatus(2)
+          break
+
+        case "news":
+          handleNews()
+          break
+      }
+    }, 200)
+  }
+
+  const handleOnRetry = () => {
+    setScanError(false);
+    setCardData({});
+    setCardColor(colors.marine);
+    readNdef();
+  };
 
   useEffect(() => {
     if (cardData && cardData.type) {
@@ -88,29 +190,6 @@ export default YourTurn = ({
   }, [cardData])
 
   useEffect(() => {
-    if (tagId !== "") {
-      fetch(`${process.env.EXPO_PUBLIC_API_URL}/card/${tagId}`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        },
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          setCardData(data)
-          handleCardData(data)
-          if (data.type) {
-            handleStartTransition(data.type)
-          }
-        })
-        .catch((error) => {
-          console.log(error)
-        })
-    }
-  }, [tagId])
-
-  useEffect(() => {
     if (!tagId) {
       setTimeout(() => {
         readNdef()
@@ -119,96 +198,10 @@ export default YourTurn = ({
     }
   }, [])
 
-  handleNews = (cardData) => {
-    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify({
-        content: cardData.content,
-        type: cardData.type,
-        gameCode,
-        playerId,
-        pseudo,
-      }),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("posted !")
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
-    router.push({
-      pathname: "/feed",
-    })
-  }
-
-  handleOnPlay = () => {
-    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        gameCode,
-        playerId,
-        reputation: cardData.reputation,
-        followers: cardData.followers,
-        money: cardData.money,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res.message)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-
-    if (cardData.type == "news") {
-      handleNews(cardData)
-      return
-    }
-
-    handleEndTransition(cardData.type)
-    
-    setTimeout(() => {
-      endTransitionPlay()
-    }, 100);
-
-    setTimeout(() => {
-      switch (cardData.type) {
-        case "tweet":
-          handleStatus(1)
-          break
-
-        case "photo":
-          handleStatus(2)
-          break
-
-        case "news":
-          handleNews()
-          break
-      }
-    }, 200)
-  }
-
   return (
-    <View
-      style={{
-        position: "relative",
-        height: "100%",
-        width: "100%",
-        flex: 1,
-      }}
-    >
+    <View className="relative h-full w-full flex-1">
       <BaseScreen headerShown={false} style={{ backgroundColor: cardColor }}>
         <View className="flex justify-center h-full">
-          {/* <Image className="absolute top-0 left-0 w-full h-full z-10" source={require('../assets/transition.gif')} /> */}
           {/* If nothing scanned yet */}
           {!scanError && scanning && (
             <Heading2>C'est ton tour ! Scanne la carte de ton choix.</Heading2>
@@ -216,22 +209,12 @@ export default YourTurn = ({
 
           {/* If scan failed */}
           {scanError && tagId == "" && (
-            <View className="flex flex-col gap-y-30 w-full">
-              <Heading2 className="text-center">
-                Le scan n'a pas fonctionné.
-              </Heading2>
-              <RoundedButton title="Réessayer" onClick={readNdef} />
-            </View>
+            <ScanErrorMessage title="Le scan n'a pas fonctionné." handleOnRetry={handleOnRetry} />
           )}
 
           {/* If scanned cart isn't found */}
           {!scanning && tagId && !cardData.title && (
-            <View className="flex flex-col gap-y-30 w-full">
-              <Heading2 className="text-center">
-                Cette carte n'est pas reconnue.
-              </Heading2>
-              <RoundedButton title="Réessayer" onClick={readNdef} />
-            </View>
+            <ScanErrorMessage title="Cette carte n'est pas reconnue." handleOnRetry={handleOnRetry} />
           )}
 
           {/* If scanned card found */}
@@ -244,14 +227,15 @@ export default YourTurn = ({
                   followers: cardData.followers,
                 }}
               />
+
               <CardTitle title={cardData.title} reset={resetTitle} />
+
               <View>
-                <Pressable onPress={readNdef} className="self-center mb-30">
-                  <Heading4 className="uppercase">
-                    Choisir une autre carte
-                  </Heading4>
+                <Pressable onPress={handleOnRetry} className="self-center mb-30">
+                  <Heading4 className="uppercase">Choisir une autre carte</Heading4>
                   <View className="h-[2px] bg-white mt-7 w-fit"></View>
                 </Pressable>
+
                 <RoundedButton
                   title="Jouer cette carte"
                   onClick={handleOnPlay}

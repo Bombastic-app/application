@@ -79,7 +79,7 @@ export default TurnPage = ({ navigation }) => {
           endTransitionPlay={endTransitionPlay}
         />
       )}
-      { status === 1 && <TweetToFill type={cardData.type} content={cardData.content} title={cardData.title} /> }
+      { status === 1 && <TweetToFill type={cardData.type} content={cardData.content} /> }
       { status === 2 && <PhotoToFill type={cardData.type} content={cardData.content} title={cardData.title} /> }
     </>
   )
@@ -93,5 +93,6 @@ const styles = StyleSheet.create({
     top: 0,
     left: 0,
     zIndex: 100,
+    pointerEvents: "none",
   },
 })

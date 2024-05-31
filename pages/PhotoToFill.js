@@ -52,10 +52,10 @@ export default PhotoToFill = ({ type, content, title }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("posted !");
+        console.log(data.message);
       })
       .catch((error) => {
-        console.log(error);
+        console.log('Failed to publish photo', error);
       });
 
     manipulateAsync(picture, [], { compress: 0.5 }).then((imageCompressed) => {

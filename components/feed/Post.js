@@ -12,11 +12,13 @@ import { router } from "expo-router";
 import ClickableProfilePicture from "../common/ClickableProfilePicture";
 import firestore from "@react-native-firebase/firestore";
 
-export default Post = ({ type, content, pseudo, author, displayComments = true }) => {
+export default Post = ({ type, content, pseudo, author, likes, dislikes, soloView = false }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [picture, setPicture] = useState();
   const [commentsLength, setCommentsLength] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
 
   useEffect(() => {
     if (type == "photo") {
@@ -46,8 +48,56 @@ export default Post = ({ type, content, pseudo, author, displayComments = true }
     router.push({ pathname: "/profile", params: { playerId: author, hidden: true, pseudo } });
   };
 
+  const handleOnLike = () => {
+    setLiked(!liked);
+    if (disliked) setDisliked(false);
+
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/like`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gameCode,
+        playerId: author,
+        value: liked,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  };
+
+  const handleOnDisLike = () => {
+    setDisliked(!disliked);
+    if (liked) setLiked(false);
+
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/dislike`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        gameCode,
+        playerId: author,
+        value: disliked,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  };
+
   return (
-    <View style={styles.postBackground}>
+    <View style={soloView ? styles.soloPostBackground : styles.postBackground}>
       <ClickableProfilePicture playerId={author} pseudo={pseudo} type={type} onClick={handleOnClickProfilePicture} />
 
       {type == "tweet" && <Text>{content}</Text>}
@@ -66,25 +116,27 @@ export default Post = ({ type, content, pseudo, author, displayComments = true }
       )}
       {type == "news" && <Text>{content.replace("default", pseudo)}</Text>}
 
-      <View style={styles.centerMidGap}>
-        <View style={styles.centerLittleGap}>
-          <Pressable onPress={() => console.log("like")}>
-            <ThumbUp />
-          </Pressable>
-          <Text>3</Text>
+      {!soloView &&
+        <View style={styles.centerMidGap}>
+          <View style={styles.centerLittleGap}>
+            <Pressable onPress={handleOnLike}>
+              <ThumbUp active={liked} />
+            </Pressable>
+            <Text>{likes}</Text>
+          </View>
+
+          <View style={styles.separator}></View>
+
+          <View style={styles.centerLittleGap}>
+            <Pressable onPress={handleOnDisLike}>
+              <ThumbDown active={disliked} />
+            </Pressable>
+            <Text>{dislikes}</Text>
+          </View>
         </View>
+      }
 
-        <View style={styles.separator}></View>
-
-        <View style={styles.centerLittleGap}>
-          <Pressable onPress={() => console.log("dislike")}>
-            <ThumbDown />
-          </Pressable>
-          <Text>1</Text>
-        </View>
-      </View>
-
-      {displayComments &&
+      {!soloView &&
         <View style={styles.centerLittleGap}>
           <Comment />
           <Text>{commentsLength > 0 ? `${commentsLength} commentaires` : 'Aucun commentaire'}</Text>
@@ -99,6 +151,9 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 30,
     backgroundColor: "rgba(255, 255, 255, 0.1)",
+    gap: 10,
+  },
+  soloPostBackground: {
     gap: 10,
   },
   centerMidGap: {
