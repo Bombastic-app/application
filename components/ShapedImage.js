@@ -49,6 +49,28 @@ export default ShapedImage = ({ source }) => {
         },
         0.4
       )
+      .fromTo(
+        firstStar.current,
+        { transform: { scale: 0.01 }, style: { alpha: 0 } },
+        {
+          transform: { scale: 0.85, rotate: 15 },
+          style: { alpha: 1 },
+          duration: 0.6,
+          ease: "elastic.out",
+        },
+        "<0.2"
+      )
+      .fromTo(
+        secondStar.current,
+        { transform: { scale: 0.01 }, style: { alpha: 0 } },
+        {
+          transform: { scale: 0.5, rotate: 15 },
+          style: { alpha: 1 },
+          duration: 0.6,
+          ease: "elastic.out",
+        },
+        "<0.2"
+      )
       
   }, [])
 
@@ -57,11 +79,11 @@ export default ShapedImage = ({ source }) => {
       <Animated.View />
       <Star
         ref={firstStar}
-        style={{ position: 'absolute', top: -30, left: 40, zIndex: 1 }}
+        style={{ position: 'absolute', top: 0, left: -15, zIndex: 1 }}
       />
       <Star
         ref={secondStar}
-        style={{ position: 'absolute', top: 0, left: -15, zIndex: 1 }}
+        style={{ position: 'absolute', top: -30, left: 40, zIndex: 1 }}
       />
 
       <ImageMask>
