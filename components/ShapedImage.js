@@ -13,31 +13,56 @@ import { CustomEase } from 'gsap/all'
 
 export default ShapedImage = ({ source }) => {
   const background = useRef()
+  const backgroundContainer = useRef()
   const gradient = useRef()
+  const firstStar = useRef()
+  const secondStar = useRef()
 
   useEffect(() => {
     gsap.registerPlugin(CustomEase)
     CustomEase.create('shine', 'M0,0 C0.25,0.1 0.25,1 1,1')
+    CustomEase.create('bgRotate', 'M0,0 C0.25,1 0.5,1 1,1 ')
 
-    gsap.fromTo(
-      gradient.current,
-      {
-        transform: { x: -350, y: 60, rotate: -110 },
-      },
-      {
-        transform: { x: 350, y: 0, rotate: -110 },
-        duration: 0.5,
-        ease: 'shine',
-        delay: 0.4
-      }
-    )
+    gsap
+      .timeline()
+      .fromTo(
+        backgroundContainer.current,
+        {
+          transform: { scale: 0.5, rotate: 90 },
+        },
+        {
+          transform: { scale: 1, rotate: 0 },
+          ease: 'bgRotate',
+          duration: 0.7,
+        },
+        0.1
+      )
+      .fromTo(
+        gradient.current,
+        {
+          transform: { x: -350, y: 60, rotate: -110 },
+        },
+        {
+          transform: { x: 350, y: 0, rotate: -110 },
+          duration: 0.5,
+          ease: 'shine',
+        },
+        0.4
+      )
+      
   }, [])
 
   return (
     <View style={styles.container}>
       <Animated.View />
-      <Star style={{ position: 'absolute', top: -30, left: 40, zIndex: 1 }} />
-      <Star style={{ position: 'absolute', top: 0, left: -15, zIndex: 1 }} />
+      <Star
+        ref={firstStar}
+        style={{ position: 'absolute', top: -30, left: 40, zIndex: 1 }}
+      />
+      <Star
+        ref={secondStar}
+        style={{ position: 'absolute', top: 0, left: -15, zIndex: 1 }}
+      />
 
       <ImageMask>
         <Image
@@ -73,11 +98,13 @@ export default ShapedImage = ({ source }) => {
           />
         </View>
       </MaskedView>
-      <ExpoImage
-        ref={background}
-        source={require('../assets/image-mask-bg.png')}
-        style={styles.imgBg}
-      />
+      <View ref={backgroundContainer} style={styles.backgroundContainer}>
+        <ExpoImage
+          ref={background}
+          source={require('../assets/image-mask-bg.png')}
+          style={styles.background}
+        />
+      </View>
     </View>
   )
 }
@@ -103,13 +130,17 @@ const styles = StyleSheet.create({
     // transform: [{ rotate: '-110deg' }],
     zIndex: 2,
   },
-  imgBg: {
+  backgroundContainer: {
     position: 'absolute',
+    width: '100%',
+    height: '100%',
     top: 14,
     left: -9,
+    zIndex: -1,
+  },
+  background: {
     width: '100%',
     height: '100%',
     objectFit: 'contain',
-    zIndex: -1,
   },
 })
