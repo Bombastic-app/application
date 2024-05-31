@@ -1,6 +1,5 @@
-import { useEffect, useRef, useState } from "react";
-import Svg, { Circle, Stop, LinearGradient, Defs } from "react-native-svg";
-import { gsap } from "gsap-rn";
+import { useEffect } from "react";
+import Svg, { Stop, LinearGradient, Defs } from "react-native-svg";
 import AnimatedCircle from "../AnimatedCircle";
 import { useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
 

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Svg, { ClipPath, Path } from "react-native-svg";
+import Svg, { ClipPath, LinearGradient, Path } from "react-native-svg";
 export default ImageMask = ({ children, ...props }) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"

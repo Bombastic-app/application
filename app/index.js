@@ -29,10 +29,12 @@ export default Page = ({ navigation }) => {
 
   if (fontsLoaded) {
     // if (gameCode) return <Reset />
+    // if (gameCode) return <Biography />
+    // if (gameCode) return <Profile_picture />
     // if (gameCode) return <New_game />
     // if (gameCode) return <Feed />
-    if (gameCode) return <TurnPage />
-    // if (gameCode) return <MiniGameMeme />
+    // if (gameCode) return <TurnPage />
+    if (gameCode) return <MiniGameMeme />
     else return <Home />
     // return <Home />
   }

@@ -25,16 +25,28 @@
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>localhost</string>
-				<string>com.bombastic.pocmultiplayer</string>
+				<string>bombastic</string>
 			</array>
 		</dict>
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>exp+poc-multi-player</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>CFBundleURLName</key>
+			<string>com.gobelins.bombastic</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>bombastic</string>
 			</array>
 		</dict>
 	</array>
