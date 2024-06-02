@@ -10,7 +10,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGameCode, updatePlayerId } from "../store";
 import firestore from "@react-native-firebase/firestore";
-import storage from "@react-native-firebase/storage";
 import Post from "../components/feed/Post";
 import { router } from "expo-router";
 import BackArrow from "../components/icons/BackArrow";
@@ -63,8 +62,6 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
         :
         <LogoSVG />
       }
-
-      <Tabs active={'profile'} />
 
       <View className="gap-20 mt-28 flex-1">
         <View className="items-start">

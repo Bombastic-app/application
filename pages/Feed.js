@@ -16,7 +16,6 @@ import {
   updateReputation,
 } from "../store";
 import { router } from "expo-router";
-import Tabs from "../components/common/Tabs";
 
 export default Feed = () => {
   const dispatch = useDispatch();
@@ -91,8 +90,6 @@ export default Feed = () => {
 
   return (
     <BaseScreen headerShown={false}>
-      <Tabs active={'feed'} />
-
       <View className="gap-16 flex-1">
         <LogoSVG />
 

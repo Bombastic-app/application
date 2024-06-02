@@ -5,26 +5,21 @@ import FeedButtonBackground from "../icons/FeedButtonBackground"
 import ProfileButtonBackground from "../icons/ProfileButtonBackground"
 import Home from "../icons/Home"
 import Profile from "../icons/Profile"
-import { router, usePathname } from "expo-router"
-import { useSelector } from "react-redux"
 import { useSafeAreaInsets } from "react-native-safe-area-context"
 import { LinearGradient } from "expo-linear-gradient"
 
-export default Tabs = ({ active = '' }) => {
-  const pathname = usePathname();
+export default Tabs = ({ active, handleActive }) => {
   const insets = useSafeAreaInsets();
-  const pseudo = useSelector((state) => state.pseudo);
-  const playerId = useSelector((state) => state.playerId);
 
   const handleOnClickFeed = () => {
-    if (pathname !== '/' && pathname !== '/feed') {
-      router.push("/feed");
+    if (active !== 'feed') {
+      handleActive('feed');
     }
   }
 
   const handleOnClickProfile = () => {
-    if (pathname !== '/profile') {
-      router.push({ pathname: "/profile", params: { playerId, hidden: false, pseudo } });
+    if (active !== 'profile') {
+      handleActive('profile');
     }
   }
 
