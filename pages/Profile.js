@@ -8,7 +8,7 @@ import Heading2 from "../components/typography/Heading2";
 import Text from "../components/typography/Text";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { updateGameCode, updatePlayerId } from "../store";
+import { updateGameCode, updatePlayerId, updateScore } from "../store";
 import firestore from "@react-native-firebase/firestore";
 import Post from "../components/feed/Post";
 import { router } from "expo-router";
@@ -17,9 +17,21 @@ import BackArrow from "../components/icons/BackArrow";
 export default Profile = ({ hidden = false, playerId, pseudo }) => {
   const [posts, setPosts] = useState([]);
   const [bio, setBio] = useState('');
+  const dispatch = useDispatch();
+
   const gameCode = useSelector((state) => state.gameCode);
   const profilePictures = useSelector((state) => state.profilePictures);
+  const score = useSelector(state => state.score);
+
   const postsToAdd = [];
+  const certifImages = [
+    require('../assets/certif/certif-00.png'),
+    require('../assets/certif/certif-01.png'),
+    require('../assets/certif/certif-02.png'),
+    require('../assets/certif/certif-03.png'),
+    require('../assets/certif/certif-04.png'),
+    require('../assets/certif/certif-05.png'),
+  ];
 
   useEffect(() => {
     firestore()
@@ -51,6 +63,22 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
       .catch((error) => {
         console.log(error);
       });
+
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/${gameCode}/score/${playerId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }) 
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.score !== score) {
+          dispatch(updateScore(data.score));
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   }, []);
 
   return (
@@ -77,7 +105,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
 
             { !hidden &&
               <Image
-                source={require("../assets/certif/certif-00.png")}
+                source={certifImages[score]}
                 contentFit="contain"
                 cachePolicy={"memory-disk"}
                 style={{ width: 30, height: 30 }}
