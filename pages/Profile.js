@@ -83,7 +83,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
 
   return (
     <BaseScreen headerShown={false}>
-      { hidden === true ?
+      { hidden ?
         <Pressable onPress={router.back} className="mt-10">
           <BackArrow />
         </Pressable>

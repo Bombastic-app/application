@@ -56,7 +56,7 @@ export default Feed = () => {
       if (doc.exists) {
         if (doc.data().miniGameReady) {
           // setTimeout(() => {
-          //   router.navigate('/mini-game/meme')
+          //   router.navigate('/vote')
           // }, 5000)
         }
       }
