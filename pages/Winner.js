@@ -48,7 +48,7 @@ export default Winner = () => {
             <RoundedButton
               title="Continuer"
               onClick={() => {
-                router.navigate('/mini-game/meme');
+                router.navigate('/mini-game/start');
               }}
             />
           </>
