@@ -12,7 +12,7 @@ import { router } from "expo-router";
 import ClickableProfilePicture from "../common/ClickableProfilePicture";
 import firestore from "@react-native-firebase/firestore";
 
-export default Post = ({ type, content, pseudo, author, likes, dislikes, soloView = false }) => {
+export default Post = ({ type, content, pseudo, author, likes, dislikes, withBackground = true, soloView = false }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [picture, setPicture] = useState();
@@ -97,7 +97,7 @@ export default Post = ({ type, content, pseudo, author, likes, dislikes, soloVie
   };
 
   return (
-    <View style={soloView ? styles.soloPostBackground : styles.postBackground}>
+    <View style={withBackground ? styles.postBackground : styles.soloPostBackground}>
       <ClickableProfilePicture playerId={author} pseudo={pseudo} type={type} onClick={handleOnClickProfilePicture} />
 
       {type == "tweet" && <Text>{content}</Text>}

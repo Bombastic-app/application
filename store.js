@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const configSlice = createSlice({
   name: 'config',
   initialState: {
-    score: 1,
+    score: 0,
     gameCode: false,
     playerId: false,
     pseudo: false,
