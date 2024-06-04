@@ -36,7 +36,8 @@ export default Page = ({ navigation }) => {
     // if (gameCode) return <Feed />
     // if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
-    if (gameCode) return <Top_stat />
+    // if (gameCode) return <Top_stat />
+    if (gameCode) return <Score />
     else return <Home />
     // return <Home />
   }
