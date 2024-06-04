@@ -14,6 +14,7 @@ export default Biography = () => {
   const playerId = useSelector((state) => state.playerId);
 
   const handleOnClickDone = () => {
+    console.log(playerId);
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/bio`, {
       method: "POST",
       headers: {
@@ -43,7 +44,7 @@ export default Biography = () => {
       <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} bounces={false} scrollEnabled={false}>
         <View className="flex-1 justify-between mt-20">
           <View>
-            <Heading2>Ajoute une biographie</Heading2>
+            <Heading2 className={'!text-left'}>Ajoute une biographie</Heading2>
 
             <TextInput
               className="font-balgin-black-italic font-bold text-28 text-white placeholder:text-white/40 mt-20"

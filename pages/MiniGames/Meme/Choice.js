@@ -14,6 +14,7 @@ import { router } from "expo-router";
 export const MiniGameMemeChoice = () => {
   const [images, setImages] = useState([]);
   const [zoomInId, setZoomInId] = useState(false);
+  const [zoomInImageSizes, setZoomInImagesSizes] = useState({ width: 0, height: 0 })
   const [active, setActive] = useState(false);
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
@@ -28,6 +29,10 @@ export const MiniGameMemeChoice = () => {
     // fetch(`${process.env.EXPO_PUBLIC_}`)
     router.push("/mini-game/winner");
   };
+
+  const handleOnLayout = (e) => {
+    setZoomInImagesSizes({ width: e.nativeEvent.layout.width, height: e.nativeEvent.layout.height })
+  }
 
   useEffect(() => {
     storage()

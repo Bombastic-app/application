@@ -10,7 +10,6 @@ import { updateGameCode, updatePlayerId } from "../../store";
 
 export default JoinGame = () => {
   const gameCode = useSelector(state => state.gameCode)
-  const playerId = useSelector(state => state.playerId)
   const pseudo = useSelector(state => state.pseudo)
   const dispatch = useDispatch();
   const [error, setError] = useState("");
@@ -24,7 +23,7 @@ export default JoinGame = () => {
   }
 
   joinGame = () => {
-    if (gameCode !== "" && gameCode !== undefined) {
+    if (gameCode !== "" && gameCode !== undefined && pseudo) {
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/join`, {
         method: "POST",
         headers: {

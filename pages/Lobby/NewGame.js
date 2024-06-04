@@ -1,6 +1,6 @@
 import { Share, Text, TouchableHighlight, View } from "react-native";
 import { useEffect, useState } from "react";
-import { Stack, router, useLocalSearchParams } from "expo-router";
+import { router } from "expo-router";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import firestore from "@react-native-firebase/firestore";
 import storage from "@react-native-firebase/storage";
@@ -14,7 +14,6 @@ export default NewGame = () => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const dispatch = useDispatch();
-  const playerId = useSelector((state) => state.playerId);
   const [players, setPlayers] = useState(false);
   const [pictures, setPictures] = useState([]);
 
