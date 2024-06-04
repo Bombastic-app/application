@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import Reset from "./debug/reset";
 import { MiniGameMemeChoice } from "../pages/MiniGames/Meme/Choice";
 import { MiniGameMemeSetup } from "../pages/MiniGames/Meme/Setup";
+import Top_stat from "./turn/top_stat";
 
 NfcManager.start();
 
@@ -34,7 +35,8 @@ export default Page = ({ navigation }) => {
     // if (gameCode) return <New_game />
     // if (gameCode) return <Feed />
     // if (gameCode) return <TurnPage />
-    if (gameCode) return <MiniGameMeme />
+    // if (gameCode) return <MiniGameMeme />
+    if (gameCode) return <Top_stat />
     else return <Home />
     // return <Home />
   }
