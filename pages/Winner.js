@@ -35,8 +35,8 @@ export default Winner = () => {
         {winner &&
           <>
             <View className="flex flex-col items-center w-full gap-y-20 mb-70">
-              <Heading3 className="uppercase">{winner === playerId ? 'Bravo ma star, tu a' : 'Dommage, la prochaine fois c\'est toi qui'}</Heading3>
-              <Heading1>{winner === playerId ? 'Gagné !' : 'Gagneras'}</Heading1>
+              <Heading3 className="uppercase">{winner === playerId ? 'Bravo ma star, tu a' : 'Dommage pour toi, voici le'}</Heading3>
+              <Heading1>{winner === playerId ? 'Gagné !' : 'Gagnant'}</Heading1>
             </View>
 
             <View className="mb-60">
