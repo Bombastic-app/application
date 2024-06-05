@@ -6,17 +6,20 @@ import Heading2 from "../../components/typography/Heading2";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import { router } from "expo-router";
 import storage from "@react-native-firebase/storage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ShapedImage from "../../components/ShapedImage";
 import firestore from "@react-native-firebase/firestore";
+import { updateScore, upgradeScore } from "../../store";
 
 export default MiniGameWinner = () => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const playerId = useSelector((state) => state.playerId);
+  const score = useSelector((state) => state.score);
   const [imageUrl, setImageUrl] = useState();
   const [winner, setWinner] = useState(false);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     firestore()
@@ -41,6 +44,29 @@ export default MiniGameWinner = () => {
             setImageUrl(url);
           });
         });
+
+      if (winner === playerId) {
+        fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/score`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            gameCode,
+            playerId,
+            score: score + 1
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data.message);
+            dispatch(upgradeScore())
+          })
+          .catch((error) => {
+            console.log('Failed to update winner score', error);
+          });
+      }
     }
   }, [winner]);
 

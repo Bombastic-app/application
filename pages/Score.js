@@ -12,7 +12,16 @@ export default Score = () => {
   const router = useRouter();
   const score = useSelector(state => state.score);
 
-  const [ certifHeight, setCertifHeight] = useState(0);
+  const certifImages = [
+    require('../assets/certif/certif-00.png'),
+    require('../assets/certif/certif-01.png'),
+    require('../assets/certif/certif-02.png'),
+    require('../assets/certif/certif-03.png'),
+    require('../assets/certif/certif-04.png'),
+    require('../assets/certif/certif-05.png'),
+  ];
+
+  const [certifHeight, setCertifHeight] = useState(0);
   const handleOnLayout = (e) => {
     setCertifHeight(e.nativeEvent.layout.height);
   };
@@ -21,13 +30,13 @@ export default Score = () => {
     <BaseScreen headerShown={false}>
       <View style={styles.container}>
         <View>
-          <Text className="uppercase font-balgin-narrow-bold text-20 text-center">Bravo ma star, tu as</Text>
-          <Heading1 className="font-balgin-black text-56 text-center pb-24 pt-16">Gagné !</Heading1>
+          <Text className="uppercase font-balgin-narrow-bold text-20 text-center">Voici le récap de tes</Text>
+          <Heading1 className="font-balgin-black text-56 text-center pb-24 pt-16">Points !</Heading1>
           <Text className="text-center">Plus que {CONSTANTS.maxPoints - score} paliers avant d’être une star !</Text>
         </View>
 
         <View style={[styles.certifContainer, {transform: [{translateY: -(certifHeight / 2)}],}]}>
-          <Image style={styles.certifImage} source={require("../assets/certif/certif-01.png")} onLayout={handleOnLayout} />
+          <Image style={styles.certifImage} source={certifImages[score]} onLayout={handleOnLayout} />
 
             <View className="absolute bottom-0 translate-y-60">
               <Text className="text-32 font-balgin-narrow-bold uppercase">{score} point</Text>

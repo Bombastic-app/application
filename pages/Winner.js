@@ -6,12 +6,14 @@ import Heading2 from "../components/typography/Heading2";
 import { RoundedButton } from "../components/base/RoundedButton";
 import { useRouter } from "expo-router";
 import ShapedImage from "../components/ShapedImage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import firestore from "@react-native-firebase/firestore";
+import { upgradeScore } from "../store";
 
 export default Winner = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [winner, setWinner] = useState(false);
   const profilePictures = useSelector((state) => state.profilePictures);
   const gameCode = useSelector((state) => state.gameCode);
@@ -28,6 +30,31 @@ export default Winner = () => {
         }
       });
   }, []);
+
+  useEffect(() => {
+    if (winner && winner === playerId) {
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/score`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          gameCode,
+          playerId,
+          score: score + 1
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.message);
+          dispatch(upgradeScore())
+        })
+        .catch((error) => {
+          console.log('Failed to update winner score', error);
+        });
+    }
+  }, [winner]);
 
   return (
     <BaseScreen>
