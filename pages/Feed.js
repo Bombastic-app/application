@@ -55,9 +55,9 @@ export default Feed = () => {
     firestore().collection(`games/${gameCode}/turns`).doc(currentTurn.toString()).onSnapshot((doc) => {
       if (doc.exists) {
         if (doc.data().miniGameReady) {
-          // setTimeout(() => {
-          //   router.navigate('/vote')
-          // }, 5000)
+          setTimeout(() => {
+            router.navigate('/vote')
+          }, 5000)
         }
       }
     })
