@@ -41,6 +41,7 @@ export default YourTurn = ({
     tweet: colors.blue,
     photo: colors.pink,
     news: colors.purple,
+    event: colors.marine,
   }
 
   async function readNdef() {
@@ -113,6 +114,13 @@ export default YourTurn = ({
     })
   }
 
+  const handleEvent = () => {
+    router.push({
+      pathname: "/event",
+      params: { content: cardData.content },
+    })
+  };
+
   const handleOnPlay = () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
       method: "POST",
@@ -153,6 +161,10 @@ export default YourTurn = ({
 
         case "news":
           handleNews()
+          break
+
+        case "event":
+          handleEvent()
           break
       }
     }, 200)

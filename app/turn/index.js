@@ -17,14 +17,14 @@ export default TurnPage = ({ navigation }) => {
     tweet: require("../../assets/transitions/scan/start/transition-blue.json"),
     photo: require("../../assets/transitions/scan/start/transition-pink.json"),
     news: require("../../assets/transitions/scan/start/transition-purple.json"),
-    action: require("../../assets/transitions/scan/start/transition-marine.json"),
+    event: require("../../assets/transitions/scan/start/transition-marine.json"),
   }
 
   const endTransitions = {
     tweet: require("../../assets/transitions/scan/end/transition-blue.json"),
     photo: require("../../assets/transitions/scan/end/transition-pink.json"),
     news: require("../../assets/transitions/scan/end/transition-purple.json"),
-    action: require("../../assets/transitions/scan/end/transition-marine.json"),
+    event: require("../../assets/transitions/scan/end/transition-marine.json"),
   }
 
   const handleStatus = (newStatus) => {
