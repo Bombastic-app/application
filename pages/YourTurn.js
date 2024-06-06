@@ -86,7 +86,7 @@ export default YourTurn = ({
       })
   };
 
-  const handleNews = (cardData) => {
+  const handleNews = () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
       method: "POST",
       headers: {
