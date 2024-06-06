@@ -19,6 +19,7 @@ export default Winner = () => {
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
   const currentTurn = useSelector((state) => state.currentTurn);
+  const score = useSelector((state) => state.score);
 
   useEffect(() => {
     firestore()
