@@ -10,7 +10,7 @@ export default Notification = () => {
 
   return (
     notification && (
-      <View className="absolute top-60 self-center w-full h-full z-10">
+      <View className="absolute top-60 self-center w-full z-10">
         <View className="flex flex-col justify-between items-center h-full">
           <View className="w-full py-30 px-10 flex flex-col gap-y-15 rounded-30 bg-white">
             <Heading3 className={"text-center !text-marine uppercase"}>
