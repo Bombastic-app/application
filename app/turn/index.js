@@ -3,12 +3,17 @@ import YourTurn from "../../pages/YourTurn"
 import LottieView from "lottie-react-native"
 import { StyleSheet } from "react-native"
 import TweetToFill from "../../pages/TweetToFill"
+import { useDispatch, useSelector } from "react-redux"
+import { updateNotification } from "../../store"
 
 export default TurnPage = ({ navigation }) => {
   const [status, setStatus] = useState(0)
   const [startTransition, setStartTransition] = useState(false)
   const [endTransition, setEndTransition] = useState(false)
   const [cardData, setCardData] = useState(false)
+
+  const dispatch = useDispatch()
+  const notification = useSelector((state) => state.notification)
 
   const startTransitionRef = useRef(null)
   const endTransitionRef = useRef(null)
@@ -46,6 +51,10 @@ export default TurnPage = ({ navigation }) => {
     endTransitionRef.current?.play()
     console.log("end transition playing")
   }
+
+  useEffect(() => {
+    dispatch(updateNotification(false))
+  }, [notification])
 
   return (
     <>
