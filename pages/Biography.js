@@ -14,7 +14,6 @@ export default Biography = () => {
   const playerId = useSelector((state) => state.playerId);
 
   const handleOnClickDone = () => {
-    console.log(playerId);
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/bio`, {
       method: "POST",
       headers: {

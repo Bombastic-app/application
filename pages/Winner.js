@@ -6,9 +6,10 @@ import Heading2 from "../components/typography/Heading2";
 import { RoundedButton } from "../components/base/RoundedButton";
 import { useRouter } from "expo-router";
 import ShapedImage from "../components/ShapedImage";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import firestore from "@react-native-firebase/firestore";
+import { updateTurnScore, upgradeTurnScore } from "../store";
 
 export default Winner = () => {
   const router = useRouter();
@@ -17,6 +18,7 @@ export default Winner = () => {
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
   const currentTurn = useSelector((state) => state.currentTurn);
+  const dispatch = useDispatch()
 
   useEffect(() => {
     firestore()
@@ -27,6 +29,10 @@ export default Winner = () => {
           setWinner(turn.data()?.winner);
         }
       });
+
+    if (winner === playerId) {
+      dispatch(upgradeTurnScore())
+    }
   }, []);
 
   return (

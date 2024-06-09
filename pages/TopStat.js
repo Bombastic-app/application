@@ -1,85 +1,68 @@
-import ShapedImage from '../components/ShapedImage'
+import { Pressable, StyleSheet, View } from 'react-native'
 import BaseScreen from '../components/base/BaseScreen'
-import { StyleSheet, View } from 'react-native'
-import Text from '../components/typography/Text'
+import TopStatTitle from '../components/turn/TopStatTitle'
+import Heading5 from '../components/typography/Heading5'
+import { useEffect, useState } from 'react'
 import { Image } from 'expo-image'
-import { useEffect, useRef, useState } from 'react'
-import { gsap } from 'gsap-rn'
-import Heading2 from '../components/typography/Heading2'
+import { useDispatch, useSelector } from 'react-redux'
+import firestore from '@react-native-firebase/firestore'
+import { router } from 'expo-router'
+import { upgradeTurnScore } from '../store'
 
-export default TopStat = ({ title = "L'influenceur Dubaï", type = 'money' }) => {
-  const [iconSizes, setIconSizes] = useState({ width: 0, height: 0 })
-  const [gradientSizes, setGradientSizes] = useState({ width: 0, height: 0 })
+export default TopStat = () => {
+  const gameCode = useSelector((state) => state.gameCode)
+  const currentTurn = useSelector((state) => state.currentTurn)
+  const turnScore = useSelector((state) => state.turnScore)
+  const score = useSelector((state) => state.currentTurn)
+  const [nextSizes, setNextSizes] = useState({ width: 0, height: 0 })
+  const [status, setStatus] = useState(0)
+  const [players, setPlayers] = useState(false)
+  const dispatch = useDispatch()
 
-  const timeline = useRef()
-  const titleRef = useRef()
-  const iconRef = useRef()
-  const pointRef = useRef()
-
-  const icon = {
-    money: require('../assets/picto/money.png'),
-    followers: require('../assets/picto/followers.png'),
-    reputation: require('../assets/picto/reputation.png'),
+  const titles = {
+    reputation: 'Le nouveau Squeezie',
+    money: "L'influenceur Dubaï",
+    followers: 'La putaclic',
   }
 
-  const handleOnLayoutIcon = (e) => {
-    setIconSizes({
+  const handleOnLayout = (e) => {
+    setNextSizes({
       width: e.nativeEvent.layout.width,
       height: e.nativeEvent.layout.height,
     })
   }
 
-  const handleOnLayoutGradient = (e) => {
-    setGradientSizes({
-      width: e.nativeEvent.layout.width,
-      height: e.nativeEvent.layout.height,
-    })
+  const updateStatus = () => {
+    if (status === 2) {
+      dispatch(upgradeTurnScore())
+      router.push('/score')
+    } else setStatus(status + 1)
   }
 
   useEffect(() => {
-    if (iconSizes && iconSizes.width) {
-      timeline.current = gsap.timeline({ delay: 0.2 })
-      timeline.current
-        .fromTo(
-          titleRef.current,
-          {
-            transform: { scale: 0.01, rotate: -10 },
-          },
-          {
-            transform: { scale: 1 },
-            duration: 0.58,
-            ease: 'back.out',
-          },
-          0.2
-        )
-        .fromTo(
-          iconRef.current,
-          {
-            transform: { scale: 0.01 },
-          },
-          {
-            transform: { scale: 1 },
-            duration: 0.3,
-            ease: 'back.out',
-          },
-          0.45
-        )
-        .fromTo(
-          pointRef.current,
-          {
-            transform: { y: 40 },
-            style: { alpha: 0 },
-          },
-          {
-            transform: { y: 0 },
-            style: { alpha: 1 },
-            duration: 0.4,
-            ease: 'power3.out',
-          },
-          0.8
-        )
-    }
-  }, [title, iconSizes.width])
+    // Set titles via API
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/setTitles`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ gameCode }),
+    })
+
+    // Listen for changes
+    firestore()
+      .collection(`games/${gameCode}/turns`)
+      .doc('1')
+      .onSnapshot((turn) => {
+        const data = turn.data()
+
+        setPlayers({
+          reputation: data.reputation,
+          money: data.money,
+          followers: data.followers,
+        })
+      })
+  }, [])
 
   return (
     <BaseScreen>
@@ -102,102 +85,52 @@ export default TopStat = ({ title = "L'influenceur Dubaï", type = 'money' }) =>
           }}
         />
       </View>
-      <View style={styles.container}>
-        <View style={styles.playerImage}>
-          <ShapedImage
-            source={require('../assets/meme.png')}
-            animation="scaling"
-            isSlim={true}
-          />
-          <View
-            style={{
-              position: 'absolute',
-              left: '50%',
-              bottom: -200,
-              width: '100%',
-              height: 374,
-              transform: [{ translateX: -(gradientSizes.width / 2 + 50) }],
-              zIndex: 0,
-            }}
-            onLayout={handleOnLayoutGradient}
-          >
-            <Image
-              source={require('../assets/radial-gradient.png')}
-              contentFit="contain"
-              cachePolicy={'memory-disk'}
-              style={{
-                width: '100%',
-                height: '100%',
-              }}
-              
+      {players && (
+        <>
+          {status === 0 && (
+            <TopStatTitle
+              title={titles['money']}
+              type="money"
+              player={players['money']}
             />
-          </View>
-          <View
-            style={{
-              position: 'absolute',
-              width: 80,
-              height: 80,
-              left: '50%',
-              bottom: -15,
-              transform: [{ translateX: -(iconSizes.width + 10) }],
-              // backgroundColor: 'red',
-            }}
-            onLayout={handleOnLayoutIcon}
-          >
-            <View style={{ width: '100%', height: '100%' }} ref={iconRef}>
-              <Image
-                contentFit="contain"
-                cachePolicy={'memory-disk'}
-                source={icon[type]}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </View>
-          </View>
-        </View>
-        <View style={{ position: 'relative', width: '100%', zIndex: 2 }}>
-          <Text
-            className="font-balgin-black-italic uppercase"
-            style={styles.playerTitle}
-            ref={titleRef}
-          >
-            {title}
-          </Text>
-        </View>
-        <Text
-          className="font-balgin-black-italic uppercase"
-          style={styles.point}
-          ref={pointRef}
-        >
-          + 1 point
-        </Text>
+          )}
+          {status === 1 && (
+            <TopStatTitle
+              title={titles['reputation']}
+              type="reputation"
+              player={players['reputation']}
+            />
+          )}
+          {status === 2 && (
+            <TopStatTitle
+              title={titles['followers']}
+              type={'followers'}
+              player={players['followers']}
+            />
+          )}
+        </>
+      )}
+
+      <View
+        style={[
+          styles.nextButton,
+          { left: '55%', transform: [{ translateX: -(nextSizes.width / 2) }] },
+        ]}
+        onLayout={handleOnLayout}
+      >
+        <Pressable onPress={updateStatus}>
+          <Heading5 className={'uppercase'}>Toucher pour continuer</Heading5>
+        </Pressable>
       </View>
     </BaseScreen>
   )
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    position: 'relative',
-    width: '100%',
-    height: '100%',
-  },
-  playerImage: {
-    position: 'relative'
-  },
-  playerTitle: {
-    position: 'relative',
-    fontSize: 50,
-    textAlign: 'center',
-    transform: [{ rotate: '-10deg' }],
-    zIndex: 3,
-  },
-  point: {
+  nextButton: {
     position: 'absolute',
-    bottom: 40,
-    fontSize: 30,
-    opacity: 0,
+    bottom: 50,
+    textAlign: 'center',
+    zIndex: 3,
   },
 })

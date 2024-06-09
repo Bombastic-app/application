@@ -12,7 +12,8 @@ import LottieView from 'lottie-react-native'
 export default Score = () => {
   const router = useRouter()
   // const score = useSelector((state) => state.score)
-  const [score, setScore] = useState(2)
+  const turnScore = useSelector((state) => state.turnScore)
+  const [score, setScore] = useState(0)
   const [animation, setAnimation] = useState(false)
   const [startFrame, setStartFrame] = useState(false)
   const [endFrame, setEndFrame] = useState(false)
@@ -64,10 +65,9 @@ export default Score = () => {
 
   useEffect(() => {
     setStartFrame(frames[index[score]][score])
-    // Replace '+x' with gained points
-    setEndFrame(frames[index[score]][score+3])
+    setEndFrame(frames[index[score]][turnScore - score])
     setAnimation(lottieFiles[index[score]])
-  }, [score])
+  }, [score, turnScore])
 
   useEffect(() => {
     if (animation) {
@@ -108,7 +108,7 @@ export default Score = () => {
         /> }
         <View style={styles.point}>
           <Text className="text-32 font-balgin-narrow-bold uppercase text-center">
-            {score} point
+            {turnScore - score} point
           </Text>
         </View>
         {/* </View> */}

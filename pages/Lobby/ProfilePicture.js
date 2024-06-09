@@ -76,7 +76,6 @@ export default ProfilePicture = () => {
   const handleOnValidate = () => {
     console.info("Uploading image")
     manipulateAsync(image, [], { compress: 0.5 }).then((imageCompressed) => {
-      console.log(imageCompressed);
       storage()
         .ref()
         .child(`/games/${gameCode}/profile_pictures/${playerId}.png`)
