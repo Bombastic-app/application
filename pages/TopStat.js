@@ -13,6 +13,7 @@ export default TopStat = () => {
   const gameCode = useSelector((state) => state.gameCode)
   const currentTurn = useSelector((state) => state.currentTurn)
   const turnScore = useSelector((state) => state.turnScore)
+  const playerId = useSelector((state) => state.playerId)
   const score = useSelector((state) => state.currentTurn)
   const [nextSizes, setNextSizes] = useState({ width: 0, height: 0 })
   const [status, setStatus] = useState(0)
@@ -34,7 +35,9 @@ export default TopStat = () => {
 
   const updateStatus = () => {
     if (status === 2) {
-      dispatch(upgradeTurnScore())
+      Array.from(players).forEach((player) => {
+        if (player === playerId) dispatch(upgradeTurnScore())
+      })
       router.push('/score')
     } else setStatus(status + 1)
   }

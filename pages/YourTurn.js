@@ -52,6 +52,7 @@ export default YourTurn = ({
 
       await NfcManager.requestTechnology(NfcTech.NfcA)
       await NfcManager.getTag().then((tag) => {
+        console.log(tag.id);
         setTagId(tag.id)
         getCardData(tag.id)
       })
@@ -115,6 +116,28 @@ export default YourTurn = ({
   }
 
   const handleEvent = () => {
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({
+        content: cardData.content,
+        type: cardData.type,
+        gameCode,
+        playerId,
+        pseudo,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+      
     router.push({
       pathname: "/event",
       params: { content: cardData.content },

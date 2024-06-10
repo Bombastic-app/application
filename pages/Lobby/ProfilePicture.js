@@ -20,6 +20,7 @@ export default ProfilePicture = () => {
   const dispatch = useDispatch()
   const { action } = useLocalSearchParams()
   const [status, requestPermission] = ImagePicker.useCameraPermissions()
+  const [loading, setLoading] = useState(false)
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -74,6 +75,7 @@ export default ProfilePicture = () => {
   }
 
   const handleOnValidate = () => {
+    setLoading(true)
     console.info("Uploading image")
     manipulateAsync(image, [], { compress: 0.5 }).then((imageCompressed) => {
       storage()
@@ -137,7 +139,7 @@ export default ProfilePicture = () => {
         )}
 
         {image && playerId && (
-          <RoundedButton title="Suivant" onClick={handleOnValidate} />
+          <RoundedButton title="Suivant" onClick={handleOnValidate} disabled={loading} />
         )}
       </View>
     </BaseScreen>

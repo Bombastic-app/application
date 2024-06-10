@@ -13,6 +13,7 @@ export default JoinGame = () => {
   const pseudo = useSelector(state => state.pseudo)
   const dispatch = useDispatch();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
 
   handleOnUpdateGameCode = (code) => {
     dispatch(updateGameCode(code))
@@ -24,6 +25,7 @@ export default JoinGame = () => {
 
   joinGame = () => {
     if (gameCode !== "" && gameCode !== undefined && pseudo) {
+      setLoading(true)
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/join`, {
         method: "POST",
         headers: {
@@ -65,7 +67,7 @@ export default JoinGame = () => {
             />
           </View>
           <View className="w-full mt-30">
-            <RoundedButton title={"Rejoindre une partie"} onClick={joinGame} />
+            <RoundedButton title={"Rejoindre une partie"} onClick={joinGame} disabled={loading} />
           </View>
         </View>
         {error !== "" && (

@@ -12,8 +12,10 @@ export default Biography = () => {
   const [bio, setBio] = useState();
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
+  const [loading, setLoading] = useState(false)
 
   const handleOnClickDone = () => {
+    setLoading(true)
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/bio`, {
       method: "POST",
       headers: {
@@ -58,7 +60,7 @@ export default Biography = () => {
             />
           </View>
 
-          <RoundedButton disabled={!bio} title={"Let's go"} onClick={handleOnClickDone} />
+          <RoundedButton disabled={!bio || loading} title={"Let's go"} onClick={handleOnClickDone} />
         </View>
       </KeyboardAwareScrollView>
     </BaseScreen>

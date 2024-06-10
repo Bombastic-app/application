@@ -1,13 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, StyleSheet, TouchableOpacity, Text } from "react-native";
-import { Link, Stack, router, useRouter } from "expo-router";
+import { View, StyleSheet } from "react-native";
+import { Link, Stack } from "expo-router";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import firestore from '@react-native-firebase/firestore'
-import { colors, globalStyles } from "../Style";
+import { colors } from "../Style";
 import { StatusBar } from "expo-status-bar";
-import Alert from "../notifications/Alert";
-import { useDispatch, useSelector } from "react-redux";
-import { updateAlert, updateNotification } from "../../store";
+import { useDispatch } from "react-redux";
+import { updateAlert } from "../../store";
 import Notification from "../notifications/Notification";
 import { CONSTANTS } from "../../constants";
 

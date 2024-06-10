@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import ShapedImage from "../../components/ShapedImage";
 import firestore from "@react-native-firebase/firestore";
-import { updateScore, upgradeScore } from "../../store";
+import { updateScore, upgradeScore, upgradeTurnScore } from "../../store";
 
 export default MiniGameWinner = () => {
   const gameCode = useSelector((state) => state.gameCode);
@@ -45,28 +45,7 @@ export default MiniGameWinner = () => {
           });
         });
 
-      if (winner === playerId) {
-        fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/score`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            gameCode,
-            playerId,
-            score: score + 1
-          }),
-        })
-          .then((res) => res.json())
-          .then((data) => {
-            console.log(data.message);
-            dispatch(upgradeScore())
-          })
-          .catch((error) => {
-            console.log('Failed to update winner score', error);
-          });
-      }
+      if (winner === playerId) dispatch(upgradeTurnScore())
     }
   }, [winner]);
 
@@ -89,7 +68,7 @@ export default MiniGameWinner = () => {
             <RoundedButton
               title="Continuer"
               onClick={() => {
-                router.push("/score");
+                router.push("/turn/top_stat");
               }}
             />
           </>

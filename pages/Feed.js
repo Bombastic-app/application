@@ -8,11 +8,9 @@ import Heading5 from "../components/typography/Heading5";
 import { useDispatch, useSelector } from "react-redux";
 import firestore from "@react-native-firebase/firestore";
 import {
-  updateCurrentTurn,
   updateFollowers,
   updateMoney,
   updateNotification,
-  updatePlayerId,
   updateReputation,
 } from "../store";
 import { router } from "expo-router";
@@ -33,7 +31,11 @@ export default Feed = () => {
       .doc(playerId)
       .onSnapshot((player) => {
         if (player.data()?.current) {
-          if (!notification) dispatch(updateNotification(true));
+          if (!notification) {
+            setTimeout(() => {
+              dispatch(updateNotification(true));
+            }, 3000)
+          }
           loadedData.current = true;
         } else {
           dispatch(updateNotification(false));

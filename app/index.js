@@ -34,13 +34,15 @@ export default Page = ({ navigation }) => {
   if (fontsLoaded) {
     // dispatch(updateGameCode('057228'))
     // if (gameCode) return <Reset />
+    // if (gameCode) return <Reset gameCode='057228' playerId='7Ye6O6TMX8sGNx1jOrSy' />
     // if (gameCode) return <Biography />
     // if (gameCode) return <Profile_picture />
     // if (gameCode) return <New_game />
-    // if (gameCode) return <Feed />
+    if (gameCode) return <FeedPage />
     // if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
-    if (gameCode) return <Top_stat />
+    // if (gameCode) return <Top_stat />
+    // if (gameCode) return <Vote />
     // if (gameCode) return <Score />
     else return <Home />
     // return <Home />

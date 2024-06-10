@@ -64,6 +64,9 @@ const configSlice = createSlice({
     },
     upgradeTurnScore: (state, action) => {
       state.score = state.score + 1
+    },
+    updateTurnScore: (state, action) => {
+      state.turnScore = action.payload
     }
   }
 })
@@ -83,7 +86,8 @@ export const {
   updateFollowers,
   updateMoney,
   updateProfilePictures,
-  upgradeTurnScore
+  upgradeTurnScore,
+  updateTurnScore
 } = configSlice.actions
 
 const persistConfig = {

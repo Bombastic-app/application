@@ -18,8 +18,9 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
   const [comments, setComments] = useState(false);
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
+  const profilePictures = useSelector((state) => state.profilePictures);
   const currentPseudo = useSelector((state) => state.pseudo);
-  const profilePicture = require("../assets/illustration.png");
+  const profilePicture = profilePictures.find((np) => np.name === playerId)?.url;
 
   const handleOnClickProfilePicture = (playerId, pseudo) => {
     router.push({ pathname: "/profile", params: { playerId: playerId, hidden: true, pseudo } });

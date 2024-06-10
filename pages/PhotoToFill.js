@@ -43,7 +43,7 @@ export default PhotoToFill = ({ type, content, title }) => {
         Accept: "application/json",
       },
       body: JSON.stringify({
-        content: content + " " + desc,
+        content: content + " " + desc.toLowerCase(),
         type,
         gameCode,
         playerId,
