@@ -13,12 +13,13 @@ import { updateTurnScore, upgradeTurnScore } from "../store";
 
 export default Winner = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [winner, setWinner] = useState(false);
   const profilePictures = useSelector((state) => state.profilePictures);
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
   const currentTurn = useSelector((state) => state.currentTurn);
-  const dispatch = useDispatch()
+  const score = useSelector((state) => state.score);
 
   useEffect(() => {
     firestore()
@@ -35,14 +36,39 @@ export default Winner = () => {
     }
   }, []);
 
+  useEffect(() => {
+    if (winner && winner === playerId) {
+      fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/score`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          gameCode,
+          playerId,
+          score: score + 1
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data.message);
+          dispatch(upgradeTurnScore())
+        })
+        .catch((error) => {
+          console.log('Failed to update winner score', error);
+        });
+    }
+  }, [winner]);
+
   return (
     <BaseScreen>
       <View className="flex flex-col items-center pt-10">
         {winner &&
           <>
             <View className="flex flex-col items-center w-full gap-y-20 mb-70">
-              <Heading3 className="uppercase">{winner === playerId ? 'Bravo ma star, tu a' : 'Dommage, la prochaine fois c\'est toi qui'}</Heading3>
-              <Heading1>{winner === playerId ? 'Gagné !' : 'Gagneras'}</Heading1>
+              <Heading3 className="uppercase">{winner === playerId ? 'Bravo ma star, tu a' : 'Dommage pour toi, voici le'}</Heading3>
+              <Heading1>{winner === playerId ? 'Gagné !' : 'Gagnant'}</Heading1>
             </View>
 
             <View className="mb-60">

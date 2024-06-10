@@ -3,12 +3,17 @@ import YourTurn from "../../pages/YourTurn"
 import LottieView from "lottie-react-native"
 import { StyleSheet } from "react-native"
 import TweetToFill from "../../pages/TweetToFill"
+import { useDispatch, useSelector } from "react-redux"
+import { updateNotification } from "../../store"
 
 export default TurnPage = ({ navigation }) => {
   const [status, setStatus] = useState(0)
   const [startTransition, setStartTransition] = useState(false)
   const [endTransition, setEndTransition] = useState(false)
   const [cardData, setCardData] = useState(false)
+
+  const dispatch = useDispatch()
+  const notification = useSelector((state) => state.notification)
 
   const startTransitionRef = useRef(null)
   const endTransitionRef = useRef(null)
@@ -17,14 +22,14 @@ export default TurnPage = ({ navigation }) => {
     tweet: require("../../assets/transitions/scan/start/transition-blue.json"),
     photo: require("../../assets/transitions/scan/start/transition-pink.json"),
     news: require("../../assets/transitions/scan/start/transition-purple.json"),
-    action: require("../../assets/transitions/scan/start/transition-marine.json"),
+    event: require("../../assets/transitions/scan/start/transition-marine.json"),
   }
 
   const endTransitions = {
     tweet: require("../../assets/transitions/scan/end/transition-blue.json"),
     photo: require("../../assets/transitions/scan/end/transition-pink.json"),
     news: require("../../assets/transitions/scan/end/transition-purple.json"),
-    action: require("../../assets/transitions/scan/end/transition-marine.json"),
+    event: require("../../assets/transitions/scan/end/transition-marine.json"),
   }
 
   const handleStatus = (newStatus) => {
@@ -45,6 +50,10 @@ export default TurnPage = ({ navigation }) => {
   const endTransitionPlay = () => {
     endTransitionRef.current?.play()
   }
+
+  useEffect(() => {
+    dispatch(updateNotification(false))
+  }, [notification])
 
   return (
     <>

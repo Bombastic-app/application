@@ -55,8 +55,8 @@ export default NewGame = () => {
     if (players) {
       players.forEach((player) => {
         if (!players.some(e => e.name === player.id)) {
-      storage()
-        .ref()
+          storage()
+            .ref()
             .child(`/games/${gameCode}/profile_pictures/${player.id}.png`)
             .getDownloadURL()
             .then((url) => {
@@ -101,27 +101,32 @@ export default NewGame = () => {
       </View>
       {players && (
         <View className="flex flex-row justify-center items-center flex-wrap gap-x-60 gap-y-30 px-10">
-          {players.map((player, i) => (
-            <View className="flex flex-col items-center gap-y-10" key={`player-${i}`}>
-              <View className="relative">
-                {pictures && (
-                  <Image
-                    source={pictures.find((np) => np.name === player.id)?.url}
-                    contentFit="cover"
-                    cachePolicy={"memory-disk"}
-                    style={{ width: 80, height: 80, borderRadius: 9999 }}
-                  />
-                )}
-                <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
-              </View>
-              <Text className="text-14 text-white">
-                @
-                <Text className="text-14 text-white font-balgin-narrow">
-                  {player.pseudo}
-                </Text>
-              </Text>
-            </View>
-          ))}
+          {players.map((player, i) => {
+            if (pictures.find((np) => np.name === player.id)) {
+              return (
+                <View className="flex flex-col items-center gap-y-10" key={`player-${i}`}>
+                  <View className="relative">
+                    {pictures && (
+                      <Image
+                        source={pictures.find((np) => np.name === player.id)?.url}
+                        contentFit="cover"
+                        cachePolicy={"memory-disk"}
+                        style={{ width: 80, height: 80, borderRadius: 9999 }}
+                      />
+                    )}
+                    <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
+                  </View>
+                  <Text className="text-14 text-white">
+                    @
+                    <Text className="text-14 text-white font-balgin-narrow">
+                      {player.pseudo}
+                    </Text>
+                  </Text>
+                </View>
+              )
+            }
+          }
+          )}
         </View>
       )}
 

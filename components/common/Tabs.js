@@ -25,7 +25,7 @@ export default Tabs = ({ active, handleActive }) => {
 
   return (
     <View style={styles.tabs}>
-      <LinearGradient style={styles.gradient} colors={['transparent', '#0C1A2D']} locations={[0.01, 1]}></LinearGradient>
+      {/* <LinearGradient style={styles.gradient} colors={['transparent', '#0C1A2D']} locations={[0.01, 1]}></LinearGradient> */}
 
       <View className="relative self-center" style={{ marginBottom: insets.bottom }}>
         <Svg

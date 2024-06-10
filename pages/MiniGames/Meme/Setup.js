@@ -33,7 +33,8 @@ export const MiniGameMemeSetup = ({ updateStep }) => {
                 'Content-Type': 'application/json'
               },
               body: JSON.stringify({ gameCode, playerId })
-            }).then(() => {
+            }).then((data) => {
+              console.log(data.message);
               updateStep(2);
             })
           })

@@ -4,6 +4,7 @@ import { StyleSheet, TouchableNativeFeedback, View } from "react-native";
 import { colors } from "../Style";
 import ThumbDown from "../icons/ThumbDown";
 import Heading3 from "../typography/Heading3";
+import RetakePicture from "../icons/RetakePicture";
 
 export const RoundedButton = ({
   title = false,
@@ -53,7 +54,7 @@ export const RoundedButton = ({
               />
             </View>
           )}
-          {icon && <ThumbDown />}
+          {icon && <RetakePicture />}
           {title && (
             <Heading3
               className="uppercase py-4"
