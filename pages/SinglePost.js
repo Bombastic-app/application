@@ -91,23 +91,35 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
           </View>
         </ScrollView>
 
-        <View className="flex-row gap-7 pt-15 items-center">
-          <Image style={styles.profilePicture} source={profilePicture} />
+        <View>
+          <View className="flex-row justify-between">
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/diablo.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/fuck.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/flash.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/teub.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/gouttes.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/cul.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/pied.png')} />
+          </View>
 
-          <TextInput
-            className="font-libre-franklin text-white border border-white/10 placeholder:text-white/40"
-            placeholder="Commenter la publication"
-            onChangeText={(text) => setComment(text)}
-            scrollEnabled={false}
-            multiline
-            maxLength={CONSTANTS.textInputMaxLength}
-            style={styles.commentInput}
-            value={comment}
-          />
+          <View className="flex-row gap-7 pt-15 items-center">
+            <Image style={styles.profilePicture} source={profilePicture} />
 
-          <Pressable onPress={handleOnPostComment}>
-            <OkButton />
-          </Pressable>
+            <TextInput
+              className="font-libre-franklin text-white border border-white/10 placeholder:text-white/40"
+              placeholder="Commenter la publication"
+              onChangeText={(text) => setComment(text)}
+              scrollEnabled={false}
+              multiline
+              maxLength={CONSTANTS.textInputMaxLength}
+              style={styles.commentInput}
+              value={comment}
+            />
+
+            <Pressable onPress={handleOnPostComment}>
+              <OkButton />
+            </Pressable>
+          </View>
         </View>
       </KeyboardAwareScrollView>
     </BaseScreen>
@@ -124,7 +136,8 @@ const styles = StyleSheet.create({
   },
   commentInput: {
     borderRadius: 30,
-    paddingVertical: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
     paddingHorizontal: 14,
     flex: 1,
     alignItems: "center",
