@@ -1,5 +1,5 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import { Image, Text, TextInput, View } from "react-native";
+import { Image, Text, Pressable, TextInput, View } from "react-native";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import { useState } from "react";
 import BaseScreen from "../../components/base/BaseScreen";
@@ -7,6 +7,7 @@ import UnderlineInput from "../../components/UnderlineInput";
 import { generateGameCode } from "../../components/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGameCode, updatePlayerId } from "../../store";
+import BackArrow from "../../components/icons/BackArrow";
 
 export default JoinGame = () => {
   const gameCode = useSelector(state => state.gameCode)
@@ -49,6 +50,10 @@ export default JoinGame = () => {
 
   return (
     <BaseScreen>
+      <Pressable onPress={router.back} className="mt-10">
+        <BackArrow />
+      </Pressable>
+
       <View className="flex pt-110 h-full">
         <View className="flex items-center justify-center">
           <Image
