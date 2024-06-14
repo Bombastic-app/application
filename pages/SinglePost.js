@@ -72,7 +72,7 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
         <BackArrow />
       </Pressable>
 
-      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} bounces={false} scrollEnabled={false}>
+      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} bounces={true} scrollEnabled={false} automaticallyAdjustContentInsets={false}>
 
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <Post type={type} content={content} pseudo={pseudo} author={author} soloView={true} withBackground={false} likes={likes} dislikes={dislikes} />
