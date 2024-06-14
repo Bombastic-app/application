@@ -14,7 +14,7 @@ import Reset from "./debug/reset";
 import { MiniGameMemeChoice } from "../pages/MiniGames/Meme/Choice";
 import { MiniGameMemeSetup } from "../pages/MiniGames/Meme/Setup";
 import Top_stat from "./turn/top_stat";
-import { updateGameCode } from "../store";
+import { updateCurrentTurn, updateGameCode, updatePlayerId } from "../store";
 import TweetToFill from "../pages/TweetToFill";
 
 NfcManager.start();
@@ -34,20 +34,23 @@ export default Page = ({ navigation }) => {
 
   if (fontsLoaded) {
     // dispatch(updateGameCode('643674'))
+    // dispatch(updatePlayerId('9UwEMkb8AvIWbXb7Qdst'))
+    // dispatch(updateCurrentTurn(1))
     // console.log(playerId);
     // if (gameCode) return <Reset />
     // if (gameCode) return <Reset gameCode='643674' playerId='9UwEMkb8AvIWbXb7Qdst' />
     // if (gameCode) return <Biography />
     // if (gameCode) return <Profile_picture />
     // if (gameCode) return <New_game />
-    if (gameCode) return <FeedPage />
+    // if (gameCode) return <FeedPage />
     // if (gameCode) return <TweetToFill />
     // if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
     // if (gameCode) return <Top_stat />
     // if (gameCode) return <Vote />
     // if (gameCode) return <Score />
-    else return <Home />
-    // return <Home />
+    // else return <Home />
+    // return <Reset gameCode='643674' playerId='9UwEMkb8AvIWbXb7Qdst' />
+    return <Vote />
   }
 };
