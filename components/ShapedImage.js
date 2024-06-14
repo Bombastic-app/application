@@ -10,12 +10,16 @@ import { gsap } from 'gsap-rn'
 import MaskedView from '@react-native-masked-view/masked-view'
 import { CustomEase } from 'gsap/all'
 import SlimImageMask from './icons/SlimImageMask'
+import SlimSmallImageMask from './icons/SlimSmallImageMask'
 
 export default ShapedImage = ({
   source,
   animation = 'rotation',
   showStars = true,
   isSlim = false,
+  hasGradient = true,
+  isSlimSmall = false,
+  style
 }) => {
   const background = useRef()
   const backgroundContainer = useRef()
@@ -134,7 +138,17 @@ export default ShapedImage = ({
         </>
       )}
 
-      {isSlim ? (
+      {isSlim ? isSlimSmall ? (
+        <SlimSmallImageMask ref={image}>
+          <Image
+            width="100%"
+            height="100%"
+            href={source}
+            preserveAspectRatio="xMidYMid slice"
+            clipPath="#clip-slim_image_mask"
+          />
+        </SlimSmallImageMask>
+      ) : (
         <SlimImageMask ref={image}>
           <Image
             width="100%"
@@ -183,7 +197,7 @@ export default ShapedImage = ({
           </View>
         </MaskedView>
       )}
-      <View
+      {hasGradient && <View
         ref={backgroundContainer}
         style={[
           { top: isSlim ? 10 : 14, left: isSlim ? 10 : -9 },
@@ -200,6 +214,7 @@ export default ShapedImage = ({
           style={styles.background}
         />
       </View>
+      }
     </View>
   )
 }

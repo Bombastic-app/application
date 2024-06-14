@@ -1,4 +1,4 @@
-import { Share, Text, TouchableHighlight, View } from "react-native";
+import { Share, TouchableHighlight, View } from "react-native";
 import { useEffect, useState } from "react";
 import { router } from "expo-router";
 import { RoundedButton } from "../../components/base/RoundedButton";
@@ -9,6 +9,10 @@ import Cards from "../../components/icons/Cards";
 import { useDispatch, useSelector } from "react-redux";
 import { Image } from "expo-image";
 import { updateCurrentTurn, updateProfilePictures } from "../../store";
+import Text from "../../components/typography/Text";
+import Heading1 from "../../components/typography/Heading1";
+import Heading4 from "../../components/typography/Heading4";
+import ShapedImage from "../../components/ShapedImage";
 
 export default NewGame = () => {
   const gameCode = useSelector((state) => state.gameCode);
@@ -68,7 +72,7 @@ export default NewGame = () => {
               setPictures((oldPictures) => [...oldPictures, picture]);
             });
         }
-        });
+      });
     }
   }, [players]);
 
@@ -88,37 +92,41 @@ export default NewGame = () => {
   }, [gameCode]);
 
   return (
-    <BaseScreen className="flex flex-col justify-between w-full h-screen bg-marine">
+    <BaseScreen className="flex flex-col h-screen justify-between w-full bg-marine">
       <View>
-        <View className="flex flex-col items-center gap-y-20">
-          <Text className="font-balgin-narrow-bold text-white text-16 uppercase">
+        <View className="flex flex-col items-center gap-y-10">
+          <Text className="font-balgin-narrow-bold text-16 uppercase">
             Code de partie
           </Text>
-          <Text className="font-balgin-black text-white text-56">
+
+          <Heading1>
             {gameCode}
-          </Text>
+          </Heading1>
         </View>
       </View>
+
       {players && (
-        <View className="flex flex-row justify-center items-center flex-wrap gap-x-60 gap-y-30 px-10">
+        <View className="flex flex-row justify-center items-start flex-wrap gap-x-60 gap-y-30 px-10">
           {players.map((player, i) => {
             if (pictures.find((np) => np.name === player.id)) {
               return (
-                <View className="flex flex-col items-center gap-y-10" key={`player-${i}`}>
+                <View className="flex flex-col items-center gap-y-10" style={i%2 == 1 ? {transform: [{translateY: 24}]} : {transform: [{translateY: 0}]}} key={`player-${i}`}>
                   <View className="relative">
                     {pictures && (
-                      <Image
+                      <ShapedImage
                         source={pictures.find((np) => np.name === player.id)?.url}
-                        contentFit="cover"
-                        cachePolicy={"memory-disk"}
-                        style={{ width: 80, height: 80, borderRadius: 9999 }}
+                        animation={false}
+                        showStars={false}
+                        hasGradient={false}
+                        isSlim
+                        isSlimSmall
                       />
                     )}
-                    <View className="absolute right-[0.5] bottom-[0.5] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
+                    <View className="absolute right-[-2] bottom-[-10] w-[20] h-[20] bg-[green] rounded-full border-4 border-marine"></View>
                   </View>
-                  <Text className="text-14 text-white">
+                  <Text className="uppercase font-balgin-black-italic">
                     @
-                    <Text className="text-14 text-white font-balgin-narrow">
+                    <Text>
                       {player.pseudo}
                     </Text>
                   </Text>
@@ -130,7 +138,7 @@ export default NewGame = () => {
         </View>
       )}
 
-      <View className="flex flex-col gap-y-30">
+      <View className="flex flex-col gap-y-16 bottom-[-20]">
         <View className="flex flex-col items-center gap-y-16 w-full bg-white/10 p-24 rounded-12">
           <Cards />
           <Text className="text-white text-16 font-balgin-narrow-bold uppercase text-center">
@@ -139,12 +147,12 @@ export default NewGame = () => {
         </View>
         <TouchableHighlight className="self-center" onPress={shareLink}>
           <View className="pb-7 border-b-2 border-b-white">
-            <Text className="text-white text-18 font-balgin-narrow-bold uppercase">
+            <Heading4 className="uppercase">
               Partager le lien
-            </Text>
+            </Heading4>
           </View>
         </TouchableHighlight>
-        <RoundedButton title={"Démarrer"} onClick={onStartGame} />
+        <RoundedButton title={"Démarrer"} onClick={onStartGame} gradient />
       </View>
     </BaseScreen>
   );
