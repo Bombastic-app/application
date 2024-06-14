@@ -5,6 +5,7 @@ import { Image } from 'expo-image'
 import { useEffect, useRef, useState } from 'react'
 import { gsap } from 'gsap-rn'
 import { useSelector } from 'react-redux'
+import { Audio } from 'expo-av'
 
 export default TopStatTitle = ({
   title = "L'influenceur Dubaï",
@@ -16,16 +17,34 @@ export default TopStatTitle = ({
   const [picture, setPicture] = useState(false)
   const [iconSizes, setIconSizes] = useState({ width: 0, height: 0 })
   const [gradientSizes, setGradientSizes] = useState({ width: 0, height: 0 })
+  const [sound, setSound] = useState()
 
   const timeline = useRef()
   const titleRef = useRef()
   const iconRef = useRef()
   const pointRef = useRef()
 
+  const sounds = {
+    money: require('../../assets/money.mp3'),
+    followers: require('../../assets/followers.mp3'),
+    reputation: require('../../assets/reputation.mp3')
+  }
+
   const icon = {
     money: require('../../assets/picto/money.png'),
     followers: require('../../assets/picto/followers.png'),
     reputation: require('../../assets/picto/reputation.png'),
+  }
+
+  async function playSound() {
+    console.log('Loading Sound')
+    const { sound } = await Audio.Sound.createAsync(
+      sounds[type]
+    )
+    setSound(sound)
+
+    console.log('Playing Sound')
+    await sound.playAsync()
   }
 
   const handleOnLayoutIcon = (e) => {
@@ -92,8 +111,18 @@ export default TopStatTitle = ({
   useEffect(() => {
     if (iconSizes && iconSizes.width) {
       animation()
+      playSound()
     }
   }, [title, iconSizes.width])
+
+  useEffect(() => {
+    return sound
+      ? () => {
+          console.log('Unloading Sound');
+          sound.unloadAsync();
+        }
+      : undefined;
+  }, [sound]);
 
   return (
     <View style={styles.container}>

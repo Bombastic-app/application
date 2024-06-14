@@ -35,12 +35,16 @@ export default TopStat = () => {
 
   const updateStatus = () => {
     if (status === 2) {
-      Array.from(players).forEach((player) => {
+      Object.values(players).forEach((player) => {
         if (player === playerId) dispatch(upgradeTurnScore())
       })
       router.push('/score')
     } else setStatus(status + 1)
   }
+
+  useEffect(() => {
+    setStatus(0)
+  }, [players])
 
   useEffect(() => {
     // Set titles via API

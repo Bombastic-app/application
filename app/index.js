@@ -15,6 +15,7 @@ import { MiniGameMemeChoice } from "../pages/MiniGames/Meme/Choice";
 import { MiniGameMemeSetup } from "../pages/MiniGames/Meme/Setup";
 import Top_stat from "./turn/top_stat";
 import { updateGameCode } from "../store";
+import TweetToFill from "../pages/TweetToFill";
 
 NfcManager.start();
 
@@ -32,13 +33,15 @@ export default Page = ({ navigation }) => {
   const dispatch = useDispatch();
 
   if (fontsLoaded) {
-    // dispatch(updateGameCode('057228'))
+    // dispatch(updateGameCode('643674'))
+    // console.log(playerId);
     // if (gameCode) return <Reset />
-    // if (gameCode) return <Reset gameCode='057228' playerId='7Ye6O6TMX8sGNx1jOrSy' />
+    // if (gameCode) return <Reset gameCode='643674' playerId='9UwEMkb8AvIWbXb7Qdst' />
     // if (gameCode) return <Biography />
     // if (gameCode) return <Profile_picture />
     // if (gameCode) return <New_game />
     if (gameCode) return <FeedPage />
+    // if (gameCode) return <TweetToFill />
     // if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
     // if (gameCode) return <Top_stat />

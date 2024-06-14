@@ -71,8 +71,8 @@ export default Score = () => {
   useEffect(() => {
     // console.log(pseudo, turnScore, score)
     // if (playerId === 'RPBriCxeUHx4dNVzn2Xi') { 
-      // dispatch(updateTurnScore(3))
-      // dispatch(updateScore(2))
+      // dispatch(updateTurnScore(1))
+      // dispatch(updateScore(0))
     // } 
 
     if (turnScore === 0) {
@@ -111,6 +111,7 @@ export default Score = () => {
   }, [score, turnScore])
 
   useEffect(() => {
+    console.log(startFrame, endFrame, turnScore);
     if (animation && startFrame && endFrame) lottieRef.current?.play(startFrame, endFrame)
   }, [animation, startFrame, endFrame])
 
@@ -149,7 +150,7 @@ export default Score = () => {
         )}
         <View style={styles.point}>
           <Text className="text-32 font-balgin-narrow-bold uppercase text-center">
-            {turnScore + score} point
+            {`${turnScore + score} point${turnScore + score > 1 && 's' }`}
           </Text>
         </View>
         {/* </View> */}

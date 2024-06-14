@@ -1,30 +1,31 @@
-import { TextInput, View } from "react-native";
-import BaseScreen from "../components/base/BaseScreen";
-import Text from "../components/typography/Text";
-import { RoundedButton } from "../components/base/RoundedButton";
-import { useState } from "react";
-import { useRouter } from "expo-router";
-import { useSelector } from "react-redux";
+import { TextInput, View } from 'react-native'
+import BaseScreen from '../components/base/BaseScreen'
+import Text from '../components/typography/Text'
+import { RoundedButton } from '../components/base/RoundedButton'
+import { useState } from 'react'
+import { useRouter } from 'expo-router'
+import { useSelector } from 'react-redux'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scrollview'
-import { CONSTANTS } from "../constants";
-import { colors } from "../components/Style";
+import { CONSTANTS } from '../constants'
+import { colors } from '../components/Style'
 
 export default TweetToFill = ({ type, content }) => {
-  const router = useRouter();
-  const [tweet, setTweet] = useState();
-  const gameCode = useSelector((state) => state.gameCode);
-  const playerId = useSelector((state) => state.playerId);
-  const pseudo = useSelector((state) => state.pseudo);
+  const router = useRouter()
+  const [tweet, setTweet] = useState()
+  const gameCode = useSelector((state) => state.gameCode)
+  const playerId = useSelector((state) => state.playerId)
+  const pseudo = useSelector((state) => state.pseudo)
+  const currentCard = useSelector((state) => state.currentCard)
 
   const handleOnClickPublish = () => {
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
       },
       body: JSON.stringify({
-        content: content + " " + tweet.toLowerCase(),
+        content: content + ' ' + tweet.toLowerCase(),
         type,
         gameCode,
         playerId,
@@ -33,20 +34,45 @@ export default TweetToFill = ({ type, content }) => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data.message);
+        console.log(data.message)
       })
       .catch((error) => {
-        console.log('Failed to publish tweet', error);
-      });
+        console.log('Failed to publish tweet', error)
+      })
+
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        gameCode,
+        playerId,
+        reputation: currentCard.reputation,
+        followers: currentCard.followers,
+        money: currentCard.money,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
 
     router.push({
-      pathname: "/feed",
-    });
-  };
+      pathname: '/feed',
+    })
+  }
 
   return (
     <BaseScreen headerShown={false} style={{ backgroundColor: colors.marine }}>
-      <KeyboardAwareScrollView contentContainerStyle={{flex: 1}} bounces={false} scrollEnabled={false}>
+      <KeyboardAwareScrollView
+        contentContainerStyle={{ flex: 1 }}
+        bounces={false}
+        scrollEnabled={false}
+      >
         <View className="flex-1 justify-between mt-28">
           <View>
             <Text className="font-balgin-black-italic font-bold text-28 mb-5 uppercase">
@@ -62,13 +88,18 @@ export default TweetToFill = ({ type, content }) => {
               multiline
               maxLength={CONSTANTS.textInputMaxLength}
               onChangeText={(text) => setTweet(text)}
-              style={{paddingBottom: 1, textAlignVertical: "bottom"}}
+              style={{ paddingBottom: 1, textAlignVertical: 'bottom' }}
             />
           </View>
 
-          <RoundedButton background="bg-blue" disabled={!tweet} title={"Poster"} onClick={handleOnClickPublish} />
+          <RoundedButton
+            background="bg-blue"
+            disabled={!tweet}
+            title={'Poster'}
+            onClick={handleOnClickPublish}
+          />
         </View>
       </KeyboardAwareScrollView>
     </BaseScreen>
-  );
-};
+  )
+}

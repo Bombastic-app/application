@@ -1,5 +1,5 @@
 import { useEffect } from "react"
-import { persistor, updateFollowers, updateMoney, updateReputation, updateScore } from "../../store"
+import { persistor, updateCurrentTurn, updateFollowers, updateMoney, updatePlayerId, updateReputation, updateScore } from "../../store"
 import firestore from '@react-native-firebase/firestore'
 import { useDispatch } from "react-redux"
 
@@ -16,6 +16,9 @@ export default Reset = ({ gameCode = false, playerId = false }) => {
         firestore().collection(`games/${gameCode}/players`).doc(`${playerId}`).get().then((player) => {
           const data = player.data()
 
+          dispatch(updateCurrentTurn(1))
+          dispatch(updateGameCode(gameCode))
+          dispatch(updatePlayerId(playerId))
           dispatch(updateScore(data.score))
           dispatch(updateMoney(data.money))
           dispatch(updateReputation(data.reputation))

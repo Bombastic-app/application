@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import Svg, { Stop, LinearGradient, Defs } from "react-native-svg";
 import AnimatedCircle from "../AnimatedCircle";
-import { useAnimatedProps, useSharedValue, withTiming } from "react-native-reanimated";
+import { useAnimatedProps, useSharedValue, withDelay, withTiming } from "react-native-reanimated";
 
 export default ProgressCircle = ({ progress }) => {
   const radius = 35;

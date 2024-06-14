@@ -18,6 +18,7 @@ export default Vote = () => {
   const playerId = useSelector(state => state.playerId);
 
   const handleOnVote = () => {
+    console.log(gameCode);
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/vote`, {
       method: "POST",
       headers: {
