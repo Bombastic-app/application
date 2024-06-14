@@ -139,7 +139,7 @@ export default Post = ({ type, content, pseudo, author, likes, dislikes, withBac
       {!soloView &&
         <View style={styles.centerLittleGap}>
           <Comment />
-          <Text>{commentsLength > 0 ? `${commentsLength} commentaires` : 'Aucun commentaire'}</Text>
+          <Text>{commentsLength > 0 ? `${commentsLength} commentaire${commentsLength > 1 ? 's' : ''}` : 'Aucun commentaire'}</Text>
         </View>
       }
     </View>

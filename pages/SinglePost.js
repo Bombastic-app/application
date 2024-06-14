@@ -77,7 +77,7 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
 
         <View style={styles.divider}></View>
 
-        <Text className="font-bold">{comments.length > 0 ? `${comments.length} commentaires` : 'Aucun commentaire'}</Text>
+        <Text className="font-bold">{comments.length > 0 ? `${comments.length} commentaire${comments.length > 1 ? 's' : ''}` : 'Aucun commentaire'}</Text>
 
         <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
           <View className="mt-10 gap-10">
