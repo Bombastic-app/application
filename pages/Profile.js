@@ -92,52 +92,51 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
       }
 
       <View className="gap-20 mt-28 flex-1">
-        <View className="items-start">
-          <Image
-            source={profilePictures.find((np) => np.name === playerId)?.url}
-            contentFit="cover"
-            cachePolicy={"memory-disk"}
-            style={{ width: 100, height: 100, borderRadius: 9999 }}
-          />
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <View className="items-start">
+            <Image
+              source={profilePictures.find((np) => np.name === playerId)?.url}
+              contentFit="cover"
+              cachePolicy={"memory-disk"}
+              style={{ width: 100, height: 100, borderRadius: 9999 }}
+            />
 
-          <View className="mt-20 mb-10 flex-row gap-10">
-            <Heading2>{pseudo}</Heading2>
+            <View className="mt-20 mb-10 flex-row gap-10">
+              <Heading2>{pseudo}</Heading2>
 
-            { !hidden &&
-              <Image
-                source={certifImages[score]}
-                contentFit="contain"
-                cachePolicy={"memory-disk"}
-                style={{ width: 30, height: 30 }}
-              />
-            }
+              { !hidden &&
+                <Image
+                  source={certifImages[score]}
+                  contentFit="contain"
+                  cachePolicy={"memory-disk"}
+                  style={{ width: 30, height: 30 }}
+                />
+              }
+            </View>
+
+            <Text>{bio}</Text>
           </View>
 
-          <Text>{bio}</Text>
-        </View>
+          <View className={hidden ? "border-t border-white/15" : "border-t border-b border-white/15 py-15"}>
+            { !hidden && <PlayerStatistics /> }
+          </View>
 
-        <View className={hidden ? "border-t border-white/15" : "border-t border-b border-white/15 py-15"}>
-          { !hidden && <PlayerStatistics /> }
-        </View>
-
-        <View className="flex-1">
           <Heading5 className="uppercase mb-13">{ !hidden && <Heading5>Mes</Heading5> } Publications</Heading5>
-          <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
-            <View className="gap-10">
-              {posts &&
-                posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
-                  return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={`profile-post-${i}`} author={fPost.playerId} />;
-                })}
+
+          <View className="gap-10">
+            {posts &&
+              posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
+                return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={`profile-post-${i}`} author={fPost.playerId} />;
+              })}
+          </View>
+          {!posts || posts.length === 0 && (
+            <View className="items-center justify-center flex-1">
+              <Heading5 className="uppercase pt-3">
+                Ce joueur n'a pas encore publié de contenu
+              </Heading5>
             </View>
-            {!posts || posts.length === 0 && (
-              <View className="items-center justify-center flex-1">
-                <Heading5 className="uppercase pt-3">
-                  Ce joueur n'a pas encore publié de contenu
-                </Heading5>
-              </View>
-            )}
-          </ScrollView>
-        </View>
+          )}
+        </ScrollView>
       </View>
     </BaseScreen>
   )

@@ -73,13 +73,14 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
       </Pressable>
 
       <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} bounces={false} scrollEnabled={false}>
-        <Post type={type} content={content} pseudo={pseudo} author={author} soloView={true} withBackground={false} likes={likes} dislikes={dislikes} />
 
-        <View style={styles.divider}></View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <Post type={type} content={content} pseudo={pseudo} author={author} soloView={true} withBackground={false} likes={likes} dislikes={dislikes} />
 
-        <Text className="font-bold">{comments.length > 0 ? `${comments.length} commentaire${comments.length > 1 ? 's' : ''}` : 'Aucun commentaire'}</Text>
+          <View style={styles.divider}></View>
 
-        <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
+          <Text className="font-bold">{comments.length > 0 ? `${comments.length} commentaire${comments.length > 1 ? 's' : ''}` : 'Aucun commentaire'}</Text>
+
           <View className="mt-10 gap-10">
             {comments &&
               comments.sort((a, b) => b.timestamp - a.timestamp).map((fCom, i) => {
