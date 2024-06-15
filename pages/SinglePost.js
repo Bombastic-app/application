@@ -92,7 +92,7 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
         </ScrollView>
 
         <View>
-          <View className="flex-row justify-between">
+          <View className="flex-row justify-between pt-10">
             <Image style={{height: 32, width: 32}} source={require('../assets/stickers/diablo.png')} />
             <Image style={{height: 32, width: 32}} source={require('../assets/stickers/fuck.png')} />
             <Image style={{height: 32, width: 32}} source={require('../assets/stickers/flash.png')} />
