@@ -122,7 +122,7 @@ export default ProfilePicture = () => {
         <Heading2>Ajoute une photo de profil</Heading2>
         {!image && (
           <View>
-            <ShapedImage source={require("../../assets/profil.png")} />
+            <ShapedImage source={require("../../assets/profil.png")} animation={false} />
           </View>
         )}
         {image && (

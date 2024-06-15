@@ -19,7 +19,7 @@ export default ShapedImage = ({
   isSlim = false,
   hasGradient = true,
   isSlimSmall = false,
-  style
+  style,
 }) => {
   const background = useRef()
   const backgroundContainer = useRef()
@@ -86,41 +86,45 @@ export default ShapedImage = ({
   }
 
   useEffect(() => {
-    gsap.registerPlugin(CustomEase)
-    CustomEase.create('shine', 'M0,0 C0.25,0.1 0.25,1 1,1')
-    CustomEase.create('bgRotate', 'M0,0 C0.25,1 0.5,1 1,1 ')
+    if (source) {
+      gsap.registerPlugin(CustomEase)
+      CustomEase.create('shine', 'M0,0 C0.25,0.1 0.25,1 1,1')
+      CustomEase.create('bgRotate', 'M0,0 C0.25,1 0.5,1 1,1 ')
 
-    timeline.current = gsap.timeline({ delay: 0.2 })
+      timeline.current = gsap.timeline({ delay: 0.2 })
 
-    if (animation === 'rotation') rotationAnimation()
-    else if (animation === 'scaling') scalingAnimation()
+      if (animation) {
+        if (animation === 'rotation') rotationAnimation()
+        else if (animation === 'scaling') scalingAnimation()
+      }
 
-    if (showStars) {
-      timeline.current
-        .fromTo(
-          firstStar.current,
-          { transform: { scale: 0.01 }, style: { alpha: 0 } },
-          {
-            transform: { scale: 0.85, rotate: 15 },
-            style: { alpha: 1 },
-            duration: 0.6,
-            ease: 'elastic.out',
-          },
-          '<0.2'
-        )
-        .fromTo(
-          secondStar.current,
-          { transform: { scale: 0.01 }, style: { alpha: 0 } },
-          {
-            transform: { scale: 0.5, rotate: 15 },
-            style: { alpha: 1 },
-            duration: 0.6,
-            ease: 'elastic.out',
-          },
-          '<0.2'
-        )
+      if (showStars) {
+        timeline.current
+          .fromTo(
+            firstStar.current,
+            { transform: { scale: 0.01 }, style: { alpha: 0 } },
+            {
+              transform: { scale: 0.85, rotate: 15 },
+              style: { alpha: 1 },
+              duration: 0.6,
+              ease: 'elastic.out',
+            },
+            '<0.2'
+          )
+          .fromTo(
+            secondStar.current,
+            { transform: { scale: 0.01 }, style: { alpha: 0 } },
+            {
+              transform: { scale: 0.5, rotate: 15 },
+              style: { alpha: 1 },
+              duration: 0.6,
+              ease: 'elastic.out',
+            },
+            '<0.2'
+          )
+      }
     }
-  }, [])
+  }, [source])
 
   return (
     <View style={styles.container}>
@@ -138,26 +142,28 @@ export default ShapedImage = ({
         </>
       )}
 
-      {isSlim ? isSlimSmall ? (
-        <SlimSmallImageMask ref={image}>
-          <Image
-            width="100%"
-            height="100%"
-            href={source}
-            preserveAspectRatio="xMidYMid slice"
-            clipPath="#clip-slim_image_mask"
-          />
-        </SlimSmallImageMask>
-      ) : (
-        <SlimImageMask ref={image}>
-          <Image
-            width="100%"
-            height="100%"
-            href={source}
-            preserveAspectRatio="xMidYMid slice"
-            clipPath="#clip-slim_image_mask"
-          />
-        </SlimImageMask>
+      {isSlim ? (
+        isSlimSmall ? (
+          <SlimSmallImageMask ref={image}>
+            <Image
+              width="100%"
+              height="100%"
+              href={source}
+              preserveAspectRatio="xMidYMid slice"
+              clipPath="#clip-slim_image_mask"
+            />
+          </SlimSmallImageMask>
+        ) : (
+          <SlimImageMask ref={image}>
+            <Image
+              width="100%"
+              height="100%"
+              href={source}
+              preserveAspectRatio="xMidYMid slice"
+              clipPath="#clip-slim_image_mask"
+            />
+          </SlimImageMask>
+        )
       ) : (
         <ImageMask ref={image}>
           <Image
@@ -197,24 +203,25 @@ export default ShapedImage = ({
           </View>
         </MaskedView>
       )}
-      {hasGradient && <View
-        ref={backgroundContainer}
-        style={[
-          { top: isSlim ? 10 : 14, left: isSlim ? 10 : -9 },
-          styles.backgroundContainer,
-        ]}
-      >
-        <ExpoImage
-          ref={background}
-          source={
-            isSlim
-              ? require('../assets/slim-image-mask-bg.png')
-              : require('../assets/image-mask-bg.png')
-          }
-          style={styles.background}
-        />
-      </View>
-      }
+      {hasGradient && (
+        <View
+          ref={backgroundContainer}
+          style={[
+            { top: isSlim ? 10 : 14, left: isSlim ? 10 : -9 },
+            styles.backgroundContainer,
+          ]}
+        >
+          <ExpoImage
+            ref={background}
+            source={
+              isSlim
+                ? require('../assets/slim-image-mask-bg.png')
+                : require('../assets/image-mask-bg.png')
+            }
+            style={styles.background}
+          />
+        </View>
+      )}
     </View>
   )
 }
