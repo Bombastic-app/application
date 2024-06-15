@@ -30,6 +30,10 @@ export default PlayerStatistics = () => {
     money: require('../../assets/money.gif'),
     followers: require('../../assets/followers.gif'),
     reputation: require('../../assets/reputation.gif'),
+    moneyReputation: require('../../assets/moneyReputation.gif'),
+    moneyFollowers: require('../../assets/moneyFollowers.gif'),
+    reputationFollowers: require('../../assets/reputationFollowers.gif'),
+    moneyReputationFollowers: require('../../assets/moneyReputationFollowers.gif'),
   }
 
   const highlightLottie = require('../../assets/stars-particles.json')
@@ -45,9 +49,42 @@ export default PlayerStatistics = () => {
         currentCard.followers &&
         currentCard.reputation
       ) {
+        setTimeout(() => {
+          setGifAnimation(gifAnimations['moneyReputationFollowers'])
+        }, 500)
+
+        setTimeout(() => {
+          setHighlightMoney(true)
+          setHighlightReputation(true)
+          setHighlightFollowers(true)
+        }, 2500)
       } else if (currentCard.money && currentCard.reputation) {
+        setTimeout(() => {
+          setGifAnimation(gifAnimations['moneyReputation'])
+        }, 500)
+
+        setTimeout(() => {
+          setHighlightMoney(true)
+          setHighlightReputation(true)
+        }, 2500)
       } else if (currentCard.money && currentCard.followers) {
+        setTimeout(() => {
+          setGifAnimation(gifAnimations['moneyFollowers'])
+        }, 500)
+
+        setTimeout(() => {
+          setHighlightMoney(true)
+          setHighlightFollowers(true)
+        }, 2500)
       } else if (currentCard.followers && currentCard.reputation) {
+        setTimeout(() => {
+          setGifAnimation(gifAnimations['money'])
+        }, 500)
+
+        setTimeout(() => {
+          setHighlightReputation(true)
+          setHighlightFollowers(true)
+        }, 2500)
       } else if (currentCard.reputation) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['reputation'])
@@ -76,7 +113,7 @@ export default PlayerStatistics = () => {
 
       setTimeout(() => {
         setGifAnimation(false)
-      }, 3000)
+      }, 4600)
     }
   }, [currentCard, isCurrentPlayer])
 
