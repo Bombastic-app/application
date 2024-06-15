@@ -92,7 +92,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
       }
 
       <View className="gap-20 mt-28 flex-1">
-        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, gap: 20 }}>
           <View className="items-start">
             <Image
               source={profilePictures.find((np) => np.name === playerId)?.url}
