@@ -37,7 +37,6 @@ export default PlayerStatistics = () => {
   useEffect(() => {
     if (isCurrentPlayer) {
       setTimeout(() => {
-        console.log('dispatch', playerId);
         dispatch(updateIsCurrentPlayer(false))
       }, 3500)
 

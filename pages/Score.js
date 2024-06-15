@@ -79,13 +79,13 @@ export default Score = () => {
       setStartFrame(frames[index[score]][score])
       setEndFrame(14)
       setAnimation(lottieFiles[index[score]])
-    } else if (score < 5) {
+    } else if (score + turnScore < 5) {
       setStartFrame(frames[index[score]][score])
       setEndFrame(frames[index[score]][turnScore + score])
       setAnimation(lottieFiles[index[score]])
-    } else if (score > 5) {
-      setStartFrame(frames[index[4]][4])
-      setEndFrame(frames[index[4]][4])
+    } else if (score + turnScore > 5) {
+      setStartFrame(50)
+      setEndFrame(frames[index[4]][5])
       setAnimation(lottieFiles[index[4]])
     }
 
@@ -111,7 +111,6 @@ export default Score = () => {
   }, [score, turnScore])
 
   useEffect(() => {
-    console.log(startFrame, endFrame, turnScore);
     if (animation && startFrame && endFrame) lottieRef.current?.play(startFrame, endFrame)
   }, [animation, startFrame, endFrame])
 
