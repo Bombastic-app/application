@@ -36,6 +36,7 @@ export default YourTurn = ({
   const gameCode = useSelector((state) => state.gameCode)
   const playerId = useSelector((state) => state.playerId)
   const pseudo = useSelector((state) => state.pseudo)
+  const currentCard = useSelector((state) => state.currentCard)
 
   const cardColors = {
     tweet: colors.blue,
@@ -105,6 +106,27 @@ export default YourTurn = ({
       .then((res) => res.json())
       .then((data) => {
         console.log(data.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        gameCode,
+        playerId,
+        reputation: currentCard.reputation,
+        followers: currentCard.followers,
+        money: currentCard.money,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message)
       })
       .catch((error) => {
         console.log(error)
@@ -205,7 +227,7 @@ export default YourTurn = ({
             setResetTitle(false)
           },
           [],
-          2.3
+          2.5
         )
     }
   }, [cardData])

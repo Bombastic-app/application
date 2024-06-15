@@ -42,15 +42,15 @@ export default Page = ({ navigation }) => {
     // if (gameCode) return <Biography />
     // if (gameCode) return <Profile_picture />
     // if (gameCode) return <New_game />
-    // if (gameCode) return <FeedPage />
+    if (gameCode) return <FeedPage />
     // if (gameCode) return <TweetToFill />
     // if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
     // if (gameCode) return <Top_stat />
     // if (gameCode) return <Vote />
     // if (gameCode) return <Score />
-    // else return <Home />
+    else return <Home />
     // return <Reset gameCode='643674' playerId='9UwEMkb8AvIWbXb7Qdst' />
-    return <Vote />
+    // return <Vote />
   }
 };

@@ -4,7 +4,7 @@ import { MiniGameMemeSetup } from "../../pages/MiniGames/Meme/Setup";
 import { MiniGameMemeChoice } from "../../pages/MiniGames/Meme/Choice";
 
 export default MiniGameMeme = () => {
-  const [step, setStep] = useState(1)
+  const [step, setStep] = useState(2)
 
   return (
     <BaseScreen>

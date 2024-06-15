@@ -84,9 +84,9 @@ export default Score = () => {
       setEndFrame(frames[index[score]][turnScore + score])
       setAnimation(lottieFiles[index[score]])
     } else if (score > 5) {
-      setStartFrame(frames[index[score]][score])
-      setEndFrame(frames[index[score]][CONSTANTS.maxPoints])
-      setAnimation(lottieFiles[index[score]])
+      setStartFrame(frames[index[4]][4])
+      setEndFrame(frames[index[4]][4])
+      setAnimation(lottieFiles[index[4]])
     }
 
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/score`, {
@@ -150,7 +150,7 @@ export default Score = () => {
         )}
         <View style={styles.point}>
           <Text className="text-32 font-balgin-narrow-bold uppercase text-center">
-            {`${turnScore + score} point${turnScore + score > 1 && 's' }`}
+            {`${turnScore + score} point${turnScore + score > 1 ? 's' : '' }`}
           </Text>
         </View>
         {/* </View> */}

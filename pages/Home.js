@@ -64,7 +64,6 @@ export default Home = () => {
               title={'Créer une nouvelle partie'}
               gradient
               onClick={() => {
-                playSound()
                 router.push({
                   pathname: '/lobby/profile_picture',
                   params: { action: 'new_game' },

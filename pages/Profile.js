@@ -73,6 +73,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
       .then((res) => res.json())
       .then((data) => {
         if (data.score !== score) {
+          console.log(data.score);
           dispatch(updateScore(data.score));
         }
       })
