@@ -10,7 +10,7 @@ import { Audio } from 'expo-av'
 export default TopStatTitle = ({
   title = "L'influenceur Dubaï",
   type = 'money',
-  player
+  player,
 }) => {
   const profilePictures = useSelector((state) => state.profilePictures)
 
@@ -27,7 +27,7 @@ export default TopStatTitle = ({
   const sounds = {
     money: require('../../assets/money.mp3'),
     followers: require('../../assets/followers.mp3'),
-    reputation: require('../../assets/reputation.mp3')
+    reputation: require('../../assets/reputation.mp3'),
   }
 
   const icon = {
@@ -38,9 +38,7 @@ export default TopStatTitle = ({
 
   async function playSound() {
     console.log('Loading Sound')
-    const { sound } = await Audio.Sound.createAsync(
-      sounds[type]
-    )
+    const { sound } = await Audio.Sound.createAsync(sounds[type])
     setSound(sound)
 
     console.log('Playing Sound')
@@ -118,20 +116,19 @@ export default TopStatTitle = ({
   useEffect(() => {
     return sound
       ? () => {
-          console.log('Unloading Sound');
-          sound.unloadAsync();
+          console.log('Unloading Sound')
+          sound.unloadAsync()
         }
-      : undefined;
-  }, [sound]);
+      : undefined
+  }, [sound])
 
   return (
     <View style={styles.container}>
       <View style={styles.playerImage}>
-        <ShapedImage
-          source={picture ? picture : require('../../assets/meme.png')}
-          animation="scaling"
-          isSlim={true}
-        />
+        {picture && (
+          <ShapedImage source={picture} animation="scaling" isSlim={true} />
+        )}
+
         <View
           style={{
             position: 'absolute',
