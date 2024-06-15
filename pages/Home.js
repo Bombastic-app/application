@@ -12,18 +12,6 @@ import { Audio } from 'expo-av'
 export default Home = () => {
   const router = useRouter()
   const dispatch = useDispatch()
-  const [sound, setSound] = useState()
-
-  async function playSound() {
-    console.log('Loading Sound')
-    const { sound } = await Audio.Sound.createAsync(
-      require('../assets/clic.mov')
-    )
-    setSound(sound)
-
-    console.log('Playing Sound')
-    await sound.playAsync()
-  }
 
   handleOnUpdatePseudo = (text) => {
     dispatch(updatePseudo(text))
@@ -34,15 +22,6 @@ export default Home = () => {
       pathname: '/rules',
     })
   }
-
-  useEffect(() => {
-    return sound
-      ? () => {
-          console.log('Unloading Sound');
-          sound.unloadAsync();
-        }
-      : undefined;
-  }, [sound]);
 
   return (
     <BaseScreen title="Home" debug={false}>
