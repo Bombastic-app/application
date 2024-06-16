@@ -6,6 +6,7 @@ import { Image } from 'expo-image'
 import LottieView from 'lottie-react-native'
 import { update } from 'firebase/database'
 import { updateIsCurrentPlayer } from '../../store'
+import { CONSTANTS } from '../../constants'
 
 export default PlayerStatistics = () => {
   const reputation = useSelector((state) => state.reputation)
@@ -113,7 +114,7 @@ export default PlayerStatistics = () => {
 
       setTimeout(() => {
         setGifAnimation(false)
-      }, 4600)
+      }, 4000)
     }
   }, [currentCard, isCurrentPlayer])
 
@@ -138,7 +139,7 @@ export default PlayerStatistics = () => {
           />
         )}
       </View>
-      <View className="flex-row justify-between">
+      <View className="flex-row justify-between" style={{ paddingHorizontal: CONSTANTS.paddingHorizontal }}>
         <View style={{ position: 'relative' }}>
           {highlightReputation && (
             <LottieView

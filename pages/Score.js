@@ -125,7 +125,7 @@ export default Score = () => {
           { turnScore > 0 ?  'Gagné !' : 'Courage !' }
           </Heading1>
           <Text className="text-center">
-            Plus que {CONSTANTS.maxPoints - score} paliers avant d’être une star
+            Plus que {CONSTANTS.maxPoints - (turnScore + score)} paliers avant d’être une star
             !
           </Text>
         </View>

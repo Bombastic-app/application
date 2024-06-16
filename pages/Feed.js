@@ -18,6 +18,7 @@ import {
 import { router } from 'expo-router'
 import { Image } from 'expo-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { CONSTANTS } from '../constants'
 
 export default Feed = () => {
   const dispatch = useDispatch()
@@ -134,13 +135,15 @@ export default Feed = () => {
   return (
     <BaseScreen
       headerShown={false}
-      style={{ paddingTop: insets.top, paddingBottom: 0 }}
+      style={{ paddingTop: insets.top, paddingBottom: 0, paddingHorizontal: 0 }}
     >
       <View className="gap-16 flex-1">
-        <LogoSVG />
+        <View style={{ paddingHorizontal: CONSTANTS.paddingHorizontal }}>
+          <LogoSVG />
+        </View>
         <PlayerStatistics />
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 110 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 110, paddingHorizontal: CONSTANTS.paddingHorizontal }}>
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
               posts
