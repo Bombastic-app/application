@@ -57,7 +57,7 @@ export default PlayerStatistics = () => {
           setHighlightMoney(true)
           setHighlightReputation(true)
           setHighlightFollowers(true)
-        }, 2500)
+        }, 3500)
       } else if (currentCard.money && currentCard.reputation) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['moneyReputation'])
@@ -66,7 +66,7 @@ export default PlayerStatistics = () => {
         setTimeout(() => {
           setHighlightMoney(true)
           setHighlightReputation(true)
-        }, 2500)
+        }, 3500)
       } else if (currentCard.money && currentCard.followers) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['moneyFollowers'])
@@ -75,7 +75,7 @@ export default PlayerStatistics = () => {
         setTimeout(() => {
           setHighlightMoney(true)
           setHighlightFollowers(true)
-        }, 2500)
+        }, 3500)
       } else if (currentCard.followers && currentCard.reputation) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['money'])
@@ -84,7 +84,7 @@ export default PlayerStatistics = () => {
         setTimeout(() => {
           setHighlightReputation(true)
           setHighlightFollowers(true)
-        }, 2500)
+        }, 3500)
       } else if (currentCard.reputation) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['reputation'])
@@ -92,7 +92,7 @@ export default PlayerStatistics = () => {
 
         setTimeout(() => {
           setHighlightReputation(true)
-        }, 2500)
+        }, 3500)
       } else if (currentCard.followers) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['followers'])
@@ -100,7 +100,7 @@ export default PlayerStatistics = () => {
 
         setTimeout(() => {
           setHighlightFollowers(true)
-        }, 2500)
+        }, 3500)
       } else if (currentCard.money) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['money'])
@@ -108,7 +108,7 @@ export default PlayerStatistics = () => {
 
         setTimeout(() => {
           setHighlightMoney(true)
-        }, 2500)
+        }, 3500)
       }
 
       setTimeout(() => {
@@ -132,7 +132,7 @@ export default PlayerStatistics = () => {
       >
         {gifAnimation && (
           <Image
-            style={{ position: 'relative', width: '100%', height: '100%' }}
+            style={{ position: 'relative', width: '100%', height: '100%', left: 0, right: 0 }}
             contentFit="cover"
             source={gifAnimation}
           />
@@ -199,5 +199,6 @@ const styles = StyleSheet.create({
     height: '100%',
     zIndex: 100,
     pointerEvents: 'none',
+    transform: [{ scale: 1.5 }],
   },
 })

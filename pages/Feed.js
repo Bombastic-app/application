@@ -45,7 +45,6 @@ export default Feed = () => {
               dispatch(updateIsCurrentPlayer(true))
             }, 3000)
           }
-          loadedData.current = true
         } else {
           dispatch(updateNotification(false))
         }
@@ -53,13 +52,13 @@ export default Feed = () => {
         if (player.data()?.money) {
           setTimeout(() => {
             dispatch(updateMoney(player.data().money))
-          }, 5000)
+          }, 2000)
         }
 
         if (player.data()?.reputation) {
           setTimeout(() => {
             dispatch(updateReputation(player.data().reputation))
-          }, 5000)
+          }, 2000)
         }
 
         if (player.data()?.followers) {
@@ -94,6 +93,8 @@ export default Feed = () => {
           }
         }
       })
+
+    loadedData.current = true
   }
 
   const handleOnClickPost = (
