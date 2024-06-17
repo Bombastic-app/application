@@ -103,9 +103,11 @@ export default Feed = () => {
       firestore()
         .collection(`games/${gameCode}/turns/${currentTurn}/posts`)
         .onSnapshot((docs) => {
+          // console.log('new posts to add');
           const postsToAdd = []
 
           docs.forEach((doc) => {
+            // console.log('doc', doc.data());
             postsToAdd.push(doc.data())
           })
 
@@ -139,8 +141,9 @@ export default Feed = () => {
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
               posts
-                .sort((a, b) => b.timestamp - a.timestamp)
+                // .sort((a, b) => b.timestamp - a.timestamp)
                 .map((fPost, i) => {
+                  // console.log(i, fPost);
                   return (
                     <Pressable
                       onPress={() =>
@@ -162,6 +165,7 @@ export default Feed = () => {
                         author={fPost.playerId}
                         likes={fPost.likes}
                         dislikes={fPost.dislikes}
+                        index={i}
                       />
                     </Pressable>
                   )

@@ -12,7 +12,7 @@ import { router } from "expo-router";
 import ClickableProfilePicture from "../common/ClickableProfilePicture";
 import firestore from "@react-native-firebase/firestore";
 
-export default Post = ({ type, content, pseudo, author, likes, dislikes, withBackground = true, soloView = false }) => {
+export default Post = ({ type, content, pseudo, author, likes, dislikes, withBackground = true, soloView = false, index }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [picture, setPicture] = useState();
@@ -21,20 +21,28 @@ export default Post = ({ type, content, pseudo, author, likes, dislikes, withBac
   const [disliked, setDisliked] = useState(false);
 
   useEffect(() => {
+    // console.log('author', author, index, type);
     if (type == "photo") {
-      storage()
-        .ref()
-        .child(`/games/${gameCode}/turns/${currentTurn}/posts`)
-        .listAll()
-        .then((images) => {
-          const image = images.items.find((item) => item.path.includes(author));
-          image.getDownloadURL().then((url) => {
-            setPicture(url);
+      // console.log('here type');
+      setTimeout(() => {
+        storage()
+          .ref()
+          .child(`/games/${gameCode}/turns/${currentTurn}/posts`)
+          .listAll()
+          .then((images) => {
+            const image = images.items.find((item) => item.path.includes(author));
+            if (image) {
+              // console.log('image', image);
+              image.getDownloadURL().then((url) => {
+                // console.log('url', url);
+                setPicture(url);
+              });
+            }
+          })
+          .catch((error) => {
+            console.log(error);
           });
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      }, 500);
     }
 
     firestore()
@@ -42,7 +50,7 @@ export default Post = ({ type, content, pseudo, author, likes, dislikes, withBac
       .onSnapshot((docs) => {
         setCommentsLength(docs.size);
       });
-  }, []);
+  }, [type]);
 
   const handleOnClickProfilePicture = () => {
     router.push({ pathname: "/profile", params: { playerId: author, hidden: true, pseudo } });
@@ -107,9 +115,9 @@ export default Post = ({ type, content, pseudo, author, likes, dislikes, withBac
             style={styles.postImage}
             source={picture}
             contentFit="cover"
-            cachePolicy={"memory-disk"}
-            key={picture.url}
-            priority={1}
+            // cachePolicy={"memory-disk"}
+            key={picture}
+            // priority={1}
           />
           <Text>{content}</Text>
         </>
