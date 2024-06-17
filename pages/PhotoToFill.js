@@ -17,6 +17,7 @@ export default PhotoToFill = ({ type, content, title }) => {
   const router = useRouter()
   const [desc, setDesc] = useState()
   const [picture, setPicture] = useState(false)
+  const [loading, setLoading] = useState(false)
   const gameCode = useSelector((state) => state.gameCode)
   const playerId = useSelector((state) => state.playerId)
   const currentTurn = useSelector((state) => state.currentTurn)
@@ -37,6 +38,7 @@ export default PhotoToFill = ({ type, content, title }) => {
   }
 
   const handleOnClickPublish = () => {
+    setLoading(true)
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
       method: 'POST',
       headers: {
@@ -87,9 +89,7 @@ export default PhotoToFill = ({ type, content, title }) => {
         .putFile(imageCompressed.uri)
         .then(() => {
           console.log('image uploaded in storage')
-          router.push({
-            pathname: '/feed',
-          })
+          router.navigate('/feed')
         })
         .catch((error) => {
           console.log(error)
@@ -141,7 +141,7 @@ export default PhotoToFill = ({ type, content, title }) => {
           </View>
 
           <RoundedButton
-            disabled={!picture || !desc}
+            disabled={!picture || !desc || loading}
             title={'Poster'}
             onClick={handleOnClickPublish}
             background="bg-pink"

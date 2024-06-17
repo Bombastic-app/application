@@ -30,7 +30,7 @@ export default Notification = () => {
   useEffect(() => {
     if (notification && isCurrentPlayer) {
       // setTimeout(() => {
-        playSound()
+        // playSound()
       // }, 3000)
     }
   }, [notification, isCurrentPlayer])

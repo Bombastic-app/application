@@ -114,7 +114,7 @@ export default PlayerStatistics = () => {
 
       setTimeout(() => {
         setGifAnimation(false)
-      }, 4000)
+      }, 3000)
     }
   }, [currentCard, isCurrentPlayer])
 

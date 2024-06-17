@@ -12,12 +12,14 @@ import { colors } from '../components/Style'
 export default TweetToFill = ({ type, content }) => {
   const router = useRouter()
   const [tweet, setTweet] = useState()
+  const [loading, setLoading] = useState(false)
   const gameCode = useSelector((state) => state.gameCode)
   const playerId = useSelector((state) => state.playerId)
   const pseudo = useSelector((state) => state.pseudo)
   const currentCard = useSelector((state) => state.currentCard)
 
   const handleOnClickPublish = () => {
+    setLoading(true)
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/add`, {
       method: 'POST',
       headers: {
@@ -94,7 +96,7 @@ export default TweetToFill = ({ type, content }) => {
 
           <RoundedButton
             background="bg-blue"
-            disabled={!tweet}
+            disabled={!tweet || loading}
             title={'Poster'}
             onClick={handleOnClickPublish}
           />
