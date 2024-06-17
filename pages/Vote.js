@@ -72,7 +72,7 @@ export default Vote = () => {
       <Heading2 className="mt-20 mb-30">Quel contenu t'as fait grave goleri ?</Heading2>
 
       <ScrollView>
-        <View className="gap-6 pt-10 pb-10">
+        <View className="gap-20 pt-10 pb-10">
           {posts &&
             posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
               return (
@@ -94,14 +94,16 @@ export default Vote = () => {
 
 const styles = StyleSheet.create({
   postEven: {
-    transform: [{rotate: '-4deg'}, {scale: 0.92}],
+    transform: [{rotate: '-4deg'}, {scale: 0.95}],
     borderWidth: 2,
     borderColor: colors.marine,
+    borderRadius: 30,
   },
   postOdd: {
-    transform: [{rotate: '4deg'}, {scale: 0.92}],
+    transform: [{rotate: '4deg'}, {scale: 0.95}],
     borderWidth: 2,
     borderColor: colors.marine,
+    borderRadius: 30,
   },
   button: {
     position: 'absolute',
