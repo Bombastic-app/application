@@ -11,6 +11,7 @@ import { CONSTANTS } from '../../constants'
 
 export default Notification = () => {
   const notification = useSelector((state) => state.notification)
+  const playerId = useSelector((state) => state.playerId)
   const isCurrentPlayer = useSelector((state) => state.isCurrentPlayer)
   const [sound, setSound] = useState()
 
@@ -45,7 +46,7 @@ export default Notification = () => {
   }, [sound])
 
   return (
-    notification && (
+    notification && isCurrentPlayer && (
       <View className="absolute top-60 self-center w-full z-10" style={{ paddingHorizontal: CONSTANTS.paddingHorizontal }}>
         <View className="flex flex-col justify-between items-center h-full">
           <View className="w-full py-30 px-10 flex flex-col gap-y-15 rounded-30 bg-white">

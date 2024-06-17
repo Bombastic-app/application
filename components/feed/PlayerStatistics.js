@@ -41,15 +41,15 @@ export default PlayerStatistics = () => {
 
   useEffect(() => {
     if (isCurrentPlayer) {
-      setTimeout(() => {
+      // setTimeout(() => {
+        // }, 3500)
+        
+        if (
+          currentCard.money &&
+          currentCard.followers &&
+          currentCard.reputation
+        ) {
         dispatch(updateIsCurrentPlayer(false))
-      }, 3500)
-
-      if (
-        currentCard.money &&
-        currentCard.followers &&
-        currentCard.reputation
-      ) {
         setTimeout(() => {
           setGifAnimation(gifAnimations['moneyReputationFollowers'])
         }, 500)
