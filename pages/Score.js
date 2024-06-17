@@ -79,14 +79,14 @@ export default Score = () => {
       setStartFrame(frames[index[score]][score])
       setEndFrame(14)
       setAnimation(lottieFiles[index[score]])
-    } else if (score < 5) {
+    } else if (score + turnScore < 5) {
       setStartFrame(frames[index[score]][score])
       setEndFrame(frames[index[score]][turnScore + score])
       setAnimation(lottieFiles[index[score]])
-    } else if (score > 5) {
-      setStartFrame(frames[index[score]][score])
-      setEndFrame(frames[index[score]][CONSTANTS.maxPoints])
-      setAnimation(lottieFiles[index[score]])
+    } else if (score + turnScore > 5) {
+      setStartFrame(50)
+      setEndFrame(frames[index[4]][5])
+      setAnimation(lottieFiles[index[4]])
     }
 
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/score`, {
@@ -111,7 +111,6 @@ export default Score = () => {
   }, [score, turnScore])
 
   useEffect(() => {
-    console.log(startFrame, endFrame, turnScore);
     if (animation && startFrame && endFrame) lottieRef.current?.play(startFrame, endFrame)
   }, [animation, startFrame, endFrame])
 
@@ -126,7 +125,7 @@ export default Score = () => {
           { turnScore > 0 ?  'Gagné !' : 'Courage !' }
           </Heading1>
           <Text className="text-center">
-            Plus que {CONSTANTS.maxPoints - score} paliers avant d’être une star
+            Plus que {CONSTANTS.maxPoints - (turnScore + score)} paliers avant d’être une star
             !
           </Text>
         </View>
@@ -150,7 +149,7 @@ export default Score = () => {
         )}
         <View style={styles.point}>
           <Text className="text-32 font-balgin-narrow-bold uppercase text-center">
-            {`${turnScore + score} point${turnScore + score > 1 && 's' }`}
+            {`${turnScore + score} point${turnScore + score > 1 ? 's' : '' }`}
           </Text>
         </View>
         {/* </View> */}

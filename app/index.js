@@ -16,8 +16,11 @@ import { MiniGameMemeSetup } from "../pages/MiniGames/Meme/Setup";
 import Top_stat from "./turn/top_stat";
 import { updateCurrentTurn, updateGameCode, updatePlayerId } from "../store";
 import TweetToFill from "../pages/TweetToFill";
+import Start from "../pages/MiniGames/Meme/Start";
+import { LogBox } from "react-native";
 
 NfcManager.start();
+LogBox.ignoreAllLogs();
 
 export default Page = ({ navigation }) => {
   const gameCode = useSelector(state => state.gameCode)
@@ -37,7 +40,7 @@ export default Page = ({ navigation }) => {
     // dispatch(updatePlayerId('9UwEMkb8AvIWbXb7Qdst'))
     // dispatch(updateCurrentTurn(1))
     // console.log(playerId);
-    // if (gameCode) return <Reset />
+    if (gameCode) return <Reset />
     // if (gameCode) return <Reset gameCode='643674' playerId='9UwEMkb8AvIWbXb7Qdst' />
     // if (gameCode) return <Biography />
     // if (gameCode) return <Profile_picture />
@@ -46,11 +49,12 @@ export default Page = ({ navigation }) => {
     // if (gameCode) return <TweetToFill />
     // if (gameCode) return <TurnPage />
     // if (gameCode) return <MiniGameMeme />
+    // if (gameCode) return <Start />
     // if (gameCode) return <Top_stat />
     // if (gameCode) return <Vote />
     // if (gameCode) return <Score />
-    // else return <Home />
+    else return <Home />
     // return <Reset gameCode='643674' playerId='9UwEMkb8AvIWbXb7Qdst' />
-    return <Vote />
+    // return <Vote />
   }
 };

@@ -1,4 +1,8 @@
-import { Pressable, StyleSheet, View } from 'react-native'
+import {
+  Pressable,
+  StyleSheet,
+  View,
+} from 'react-native'
 import BaseScreen from '../components/base/BaseScreen'
 import TopStatTitle from '../components/turn/TopStatTitle'
 import Heading5 from '../components/typography/Heading5'
@@ -73,62 +77,70 @@ export default TopStat = () => {
 
   return (
     <BaseScreen>
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          zIndex: -1,
-          opacity: 0.08,
-        }}
+      <Pressable
+        style={{ position: 'relative', width: '100%', height: '100%' }}
+        onPress={updateStatus}
       >
-        <Image
-          source={require('../assets/lights.png')}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            overflow: 'visible',
-          }}
-        />
-      </View>
-      {players && (
         <>
-          {status === 0 && (
-            <TopStatTitle
-              title={titles['money']}
-              type="money"
-              player={players['money']}
+          <View
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              zIndex: -1,
+              opacity: 0.08,
+            }}
+          >
+            <Image
+              source={require('../assets/lights.png')}
+              style={{
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                overflow: 'visible',
+              }}
             />
+          </View>
+          {players && (
+            <>
+              {status === 0 && (
+                <TopStatTitle
+                  title={titles['money']}
+                  type="money"
+                  player={players['money']}
+                />
+              )}
+              {status === 1 && (
+                <TopStatTitle
+                  title={titles['reputation']}
+                  type="reputation"
+                  player={players['reputation']}
+                />
+              )}
+              {status === 2 && (
+                <TopStatTitle
+                  title={titles['followers']}
+                  type={'followers'}
+                  player={players['followers']}
+                />
+              )}
+            </>
           )}
-          {status === 1 && (
-            <TopStatTitle
-              title={titles['reputation']}
-              type="reputation"
-              player={players['reputation']}
-            />
-          )}
-          {status === 2 && (
-            <TopStatTitle
-              title={titles['followers']}
-              type={'followers'}
-              player={players['followers']}
-            />
-          )}
-        </>
-      )}
 
-      <View
-        style={[
-          styles.nextButton,
-          { left: '55%', transform: [{ translateX: -(nextSizes.width / 2) }] },
-        ]}
-        onLayout={handleOnLayout}
-      >
-        <Pressable onPress={updateStatus}>
-          <Heading5 className={'uppercase'}>Toucher pour continuer</Heading5>
-        </Pressable>
-      </View>
+          <View
+            style={[
+              styles.nextButton,
+              {
+                left: '50%',
+                transform: [{ translateX: -(nextSizes.width / 2) }],
+              },
+            ]}
+            onLayout={handleOnLayout}
+          >
+            <Heading5 className={'uppercase'}>Toucher pour continuer</Heading5>
+          </View>
+        </>
+      </Pressable>
     </BaseScreen>
   )
 }
@@ -136,7 +148,7 @@ export default TopStat = () => {
 const styles = StyleSheet.create({
   nextButton: {
     position: 'absolute',
-    bottom: 50,
+    bottom: 0,
     textAlign: 'center',
     zIndex: 3,
   },

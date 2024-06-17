@@ -36,6 +36,7 @@ export default YourTurn = ({
   const gameCode = useSelector((state) => state.gameCode)
   const playerId = useSelector((state) => state.playerId)
   const pseudo = useSelector((state) => state.pseudo)
+  const currentCard = useSelector((state) => state.currentCard)
 
   const cardColors = {
     tweet: colors.blue,
@@ -110,6 +111,29 @@ export default YourTurn = ({
         console.log(error)
       })
 
+      console.log(currentCard);
+    
+    fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        gameCode,
+        playerId,
+        reputation: currentCard.reputation,
+        followers: currentCard.followers,
+        money: currentCard.money,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res.message)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+
     router.push({
       pathname: '/feed',
     })
@@ -144,39 +168,46 @@ export default YourTurn = ({
     })
   }
 
+  useEffect(() => {
+    if (currentCard.reputation !== false && currentCard.money !== false && currentCard.followers !== false && currentCard.type !== false) {
+      setTimeout(() => {
+        switch (cardData.type) {
+          case 'tweet':
+            handleStatus(1)
+            break
+  
+          case 'photo':
+            handleStatus(2)
+            break
+  
+          case 'news':
+            handleNews()
+            break
+  
+          case 'event':
+            handleEvent()
+            break
+        }
+      }, 300)
+    }
+  }, [currentCard])
+
   const handleOnPlay = () => {
     dispatch(
       updateCurrentCard({
         reputation: cardData.reputation,
         money: cardData.money,
         followers: cardData.followers,
+        type: cardData.type,
+        content: cardData.content
       })
     )
+
     handleEndTransition(cardData.type)
 
     setTimeout(() => {
       endTransitionPlay()
     }, 100)
-
-    setTimeout(() => {
-      switch (cardData.type) {
-        case 'tweet':
-          handleStatus(1)
-          break
-
-        case 'photo':
-          handleStatus(2)
-          break
-
-        case 'news':
-          handleNews()
-          break
-
-        case 'event':
-          handleEvent()
-          break
-      }
-    }, 200)
   }
 
   const handleOnRetry = () => {
@@ -205,7 +236,7 @@ export default YourTurn = ({
             setResetTitle(false)
           },
           [],
-          2.3
+          2.5
         )
     }
   }, [cardData])

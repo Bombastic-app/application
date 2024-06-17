@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import firestore from '@react-native-firebase/firestore'
 import {
   updateFollowers,
+  updateIsCurrentPlayer,
   updateMoney,
   updateNotification,
   updatePlayerId,
@@ -17,6 +18,7 @@ import {
 import { router } from 'expo-router'
 import { Image } from 'expo-image'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { CONSTANTS } from '../constants'
 
 export default Feed = () => {
   const dispatch = useDispatch()
@@ -24,7 +26,8 @@ export default Feed = () => {
   const playerId = useSelector((state) => state.playerId)
   const notification = useSelector((state) => state.notification)
   const currentTurn = useSelector((state) => state.currentTurn)
-  const insets = useSafeAreaInsets();
+  const isCurrentPlayer = useSelector((state) => state.isCurrentPlayer)
+  const insets = useSafeAreaInsets()
 
   const [posts, setPosts] = useState(false)
   const loadedData = useRef(false)
@@ -40,9 +43,9 @@ export default Feed = () => {
           if (!notification) {
             setTimeout(() => {
               dispatch(updateNotification(true))
+              dispatch(updateIsCurrentPlayer(true))
             }, 3000)
           }
-          loadedData.current = true
         } else {
           dispatch(updateNotification(false))
         }
@@ -66,6 +69,19 @@ export default Feed = () => {
         }
       })
 
+    // firestore()
+    //   .collection(`games/${gameCode}/turns`)
+    //   .doc(currentTurn.toString())
+    //   .onSnapshot((doc) => {
+    //     if (doc.exists) {
+    //       if (doc.data().miniGameReady && !doc.data().winner) {
+    //         setTimeout(() => {
+    //           dispatch(updateFollowers(player.data().followers))
+    //         }, 5000)
+    //       }
+    //     }
+    //   })
+
     firestore()
       .collection(`games/${gameCode}/turns`)
       .doc(currentTurn.toString())
@@ -74,10 +90,12 @@ export default Feed = () => {
           if (doc.data().miniGameReady && !doc.data().winner) {
             setTimeout(() => {
               router.navigate('/vote')
-            }, 5000)
+            }, 7000)
           }
         }
       })
+
+    loadedData.current = true
   }
 
   const handleOnClickPost = (
@@ -117,27 +135,17 @@ export default Feed = () => {
   }, [gameCode, playerId, currentTurn])
 
   return (
-    <BaseScreen headerShown={false} style={{ paddingTop: insets.top, paddingBottom: 0 }}>
-      <View
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-        }}
-      >
-        {/* <Image
-          style={{ width: '100%', height: '100%' }}
-          contentFit="cover"
-          source={require('../assets/money_1.gif')}
-        /> */}
-      </View>
+    <BaseScreen
+      headerShown={false}
+      style={{ paddingTop: insets.top, paddingBottom: 0, paddingHorizontal: 0 }}
+    >
       <View className="gap-16 flex-1">
-        <LogoSVG />
+        <View style={{ paddingHorizontal: CONSTANTS.paddingHorizontal }}>
+          <LogoSVG />
+        </View>
         <PlayerStatistics />
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 110 }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 110, paddingHorizontal: CONSTANTS.paddingHorizontal }}>
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
               posts

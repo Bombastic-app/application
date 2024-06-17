@@ -7,9 +7,11 @@ import { RoundedButton } from '../base/RoundedButton'
 import { useEffect, useState } from 'react'
 import { Audio } from 'expo-av'
 import { updateNotification } from '../../store'
+import { CONSTANTS } from '../../constants'
 
 export default Notification = () => {
   const notification = useSelector((state) => state.notification)
+  const isCurrentPlayer = useSelector((state) => state.isCurrentPlayer)
   const [sound, setSound] = useState()
 
   const dispatch = useDispatch()
@@ -26,12 +28,12 @@ export default Notification = () => {
   }
 
   useEffect(() => {
-    if (notification === true) {
+    if (notification && isCurrentPlayer) {
       // setTimeout(() => {
-        playSound()
+        // playSound()
       // }, 3000)
     }
-  }, [notification])
+  }, [notification, isCurrentPlayer])
 
   useEffect(() => {
     return sound
@@ -44,7 +46,7 @@ export default Notification = () => {
 
   return (
     notification && (
-      <View className="absolute top-60 self-center w-full z-10">
+      <View className="absolute top-60 self-center w-full z-10" style={{ paddingHorizontal: CONSTANTS.paddingHorizontal }}>
         <View className="flex flex-col justify-between items-center h-full">
           <View className="w-full py-30 px-10 flex flex-col gap-y-15 rounded-30 bg-white">
             <Heading3 className={'text-center !text-marine uppercase'}>
