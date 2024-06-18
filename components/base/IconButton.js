@@ -3,11 +3,11 @@ import { Image, Pressable, Text, View } from "react-native";
 export default IconButton = ({ type, title, onPress = () => {} }) => {
   let picto;
   switch (type) {
-    case "reputation":
-      picto = require("../../assets/picto/reputation.png");
+    case "rules":
+      picto = require("../../assets/picto/rules.png");
       break;
-    case "followers":
-      picto = require("../../assets/picto/followers.png");
+    case "settings":
+      picto = require("../../assets/picto/settings.png");
       break;
     case "money":
       picto = require("../../assets/picto/money.png");

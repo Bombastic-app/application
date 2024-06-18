@@ -18,8 +18,9 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
   const [comments, setComments] = useState(false);
   const gameCode = useSelector((state) => state.gameCode);
   const playerId = useSelector((state) => state.playerId);
+  const profilePictures = useSelector((state) => state.profilePictures);
   const currentPseudo = useSelector((state) => state.pseudo);
-  const profilePicture = require("../assets/illustration.png");
+  const profilePicture = profilePictures.find((np) => np.name === playerId)?.url;
 
   const handleOnClickProfilePicture = (playerId, pseudo) => {
     router.push({ pathname: "/profile", params: { playerId: playerId, hidden: true, pseudo } });
@@ -71,14 +72,15 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
         <BackArrow />
       </Pressable>
 
-      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} bounces={false} scrollEnabled={false}>
-        <Post type={type} content={content} pseudo={pseudo} author={author} soloView={true} withBackground={false} likes={likes} dislikes={dislikes} />
+      <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} bounces={true} scrollEnabled={false} automaticallyAdjustContentInsets={false}>
 
-        <View style={styles.divider}></View>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
+          <Post type={type} content={content} pseudo={pseudo} author={author} soloView={true} withBackground={false} likes={likes} dislikes={dislikes} reload={true} />
 
-        <Text className="font-bold">{comments.length > 0 ? `${comments.length} commentaires` : 'Aucun commentaire'}</Text>
+          <View style={styles.divider}></View>
 
-        <ScrollView bounces={false} contentContainerStyle={{ flexGrow: 1 }}>
+          <Text className="font-bold">{comments.length > 0 ? `${comments.length} commentaire${comments.length > 1 ? 's' : ''}` : 'Aucun commentaire'}</Text>
+
           <View className="mt-10 gap-10">
             {comments &&
               comments.sort((a, b) => b.timestamp - a.timestamp).map((fCom, i) => {
@@ -89,23 +91,35 @@ export default SinglePost = ({ type, content, pseudo, author, currentTurn, likes
           </View>
         </ScrollView>
 
-        <View className="flex-row gap-7 pt-15 items-center">
-          <Image style={styles.profilePicture} source={profilePicture} />
+        <View>
+          <View className="flex-row justify-between pt-10">
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/diablo.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/fuck.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/flash.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/teub.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/gouttes.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/cul.png')} />
+            <Image style={{height: 32, width: 32}} source={require('../assets/stickers/pied.png')} />
+          </View>
 
-          <TextInput
-            className="font-libre-franklin text-white border border-white/10 placeholder:text-white/40"
-            placeholder="Commenter la publication"
-            onChangeText={(text) => setComment(text)}
-            scrollEnabled={false}
-            multiline
-            maxLength={CONSTANTS.textInputMaxLength}
-            style={styles.commentInput}
-            value={comment}
-          />
+          <View className="flex-row gap-7 pt-15 items-center">
+            <Image style={styles.profilePicture} source={profilePicture} />
 
-          <Pressable onPress={handleOnPostComment}>
-            <OkButton />
-          </Pressable>
+            <TextInput
+              className="font-libre-franklin text-white border border-white/10 placeholder:text-white/40"
+              placeholder="Commenter la publication"
+              onChangeText={(text) => setComment(text)}
+              scrollEnabled={false}
+              multiline
+              maxLength={CONSTANTS.textInputMaxLength}
+              style={styles.commentInput}
+              value={comment}
+            />
+
+            <Pressable onPress={handleOnPostComment}>
+              <OkButton />
+            </Pressable>
+          </View>
         </View>
       </KeyboardAwareScrollView>
     </BaseScreen>
@@ -122,7 +136,8 @@ const styles = StyleSheet.create({
   },
   commentInput: {
     borderRadius: 30,
-    paddingVertical: 12,
+    paddingTop: 12,
+    paddingBottom: 12,
     paddingHorizontal: 14,
     flex: 1,
     alignItems: "center",

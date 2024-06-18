@@ -14,6 +14,8 @@ export default CardTitle = ({ title, reset }) => {
   const lightsRef = useRef();
 
   const sizes = {
+    3: 255,
+    4: 170,
     5: 170,
     6: 142,
     7: 122,

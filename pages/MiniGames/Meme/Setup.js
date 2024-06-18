@@ -16,9 +16,11 @@ export const MiniGameMemeSetup = ({ updateStep }) => {
   const gameCode = useSelector((state) => state.gameCode);
   const currentTurn = useSelector((state) => state.currentTurn);
   const [status, requestPermission] = ImagePicker.useCameraPermissions();
+  const [loading, setLoading] = useState(false)
 
   const uploadImage = async () => {
     if (image) {
+      setLoading(true)
       manipulateAsync(image, [], { compress: 0.5 }).then((imageCompressed) => {
         storage()
           .ref()
@@ -90,7 +92,7 @@ export const MiniGameMemeSetup = ({ updateStep }) => {
       {!image ? (
         <RoundedButton title="Prendre une photo" onClick={takeImage} />
       ) : (
-        <RoundedButton title="Confirmer" gradient onClick={uploadImage} />
+        <RoundedButton title="Confirmer" gradient onClick={uploadImage} disabled={loading} />
       )}
     </View>
   );

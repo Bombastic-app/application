@@ -20,6 +20,7 @@ export default ProfilePicture = () => {
   const dispatch = useDispatch()
   const { action } = useLocalSearchParams()
   const [status, requestPermission] = ImagePicker.useCameraPermissions()
+  const [loading, setLoading] = useState(false)
 
   const pickImage = async () => {
     // No permissions request is necessary for launching the image library
@@ -74,9 +75,9 @@ export default ProfilePicture = () => {
   }
 
   const handleOnValidate = () => {
+    setLoading(true)
     console.info("Uploading image")
     manipulateAsync(image, [], { compress: 0.5 }).then((imageCompressed) => {
-      console.log(imageCompressed);
       storage()
         .ref()
         .child(`/games/${gameCode}/profile_pictures/${playerId}.png`)
@@ -121,7 +122,7 @@ export default ProfilePicture = () => {
         <Heading2>Ajoute une photo de profil</Heading2>
         {!image && (
           <View>
-            <ShapedImage source={require("../../assets/profil.png")} />
+            <ShapedImage source={require("../../assets/profil.png")} hasGradient={false} showStars={false} animation={false} />
           </View>
         )}
         {image && (
@@ -138,7 +139,7 @@ export default ProfilePicture = () => {
         )}
 
         {image && playerId && (
-          <RoundedButton title="Suivant" onClick={handleOnValidate} />
+          <RoundedButton title="Suivant" onClick={handleOnValidate} disabled={loading} />
         )}
       </View>
     </BaseScreen>

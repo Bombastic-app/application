@@ -8,6 +8,7 @@ import Heading2 from "../components/typography/Heading2";
 import Post from "../components/feed/Post";
 import RadioButtonChecked from "../components/icons/RadioButtonChecked";
 import RadioButton from "../components/icons/RadioButton";
+import { colors } from "../components/Style";
 
 export default Vote = () => {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default Vote = () => {
   const playerId = useSelector(state => state.playerId);
 
   const handleOnVote = () => {
+    console.log(gameCode);
     fetch(`${process.env.EXPO_PUBLIC_API_URL}/post/vote`, {
       method: "POST",
       headers: {
@@ -69,16 +71,16 @@ export default Vote = () => {
     <BaseScreen headerShown={false}>
       <Heading2 className="mt-20 mb-30">Quel contenu t'as fait grave goleri ?</Heading2>
 
-      <ScrollView bounces={false}>
-        <View className="gap-24 pt-10">
+      <ScrollView>
+        <View className="gap-20 pt-10 pb-10">
           {posts &&
             posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
               return (
-                <Pressable onPress={() => setSelected(fPost.playerId)} className="relative" style={i%2 === 0 ? styles.postEven : styles.postOdd} key={`vote-post-${i}`}>
+                <Pressable onPress={() => setSelected(fPost.playerId)} className="relative" style={[i%2 === 0 ? styles.postEven : styles.postOdd, selected == fPost.playerId ? styles.active : '']} key={`vote-post-${i}`}>
                   <View style={styles.button}>
                     {selected == fPost.playerId ? <RadioButtonChecked /> : <RadioButton />}
                   </View>
-                  <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} author={fPost.playerId} likes={fPost.likes} dislikes={fPost.dislikes} soloView={true} />
+                  <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} author={fPost.playerId} likes={fPost.likes} dislikes={fPost.dislikes} soloView={true} reload={true} />
                 </Pressable>
               )
             })}
@@ -92,14 +94,24 @@ export default Vote = () => {
 
 const styles = StyleSheet.create({
   postEven: {
-    transform: [{rotate: '-4deg'}],
+    transform: [{rotate: '-4deg'}, {scale: 0.95}],
+    borderWidth: 2,
+    borderColor: colors.marine,
+    borderRadius: 30,
   },
   postOdd: {
-    transform: [{rotate: '4deg'}],
+    transform: [{rotate: '4deg'}, {scale: 0.95}],
+    borderWidth: 2,
+    borderColor: colors.marine,
+    borderRadius: 30,
   },
   button: {
     position: 'absolute',
     top: 24,
     right: 24,
   },
+  active: {
+    borderColor: colors.pink,
+    borderRadius: 30,
+  }
 });

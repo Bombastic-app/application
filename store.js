@@ -6,6 +6,7 @@ const configSlice = createSlice({
   name: 'config',
   initialState: {
     score: 0,
+    turnScore: 0,
     gameCode: false,
     playerId: false,
     pseudo: false,
@@ -17,6 +18,12 @@ const configSlice = createSlice({
     followers: 10,
     money: 10,
     profilePictures: [],
+    currentCard: {
+      reputation: false, 
+      followers: false, 
+      money: false
+    },
+    isCurrentPlayer: false
   },
   reducers: {
     upgradeScore: (state, action) => {
@@ -61,6 +68,18 @@ const configSlice = createSlice({
     updateProfilePictures: (state, action) => {
       state.profilePictures = action.payload
     },
+    upgradeTurnScore: (state, action) => {
+      state.turnScore = state.turnScore + 1
+    },
+    updateTurnScore: (state, action) => {
+      state.turnScore = action.payload
+    },
+    updateCurrentCard: (state, action) => {
+      state.currentCard = action.payload
+    },
+    updateIsCurrentPlayer: (state, action) => {
+      state.isCurrentPlayer = action.payload
+    }
   }
 })
 
@@ -78,7 +97,11 @@ export const {
   updateReputation,
   updateFollowers,
   updateMoney,
-  updateProfilePictures
+  updateProfilePictures,
+  upgradeTurnScore,
+  updateTurnScore,
+  updateCurrentCard,
+  updateIsCurrentPlayer
 } = configSlice.actions
 
 const persistConfig = {

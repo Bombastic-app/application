@@ -6,10 +6,6 @@ import { MiniGameMemeChoice } from "../../pages/MiniGames/Meme/Choice";
 export default MiniGameMeme = () => {
   const [step, setStep] = useState(1)
 
-  useEffect(() => {
-    console.log(step);
-  }, [step])
-
   return (
     <BaseScreen>
       { step === 1 && <MiniGameMemeSetup updateStep={setStep} /> }

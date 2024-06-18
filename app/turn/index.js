@@ -49,7 +49,6 @@ export default TurnPage = ({ navigation }) => {
   }
   const endTransitionPlay = () => {
     endTransitionRef.current?.play()
-    console.log("end transition playing")
   }
 
   useEffect(() => {

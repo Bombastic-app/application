@@ -1,5 +1,5 @@
 import { Stack, router, useLocalSearchParams } from "expo-router";
-import { Image, Text, TextInput, View } from "react-native";
+import { Image, Text, Pressable, TextInput, View } from "react-native";
 import { RoundedButton } from "../../components/base/RoundedButton";
 import { useState } from "react";
 import BaseScreen from "../../components/base/BaseScreen";
@@ -7,12 +7,14 @@ import UnderlineInput from "../../components/UnderlineInput";
 import { generateGameCode } from "../../components/Utils";
 import { useDispatch, useSelector } from "react-redux";
 import { updateGameCode, updatePlayerId } from "../../store";
+import BackArrow from "../../components/icons/BackArrow";
 
 export default JoinGame = () => {
   const gameCode = useSelector(state => state.gameCode)
   const pseudo = useSelector(state => state.pseudo)
   const dispatch = useDispatch();
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false)
 
   handleOnUpdateGameCode = (code) => {
     dispatch(updateGameCode(code))
@@ -24,6 +26,7 @@ export default JoinGame = () => {
 
   joinGame = () => {
     if (gameCode !== "" && gameCode !== undefined && pseudo) {
+      setLoading(true)
       fetch(`${process.env.EXPO_PUBLIC_API_URL}/game/join`, {
         method: "POST",
         headers: {
@@ -47,6 +50,10 @@ export default JoinGame = () => {
 
   return (
     <BaseScreen>
+      <Pressable onPress={router.back} className="mt-10">
+        <BackArrow />
+      </Pressable>
+
       <View className="flex pt-110 h-full">
         <View className="flex items-center justify-center">
           <Image
@@ -65,7 +72,7 @@ export default JoinGame = () => {
             />
           </View>
           <View className="w-full mt-30">
-            <RoundedButton title={"Rejoindre une partie"} onClick={joinGame} />
+            <RoundedButton title={"Rejoindre une partie"} onClick={joinGame} disabled={loading} />
           </View>
         </View>
         {error !== "" && (
