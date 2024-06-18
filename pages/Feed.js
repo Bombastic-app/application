@@ -43,7 +43,7 @@ export default Feed = () => {
         dispatch(updateNotification(false))
         dispatch(updateIsCurrentPlayer(false))
 
-        if (player.data()?.current) {
+        if (player.data().current === true && player.data().reputation < 11 && player.data().money < 11 && player.data().followers < 11) {
           if (!notification) {
             console.log('show notif');
             setTimeout(() => {
