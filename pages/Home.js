@@ -57,11 +57,11 @@ export default Home = () => {
         </View>
         <View className="flex flex-row items-center justify-center gap-x-30">
           <IconButton
-            type={'reputation'}
+            type={'rules'}
             title={'Règles'}
             onPress={handleOnPressRules}
           />
-          <IconButton type={'followers'} title={'Paramètres'} />
+          <IconButton type={'settings'} title={'Paramètres'} />
           <IconButton type={'money'} title={'Shop'} />
         </View>
       </View>
