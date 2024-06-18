@@ -80,7 +80,7 @@ export default Vote = () => {
                   <View style={styles.button}>
                     {selected == fPost.playerId ? <RadioButtonChecked /> : <RadioButton />}
                   </View>
-                  <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} author={fPost.playerId} likes={fPost.likes} dislikes={fPost.dislikes} soloView={true} />
+                  <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} author={fPost.playerId} likes={fPost.likes} dislikes={fPost.dislikes} soloView={true} reload={true} />
                 </Pressable>
               )
             })}

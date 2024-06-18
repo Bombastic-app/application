@@ -34,12 +34,16 @@ export default Feed = () => {
 
   loadDataOnce = () => {
     dispatch(updateNotification(false))
+    dispatch(updateIsCurrentPlayer(false))
 
     firestore()
       .collection(`games/${gameCode}/players`)
       .doc(playerId)
       .onSnapshot((player) => {
-        if (player.data()?.current) {
+        dispatch(updateNotification(false))
+        dispatch(updateIsCurrentPlayer(false))
+
+        if (player.data()?.current === true) {
           if (!notification) {
             setTimeout(() => {
               dispatch(updateNotification(true))
@@ -48,24 +52,25 @@ export default Feed = () => {
           }
         } else {
           dispatch(updateNotification(false))
+          dispatch(updateIsCurrentPlayer(false))
         }
 
         if (player.data()?.money) {
           setTimeout(() => {
             dispatch(updateMoney(player.data().money))
-          }, 2000)
+          }, 4000)
         }
 
         if (player.data()?.reputation) {
           setTimeout(() => {
             dispatch(updateReputation(player.data().reputation))
-          }, 2000)
+          }, 4000)
         }
 
         if (player.data()?.followers) {
           setTimeout(() => {
             dispatch(updateFollowers(player.data().followers))
-          }, 2000)
+          }, 4000)
         }
       })
 
@@ -128,7 +133,7 @@ export default Feed = () => {
             // console.log('doc', doc.data());
             postsToAdd.push(doc.data())
           })
-
+          postsToAdd.sort((a, b) => b.timestamp - a.timestamp)
           setPosts(postsToAdd)
         })
     }
@@ -145,39 +150,44 @@ export default Feed = () => {
         </View>
         <PlayerStatistics />
 
-        <ScrollView contentContainerStyle={{ flexGrow: 1, paddingBottom: 110, paddingHorizontal: CONSTANTS.paddingHorizontal }}>
+        <ScrollView
+          contentContainerStyle={{
+            flexGrow: 1,
+            paddingBottom: 110,
+            paddingHorizontal: CONSTANTS.paddingHorizontal,
+          }}
+        >
           <View className="feed" style={{ gap: 10 }}>
             {posts &&
-              posts
-                // .sort((a, b) => b.timestamp - a.timestamp)
-                .map((fPost, i) => {
-                  // console.log(i, fPost);
-                  return (
-                    <Pressable
-                      onPress={() =>
-                        handleOnClickPost(
-                          fPost.playerId,
-                          fPost.pseudo,
-                          fPost.type,
-                          fPost.content,
-                          fPost.likes,
-                          fPost.dislikes
-                        )
-                      }
-                      key={`feed-post-${i}`}
-                    >
-                      <Post
-                        type={fPost.type}
-                        content={fPost.content}
-                        pseudo={fPost.pseudo}
-                        author={fPost.playerId}
-                        likes={fPost.likes}
-                        dislikes={fPost.dislikes}
-                        index={i}
-                      />
-                    </Pressable>
-                  )
-                })}
+              posts.map((fPost, i) => {
+                // console.log(i, fPost);
+                return (
+                  <Pressable
+                    onPress={() =>
+                      handleOnClickPost(
+                        fPost.playerId,
+                        fPost.pseudo,
+                        fPost.type,
+                        fPost.content,
+                        fPost.likes,
+                        fPost.dislikes
+                      )
+                    }
+                    key={`feed-post-${i}`}
+                  >
+                    <Post
+                      type={fPost.type}
+                      content={fPost.content}
+                      pseudo={fPost.pseudo}
+                      author={fPost.playerId}
+                      likes={fPost.likes}
+                      dislikes={fPost.dislikes}
+                      index={i}
+                      reload={true}
+                    />
+                  </Pressable>
+                )
+              })}
           </View>
           {!posts ||
             (posts.length === 0 && (

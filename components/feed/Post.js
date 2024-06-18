@@ -22,6 +22,7 @@ export default Post = ({
   withBackground = true,
   soloView = false,
   index,
+  reload = false
 }) => {
   const gameCode = useSelector((state) => state.gameCode)
   const currentTurn = useSelector((state) => state.currentTurn)
@@ -32,17 +33,19 @@ export default Post = ({
 
   useEffect(() => {
     // console.log('author', author, index, type);
-    if (type == 'photo') {
+    if (type == 'photo' && author) {
       // console.log('here type');
       storage()
         .ref()
         .child(`/games/${gameCode}/turns/${currentTurn}/posts/${author}.png`)
         .getDownloadURL()
         .then((url) => {
-          // console.log('url', url);
-          Image.prefetch(url).then(() => {
-            setPicture(url)
-          })
+          if (url) {
+            // Image.prefetch(url).then(() => {
+              console.log('picture url', url);
+              setPicture(url)
+            // })
+          }
         })
         .catch((error) => {
           console.log(error)
@@ -56,7 +59,7 @@ export default Post = ({
       .onSnapshot((docs) => {
         setCommentsLength(docs.size)
       })
-  }, [type])
+  }, [type, author])
 
   const handleOnClickProfilePicture = () => {
     router.push({
@@ -125,15 +128,15 @@ export default Post = ({
       />
 
       {type == 'tweet' && <Text>{content}</Text>}
-      {type == 'photo' && picture && (
+      {type == 'photo' && picture && reload && (
         <>
           <Image
             style={styles.postImage}
             source={picture}
             contentFit="cover"
-            // cachePolicy={"memory-disk"}
-            key={picture}
-            // priority={1}
+            cachePolicy={"memory-disk"}
+            key={index}
+            priority={'high'}
           />
           <Text>{content}</Text>
         </>

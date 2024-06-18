@@ -127,7 +127,7 @@ export default Profile = ({ hidden = false, playerId, pseudo }) => {
           <View className="gap-10">
             {posts &&
               posts.sort((a, b) => b.timestamp - a.timestamp).map((fPost, i) => {
-                return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={`profile-post-${i}`} author={fPost.playerId} />;
+                return <Post type={fPost.type} content={fPost.content} pseudo={fPost.pseudo} key={`profile-post-${i}`} author={fPost.playerId} reload={true} />;
               })}
           </View>
           {!posts || posts.length === 0 && (

@@ -63,31 +63,30 @@ export default PhotoToFill = ({ type, content, title }) => {
             .then((res) => res.json())
             .then((data) => {
               console.log(data.message)
-              router.navigate('/feed')
+              fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                  gameCode,
+                  playerId,
+                  reputation: currentCard.reputation,
+                  followers: currentCard.followers,
+                  money: currentCard.money,
+                }),
+              })
+                .then((res) => res.json())
+                .then((res) => {
+                  console.log(res.message)
+                  router.navigate('/feed')
+                })
+                .catch((error) => {
+                  console.log(error)
+                })
             })
             .catch((error) => {
               console.log('Failed to publish photo', error)
-            })
-
-          fetch(`${process.env.EXPO_PUBLIC_API_URL}/player/stats`, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              gameCode,
-              playerId,
-              reputation: currentCard.reputation,
-              followers: currentCard.followers,
-              money: currentCard.money,
-            }),
-          })
-            .then((res) => res.json())
-            .then((res) => {
-              console.log(res.message)
-            })
-            .catch((error) => {
-              console.log(error)
             })
         })
         .catch((error) => {
