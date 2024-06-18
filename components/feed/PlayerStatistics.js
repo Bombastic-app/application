@@ -49,7 +49,7 @@ export default PlayerStatistics = () => {
           currentCard.followers &&
           currentCard.reputation
         ) {
-        dispatch(updateIsCurrentPlayer(false))
+        // dispatch(updateIsCurrentPlayer(false))
         setTimeout(() => {
           setGifAnimation(gifAnimations['moneyReputationFollowers'])
         }, 500)

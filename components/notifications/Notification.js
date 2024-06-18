@@ -29,11 +29,12 @@ export default Notification = () => {
   }
 
   useEffect(() => {
-    if (notification && isCurrentPlayer) {
-      // setTimeout(() => {
-        // playSound()
-      // }, 3000)
-    }
+    console.log(notification, isCurrentPlayer, playerId);
+    // if (notification && isCurrentPlayer) {
+    //   // setTimeout(() => {
+    //     // playSound()
+    //   // }, 3000)
+    // }
   }, [notification, isCurrentPlayer])
 
   useEffect(() => {

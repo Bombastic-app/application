@@ -33,8 +33,8 @@ export default Feed = () => {
   const loadedData = useRef(false)
 
   loadDataOnce = () => {
-    dispatch(updateNotification(false))
-    dispatch(updateIsCurrentPlayer(false))
+    // dispatch(updateNotification(false))
+    // dispatch(updateIsCurrentPlayer(false))
 
     firestore()
       .collection(`games/${gameCode}/players`)
@@ -43,8 +43,9 @@ export default Feed = () => {
         dispatch(updateNotification(false))
         dispatch(updateIsCurrentPlayer(false))
 
-        if (player.data()?.current === true) {
+        if (player.data()?.current) {
           if (!notification) {
+            console.log('show notif');
             setTimeout(() => {
               dispatch(updateNotification(true))
               dispatch(updateIsCurrentPlayer(true))
@@ -58,19 +59,19 @@ export default Feed = () => {
         if (player.data()?.money) {
           setTimeout(() => {
             dispatch(updateMoney(player.data().money))
-          }, 4000)
+          }, 2000)
         }
 
         if (player.data()?.reputation) {
           setTimeout(() => {
             dispatch(updateReputation(player.data().reputation))
-          }, 4000)
+          }, 2000)
         }
 
         if (player.data()?.followers) {
           setTimeout(() => {
             dispatch(updateFollowers(player.data().followers))
-          }, 4000)
+          }, 2000)
         }
       })
 
